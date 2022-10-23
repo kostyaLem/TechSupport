@@ -5,7 +5,12 @@
 		<TargetFramework>net6.0-windows</TargetFramework>
 		<Nullable>enable</Nullable>
 		<UseWPF>true</UseWPF>
+		<ApplicationIcon>AppIcon.ico</ApplicationIcon>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <Content Include="AppIcon.ico" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<Folder Include="Models\" />
