@@ -1,11 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Extensions.DependencyInjection;
+using TechSupport.DataAccess.Context;
 
 namespace TechSupport.DataAccess;
-public class Configuration
-{
 
+public static class Configuration
+{
+    public static void AddDataAccessLayer(this IServiceCollection serviceCollection)
+    {
+        serviceCollection.AddTransient<TechSupportContextFactory>();
+        serviceCollection.AddTransient<TechSupportContext>(x =>
+        {
+            var factory = x.GetRequiredService<TechSupportContextFactory>();
+            return factory.CreateDbContext();
+        });
+    }
 }
