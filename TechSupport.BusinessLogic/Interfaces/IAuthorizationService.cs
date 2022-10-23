@@ -1,4 +1,4 @@
-﻿using TechSupport.BusinessLogic.Models;
+﻿using TechSupport.BusinessLogic.Models.UserModels;
 
 namespace TechSupport.BusinessLogic.Interfaces;
 

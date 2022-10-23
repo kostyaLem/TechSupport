@@ -1,4 +1,4 @@
-﻿namespace TechSupport.BusinessLogic.Models;
+﻿namespace TechSupport.BusinessLogic.Models.UserModels;
 
 public record User
 {
@@ -9,4 +9,5 @@ public record User
     public string Phone { get; init; }
     public DateTime Birthday { get; init; }
     public DateTime UpdatedOn { get; init; }
+    public UserType UserType { get; init; }
 }

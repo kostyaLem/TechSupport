@@ -4,7 +4,7 @@ using TechSupport.DataAccess.Models;
 
 namespace TechSupport.DataAccess.Context;
 
-internal class TechSupportContext : DbContext
+public class TechSupportContext : DbContext
 {
     public DbSet<User> Users { get; set; }
 

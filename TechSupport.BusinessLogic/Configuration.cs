@@ -10,6 +10,7 @@ public static class Configuration
     public static void AddBusinessLogicServices(this IServiceCollection serviceCollection)
     {
         serviceCollection.AddTransient<IAuthorizationService, AuthorizationService>();
+        serviceCollection.AddTransient<IUserService, UserService>();
 
         serviceCollection.AddDataAccessLayer();
     }
