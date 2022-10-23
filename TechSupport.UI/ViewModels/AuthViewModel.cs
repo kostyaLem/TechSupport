@@ -2,6 +2,7 @@
 using HandyControl.Controls;
 using System;
 using System.Threading.Tasks;
+using System.Threading.Tasks.Dataflow;
 using System.Windows.Input;
 using TechSupport.BusinessLogic.Exceptions;
 using TechSupport.BusinessLogic.Interfaces;
@@ -38,33 +39,41 @@ public class AuthViewModel : BaseViewModel
 
     public async Task TryLogin(object passwordControl)
     {
+        await ExecuteCommand(async () =>
+        {
+            var pswrdBox = (PasswordBox)passwordControl;
+
+            if (string.IsNullOrWhiteSpace(Login) || string.IsNullOrWhiteSpace(pswrdBox.Password))
+            {
+                MessageBox.Error("Заполните все поля.", "Ошибка авторизации");
+                return;
+            }
+
+            try
+            {
+                var user = await _authService.Authorize(Login, pswrdBox.Password);
+            }
+            catch (AuthorizeException)
+            {
+                MessageBox.Error("Неверный логин или пароль.", "Ошибка авторизации");
+            }
+            catch (UserNotFoundAuthorizeException)
+            {
+                MessageBox.Error("Пользователь с таким логином и паролем не существует.", "Ошибка авторизации");
+            }
+            catch (Exception e)
+            {
+                MessageBox.Error(e.Message, "Внутренняя ошибка");
+            }
+        });
+    }
+
+    private async Task ExecuteCommand(Func<Task> action)
+    {
         IsUploading = true;
 
         await Task.Delay(200);
-
-        var pswrdBox = (PasswordBox)passwordControl;
-
-        if (string.IsNullOrWhiteSpace(Login) || string.IsNullOrWhiteSpace(pswrdBox.Password))
-        {
-            MessageBox.Error("Заполните все поля.", "Ошибка авторизации");
-        }
-
-        try
-        {            
-            var user = await _authService.Authorize(Login, pswrdBox.Password);
-        }
-        catch (AuthorizeException)
-        {
-            MessageBox.Error("Неверный логин или пароль.", "Ошибка авторизации");
-        }
-        catch (UserNotFoundAuthorizeException)
-        {
-            MessageBox.Error("Пользователь с таким логином и паролем не существует.", "Ошибка авторизации");
-        }
-        catch (Exception e)
-        {
-            MessageBox.Error(e.Message, "Внутренняя ошибка");
-        }
+        await action();
 
         IsUploading = false;
     }
