@@ -1,15 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Windows;
+using TechSupport.BusinessLogic;
+using TechSupport.UI.Views;
 
 namespace TechSupport.UI;
-/// <summary>
-/// Interaction logic for App.xaml
-/// </summary>
+
 public partial class App : Application
 {
+    private readonly IServiceProvider _serviceProvider;
+
+    public App()
+    {
+        _serviceProvider = CreateServiceCollection();
+    }
+
+    private IServiceProvider CreateServiceCollection()
+    {
+        var serviceCollection = new ServiceCollection();
+
+        serviceCollection.AddBusinessLogicServices();
+        serviceCollection.AddUIServices();
+
+        return serviceCollection.BuildServiceProvider();
+    }
+
+    protected override void OnStartup(StartupEventArgs e)
+    {
+        base.OnStartup(e);
+        _serviceProvider.GetRequiredService<AuthView>().ShowDialog();
+    }
 }

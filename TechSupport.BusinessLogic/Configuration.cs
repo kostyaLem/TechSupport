@@ -1,11 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Extensions.DependencyInjection;
+using TechSupport.BusinessLogic.Interfaces;
+using TechSupport.BusinessLogic.Services;
 
 namespace TechSupport.BusinessLogic;
-public class Configuration
-{
 
+public static class Configuration
+{
+    public static void AddBusinessLogicServices(this IServiceCollection serviceCollection)
+    {
+        serviceCollection.AddTransient<IAuthorizationService, AuthorizationService>();
+    }
 }

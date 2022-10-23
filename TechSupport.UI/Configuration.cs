@@ -1,11 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Extensions.DependencyInjection;
+using TechSupport.UI.ViewModels;
 
 namespace TechSupport.UI;
-public class Configuration
-{
 
+public static class Configuration
+{
+    public static void AddUIServices(this IServiceCollection serviceCollection)
+    {
+        serviceCollection.AddTransient<AuthViewModel>();
+        serviceCollection.SetupPages();
+        serviceCollection.SetupViews();
+    }
 }
