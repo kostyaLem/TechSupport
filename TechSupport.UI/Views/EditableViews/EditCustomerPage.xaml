@@ -31,7 +31,7 @@
             <TextBox />
 
             <Label Content="Пароль" />
-            <hc:TextBox />
+            <hc:PasswordBox IsSafeEnabled="False" UnsafePassword="{Binding Password}" />
 
             <Label Content="Тип пользователя" />
             <hc:ComboBox ItemsSource="{Binding UserTypes}" SelectedItem="{Binding User.UserType}">

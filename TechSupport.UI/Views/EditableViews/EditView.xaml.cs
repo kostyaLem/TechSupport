@@ -7,12 +7,12 @@ namespace TechSupport.UI.Views.EditableViews;
 public partial class EditView : Window, IDialogWindow
 {
     public DialogResult DialogResult { get; private set; }
-
     public ContentControl ContextItem { get; }
 
-    public EditView(ContentControl page)
+    public EditView(string title, ContentControl page)
     {
         InitializeComponent();
+        Title = title;
         ContextItem = page;
         DataContext = this;
     }
@@ -27,5 +27,10 @@ public partial class EditView : Window, IDialogWindow
     {
         DialogResult = DialogResult.OK;
         this.Close();
+    }
+
+    private void Window_Closed(object sender, System.EventArgs e)
+    {
+        DialogResult = DialogResult.Cancel;
     }
 }

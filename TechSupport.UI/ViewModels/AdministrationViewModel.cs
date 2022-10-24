@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using TechSupport.BusinessLogic.Interfaces;
 using TechSupport.BusinessLogic.Models.UserModels;
+using TechSupport.UI.Mapping;
+using TechSupport.UI.Services;
 using TechSupport.UI.ViewModels.EditViewModels;
 using TechSupport.UI.Views.EditableViews;
 
@@ -13,6 +15,7 @@ namespace TechSupport.UI.ViewModels;
 public sealed class AdministrationViewModel : BaseViewModel
 {
     private readonly IUserService _userService;
+    private readonly IWindowDialogService _dialogService;
 
     public override string Title => "Управления пользователями";
 
@@ -29,9 +32,10 @@ public sealed class AdministrationViewModel : BaseViewModel
     public ICommand EditUserCommand { get; }
     public ICommand RemoveUserCommand { get; }
 
-    public AdministrationViewModel(IUserService userService)
+    public AdministrationViewModel(IUserService userService, IWindowDialogService dialogService)
     {
         _userService = userService;
+        _dialogService = dialogService;
 
         LoadViewDataCommand = new AsyncCommand(LoadUsers);
         CreateUserCommand = new AsyncCommand(CreateUser);
@@ -47,16 +51,19 @@ public sealed class AdministrationViewModel : BaseViewModel
 
     private async Task CreateUser()
     {
-        var editViewModel = new EditCustomerViewModel();
-        var editView = new EditView(new EditCustomerPage(editViewModel));
-        var windiowResult = editView.ShowDialog();
+        var userViewModel = new EditCustomerViewModel();
 
-        if (windiowResult.HasValue)
+        var result = _dialogService.ShowDialog(
+            "Создание нового пользователя",
+            typeof(EditCustomerPage),
+            userViewModel);
+
+        if (result == Models.DialogResult.OK)
         {
-            if (editView.DialogResult == Models.DialogResult.OK)
-            {
+            var user = userViewModel.User.MapToCreateRequest(userViewModel.Password);
+            await _userService.Create(user);
 
-            }
+            await LoadUsers();
         }
     }
 

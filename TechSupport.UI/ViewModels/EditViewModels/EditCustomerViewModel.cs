@@ -7,8 +7,7 @@ namespace TechSupport.UI.ViewModels.EditViewModels;
 
 public class EditCustomerViewModel : BindableBase
 {
-    public string Title { get; }
-
+    public string Password { get; set; }
     public User User { get; set; }
 
     public IEnumerable<UserType> UserTypes =>
@@ -16,13 +15,11 @@ public class EditCustomerViewModel : BindableBase
 
     public EditCustomerViewModel()
     {
-        Title = "Создание нового пользователя";
         User = new User();
     }
 
     public EditCustomerViewModel(User user)
     {
-        Title = "Редактирование пользователя";
         User = user;
     }
 }
