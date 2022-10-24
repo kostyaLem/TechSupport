@@ -1,6 +1,10 @@
-﻿using TechSupport.BusinessLogic.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using TechSupport.BusinessLogic.Exceptions;
+using TechSupport.BusinessLogic.Interfaces;
+using TechSupport.BusinessLogic.Mapping;
 using TechSupport.BusinessLogic.Models.UserModels;
 using TechSupport.DataAccess.Context;
+using Domain = TechSupport.DataAccess.Models;
 
 namespace TechSupport.BusinessLogic.Services;
 
@@ -13,28 +17,78 @@ internal class UserService : IUserService
         _context = context;
     }
 
-    public Task Create(CreateUserRequest user)
+    public async Task Create(CreateUserRequest request)
     {
-        throw new NotImplementedException();
+        var user = await _context.Users
+            .FirstOrDefaultAsync(user => IsUserExist(user, request));
+
+        if (user is not null)
+        {
+            throw new DuplicateDataException("Такой пользователь уже существует");
+        }
+
+        user = request.ToDomain();
+        _context.Users.Add(user);
+        await _context.SaveChangesAsync();
     }
 
-    public Task<User> GetUserById(int id)
+    public async Task Remove(int userId)
     {
-        throw new NotImplementedException();
+        var user = await GetUser(userId);
+
+        _context.Users.Remove(user);
+        await _context.SaveChangesAsync();
     }
 
-    public Task<IReadOnlyList<User>> GetUsers()
+    public async Task<IReadOnlyList<Models.UserModels.User>> GetUsers()
     {
-        throw new NotImplementedException();
+        var users = await _context.Users.ToListAsync();
+
+        return users.Select(x => x.ToBl()).ToList();
     }
 
-    public Task Remove(int userId)
+    public async Task<Models.UserModels.User> GetUserById(int userId)
     {
-        throw new NotImplementedException();
+        var user = await GetUser(userId);
+
+        return user.ToBl();
     }
 
-    public Task Update(User user, string passwordHash)
+    public async Task Update(Models.UserModels.User user, string passwordHash)
     {
-        throw new NotImplementedException();
+        var existingUser = await GetUser(user.Id);
+
+        existingUser.FirstName = user.FirstName;
+        existingUser.LastName = user.LastName;
+        existingUser.Birthday = user.Birthday;
+        existingUser.Phone = user.Phone;
+        existingUser.Login = user.Login;
+        existingUser.Email = user.Email;
+        existingUser.UpdatedOn = DateTime.Now;
+        existingUser.Type = user.UserType.ToDomain();
+        existingUser.PasswordHash = passwordHash;
+
+        await _context.SaveChangesAsync();
+    }
+
+    private static bool IsUserExist(Domain.User user, CreateUserRequest request)
+    {
+        return user.FirstName == request.FirstName &&
+            user.LastName == request.LastName &&
+            user.Email == request.Email &&
+            user.Phone == request.Phone &&
+            user.Birthday == request.Birthday;
+    }
+
+    private async Task<Domain.User> GetUser(int userId)
+    {
+        var user = await _context.Users.FindAsync(userId);
+
+        if (user is null)
+        {
+            throw new NotFoundException("Пользователь не найден.");
+        }
+
+        return user;
     }
 }

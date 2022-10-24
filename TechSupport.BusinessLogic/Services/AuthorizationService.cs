@@ -31,6 +31,6 @@ internal class AuthorizationService : IAuthorizationService
             throw new AuthorizeException();
         }
 
-        return user.ToBl();
+        return user.ToCurrentUser();
     }
 }
