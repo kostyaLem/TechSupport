@@ -9,7 +9,7 @@ using PasswordBox = HandyControl.Controls.PasswordBox;
 
 namespace TechSupport.UI.ViewModels;
 
-public class AuthViewModel : BaseViewModel
+public sealed class AuthViewModel : BaseViewModel
 {
     private readonly IAuthorizationService _authService;
 

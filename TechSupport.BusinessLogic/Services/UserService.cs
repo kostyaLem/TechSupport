@@ -42,7 +42,7 @@ internal class UserService : IUserService
 
     public async Task<IReadOnlyList<Models.UserModels.User>> GetUsers()
     {
-        var users = await _context.Users.ToListAsync();
+        var users = await _context.Users.AsNoTracking().ToListAsync();
 
         return users.Select(x => x.ToBl()).ToList();
     }

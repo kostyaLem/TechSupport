@@ -3,6 +3,7 @@ using System;
 using System.Windows;
 using TechSupport.BusinessLogic;
 using TechSupport.UI.Views;
+using TechSupport.UI.Views.EditableViews;
 
 namespace TechSupport.UI;
 
@@ -28,6 +29,7 @@ public partial class App : Application
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
-        _serviceProvider.GetRequiredService<AuthView>().ShowDialog();
+
+        _serviceProvider.GetRequiredService<AdministrationView>().ShowDialog();
     }
 }

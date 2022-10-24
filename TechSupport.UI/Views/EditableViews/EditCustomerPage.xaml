@@ -1,0 +1,65 @@
+﻿<UserControl
+    x:Class="TechSupport.UI.Views.EditableViews.EditCustomerPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:helpers="clr-namespace:TechSupport.UI.Helpers"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <helpers:EnumDescriptionConverter x:Key="enumDescriptionConverter" />
+    </UserControl.Resources>
+
+    <Grid Width="400" Margin="20,10">
+        <Grid.Resources>
+            <Style TargetType="Label">
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="Margin" Value="3,10,3,2" />
+            </Style>
+        </Grid.Resources>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="2">
+
+            <Label Content="Имя пользователя" />
+            <TextBox />
+
+            <Label Content="Пароль" />
+            <hc:TextBox />
+
+            <Label Content="Тип пользователя" />
+            <hc:ComboBox ItemsSource="{Binding UserTypes}" SelectedItem="{Binding User.UserType}">
+                <hc:ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Converter={StaticResource enumDescriptionConverter}}" />
+                    </DataTemplate>
+                </hc:ComboBox.ItemTemplate>
+            </hc:ComboBox>
+        </StackPanel>
+
+        <StackPanel Grid.Column="0">
+
+            <Label Content="Фамилия" />
+            <TextBox />
+
+            <Label Content="Имя" />
+            <TextBox />
+
+            <Label Content="Номер телефона" />
+            <TextBox />
+
+            <Label Content="Email" />
+            <TextBox />
+
+            <Label Content="Дата рождения" />
+            <hc:DateTimePicker />
+
+        </StackPanel>
+    </Grid>
+</UserControl>
