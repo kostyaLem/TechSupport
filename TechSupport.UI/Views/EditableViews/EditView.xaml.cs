@@ -1,4 +1,5 @@
 ﻿using HandyControl.Controls;
+using System.Windows.Automation;
 using System.Windows.Controls;
 using TechSupport.UI.Models;
 
@@ -6,6 +7,7 @@ namespace TechSupport.UI.Views.EditableViews;
 
 public partial class EditView : Window, IDialogWindow
 {
+    private bool _isAccept;
     public DialogResult DialogResult { get; private set; }
     public ContentControl ContextItem { get; }
 
@@ -26,11 +28,15 @@ public partial class EditView : Window, IDialogWindow
     private void btnOk_Click(object sender, System.Windows.RoutedEventArgs e)
     {
         DialogResult = DialogResult.OK;
+        _isAccept = true;
         this.Close();
     }
 
     private void Window_Closed(object sender, System.EventArgs e)
     {
-        DialogResult = DialogResult.Cancel;
+        if (!_isAccept)
+        {
+            DialogResult = DialogResult.Cancel;
+        }
     }
 }

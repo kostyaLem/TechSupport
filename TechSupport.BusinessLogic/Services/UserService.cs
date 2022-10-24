@@ -20,7 +20,12 @@ internal class UserService : IUserService
     public async Task Create(CreateUserRequest request)
     {
         var user = await _context.Users
-            .FirstOrDefaultAsync(user => IsUserExist(user, request));
+            .FirstOrDefaultAsync(user => 
+                user.FirstName == request.FirstName &&
+                user.LastName == request.LastName &&
+                user.Email == request.Email &&
+                user.Phone == request.Phone &&
+                user.Birthday == request.Birthday);
 
         if (user is not null)
         {
@@ -69,15 +74,6 @@ internal class UserService : IUserService
         existingUser.PasswordHash = passwordHash;
 
         await _context.SaveChangesAsync();
-    }
-
-    private static bool IsUserExist(Domain.User user, CreateUserRequest request)
-    {
-        return user.FirstName == request.FirstName &&
-            user.LastName == request.LastName &&
-            user.Email == request.Email &&
-            user.Phone == request.Phone &&
-            user.Birthday == request.Birthday;
     }
 
     private async Task<Domain.User> GetUser(int userId)

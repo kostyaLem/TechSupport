@@ -1,5 +1,7 @@
 ﻿using DevExpress.Mvvm;
+using HandyControl.Controls;
 using HandyControl.Tools.Extension;
+using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -60,10 +62,17 @@ public sealed class AdministrationViewModel : BaseViewModel
 
         if (result == Models.DialogResult.OK)
         {
-            var user = userViewModel.User.MapToCreateRequest(userViewModel.Password);
-            await _userService.Create(user);
+            try
+            {
+                var user = userViewModel.User.MapToCreateRequest(userViewModel.Password);
+                await _userService.Create(user);
 
-            await LoadUsers();
+                await LoadUsers();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
     }
 

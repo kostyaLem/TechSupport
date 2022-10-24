@@ -28,7 +28,7 @@
         <StackPanel Grid.Column="2">
 
             <Label Content="Имя пользователя" />
-            <TextBox />
+            <TextBox Text="{Binding User.Login}" />
 
             <Label Content="Пароль" />
             <hc:PasswordBox IsSafeEnabled="False" UnsafePassword="{Binding Password}" />
@@ -46,19 +46,19 @@
         <StackPanel Grid.Column="0">
 
             <Label Content="Фамилия" />
-            <TextBox />
+            <TextBox Text="{Binding User.LastName}" />
 
             <Label Content="Имя" />
-            <TextBox />
+            <TextBox Text="{Binding User.FirstName}" />
 
             <Label Content="Номер телефона" />
-            <TextBox />
+            <TextBox Text="{Binding User.Phone}" />
 
             <Label Content="Email" />
-            <TextBox />
+            <TextBox Text="{Binding User.Email}" />
 
             <Label Content="Дата рождения" />
-            <hc:DateTimePicker />
+            <hc:DateTimePicker DisplayDateTime="{Binding User.Birthday}" />
 
         </StackPanel>
     </Grid>

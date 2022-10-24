@@ -35,7 +35,7 @@
         <DataGrid
             x:Name="UsersGrid"
             Grid.Row="1"
-            Margin="15"
+            Margin="15,0,15,15"
             hc:DataGridAttach.ShowRowNumber="True"
             AutoGenerateColumns="False"
             CanUserResizeColumns="False"
