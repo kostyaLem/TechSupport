@@ -79,5 +79,6 @@ public sealed class AdministrationViewModel : BaseViewModel
     private async Task RemoveUser()
     {
         await _userService.Remove(SelectedUser.Id);
+        await LoadUsers();
     }
 }

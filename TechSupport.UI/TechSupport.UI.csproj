@@ -9,6 +9,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\AdminImage.png" />
+	  <None Remove="Resources\Images\SupportImage.png" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <Content Include="AppIcon.ico" />
 	</ItemGroup>
 
@@ -20,6 +25,11 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\TechSupport.BusinessLogic\TechSupport.BusinessLogic.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Resource Include="Resources\Images\AdminImage.png" />
+	  <Resource Include="Resources\Images\SupportImage.png" />
 	</ItemGroup>
 
 </Project>

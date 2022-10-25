@@ -48,6 +48,8 @@ internal static class UserMapping
         => new BL.User
         {
             FirstName = user.FirstName,
+            Login = user.Login,
+            CreatedOn = user.CreatedOn,
             LastName = user.LastName,
             Phone = user.Phone,
             Birthday = user.Birthday,
