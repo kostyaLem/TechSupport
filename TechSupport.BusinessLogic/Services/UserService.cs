@@ -32,8 +32,7 @@ internal class UserService : IUserService
             throw new DuplicateDataException("Такой пользователь уже существует");
         }
 
-        user = request.ToDomain();
-        _context.Users.Add(user);
+        _context.Users.Add(request.ToDomain());
         await _context.SaveChangesAsync();
     }
 

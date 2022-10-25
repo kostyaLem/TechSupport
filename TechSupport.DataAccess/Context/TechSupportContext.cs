@@ -7,8 +7,9 @@ namespace TechSupport.DataAccess.Context;
 public class TechSupportContext : DbContext
 {
     public DbSet<User> Users { get; set; }
+    public DbSet<RequestCategory> RequestCategories { get; set; }
 
-    public TechSupportContext(DbContextOptions<TechSupportContext> options) 
+    public TechSupportContext(DbContextOptions<TechSupportContext> options)
         : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder builder)
