@@ -6,6 +6,7 @@
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:helpers="clr-namespace:TechSupport.UI.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:Background="White"
     mc:Ignorable="d">
     <UserControl.Resources>
         <helpers:EnumDescriptionConverter x:Key="enumDescriptionConverter" />
@@ -58,7 +59,7 @@
             <TextBox Text="{Binding User.Email}" />
 
             <Label Content="Дата рождения" />
-            <hc:DateTimePicker DisplayDateTime="{Binding User.Birthday}" />
+            <hc:DateTimePicker DateTimeFormat="dd/MM/yyyy" DisplayDateTime="{Binding User.Birthday}" />
 
         </StackPanel>
     </Grid>

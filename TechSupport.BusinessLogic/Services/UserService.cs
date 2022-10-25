@@ -20,7 +20,7 @@ internal class UserService : IUserService
     public async Task Create(CreateUserRequest request)
     {
         var user = await _context.Users
-            .FirstOrDefaultAsync(user => 
+            .FirstOrDefaultAsync(user =>
                 user.FirstName == request.FirstName &&
                 user.LastName == request.LastName &&
                 user.Email == request.Email &&
@@ -45,21 +45,21 @@ internal class UserService : IUserService
         await _context.SaveChangesAsync();
     }
 
-    public async Task<IReadOnlyList<Models.UserModels.User>> GetUsers()
+    public async Task<IReadOnlyList<User>> GetUsers()
     {
         var users = await _context.Users.AsNoTracking().ToListAsync();
 
         return users.Select(x => x.ToBl()).ToList();
     }
 
-    public async Task<Models.UserModels.User> GetUserById(int userId)
+    public async Task<User> GetUserById(int userId)
     {
         var user = await GetUser(userId);
 
         return user.ToBl();
     }
 
-    public async Task Update(Models.UserModels.User user, string passwordHash)
+    public async Task Update(User user, string passwordHash)
     {
         var existingUser = await GetUser(user.Id);
 
@@ -71,7 +71,11 @@ internal class UserService : IUserService
         existingUser.Email = user.Email;
         existingUser.UpdatedOn = DateTime.Now;
         existingUser.Type = user.UserType.ToDomain();
-        existingUser.PasswordHash = passwordHash;
+
+        if (!string.IsNullOrWhiteSpace(passwordHash))
+        {
+            existingUser.PasswordHash = passwordHash;
+        }
 
         await _context.SaveChangesAsync();
     }

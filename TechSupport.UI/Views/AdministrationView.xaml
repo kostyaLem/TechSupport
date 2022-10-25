@@ -25,7 +25,7 @@
         </hc:EventTrigger>
     </hc:Interaction.Triggers>
 
-    <Grid>
+    <Grid Margin="10">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
@@ -33,14 +33,22 @@
             <RowDefinition Height="70" />
         </Grid.RowDefinitions>
 
+        <hc:SearchBar
+            Grid.Row="0"
+            Height="30"
+            hc:InfoElement.Placeholder="Имя пользователя / ФИ / Дата рождения / Email / Телефон"
+            hc:InfoElement.TitlePlacement="Left"
+            Style="{StaticResource SearchBarExtend}"
+            Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
         <DataGrid
             x:Name="UsersGrid"
             Grid.Row="1"
-            Margin="15,0,15,15"
+            Margin="0,10"
             hc:DataGridAttach.ShowRowNumber="True"
             AutoGenerateColumns="False"
             CanUserResizeColumns="False"
-            ItemsSource="{Binding Users, Mode=OneWay}"
+            ItemsSource="{Binding UsersView, Mode=OneWay}"
             RowHeaderWidth="60"
             SelectedItem="{Binding SelectedUser, Mode=OneWayToSource}">
             <DataGrid.Resources>
@@ -89,7 +97,7 @@
                     IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock>
+                            <TextBlock TextWrapping="Wrap">
                                 <Run Text="{Binding FirstName}" />
                                 <Run Text="{Binding LastName}" />
                             </TextBlock>
@@ -97,7 +105,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn
-                    Width="120"
+                    Width="110"
                     Binding="{Binding Birthday, StringFormat=dd.MM.yyyy}"
                     Header="Дата рождения"
                     IsReadOnly="True" />
@@ -107,12 +115,12 @@
                     Header="Email"
                     IsReadOnly="True" />
                 <DataGridTextColumn
-                    Width="120"
+                    Width="110"
                     Binding="{Binding Phone}"
                     Header="Телефон"
                     IsReadOnly="True" />
                 <DataGridTextColumn
-                    Width="120"
+                    Width="110"
                     Binding="{Binding CreatedOn, StringFormat=dd.MM.yyyy}"
                     Header="Дата создания"
                     IsReadOnly="True" />
@@ -124,7 +132,7 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <Grid Grid.Row="2" Margin="10">
+        <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -144,7 +152,6 @@
 
             <StackPanel
                 Grid.Column="1"
-                Margin="0,0,30,0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 Orientation="Horizontal">
