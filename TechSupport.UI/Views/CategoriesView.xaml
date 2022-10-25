@@ -36,16 +36,15 @@
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     hc:IconElement.Geometry="{StaticResource AddGeometry}"
-                    BorderThickness="0"
-                    Command="{Binding CreateCategory}"
+                    Command="{Binding CreateCategoryCommand}"
                     DockPanel.Dock="Right"
                     Style="{StaticResource ButtonSuccess}"
                     ToolTip="Добавить категорию" />
 
                 <hc:SearchBar
                     Grid.Row="0"
-                    Height="35"
-                    Margin="0,0,10,0"
+                    Height="30"
+                    Margin="0,0,15,0"
                     hc:InfoElement.Placeholder="Поиск"
                     hc:InfoElement.ShowClearButton="True"
                     Style="{StaticResource SearchBarExtend}"
@@ -57,10 +56,11 @@
                 Margin="0,10,0,15"
                 hc:Empty.ShowEmpty="true"
                 ItemsSource="{Binding CategoriesView}"
-                SelectedItem="{Binding SelectedCategory}">
+                SelectedItem="{Binding SelectedCategory}"
+                Style="{StaticResource ListBoxTransparentStyle}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Grid>
+                        <Grid Margin="5,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto" />
                                 <ColumnDefinition />
@@ -71,7 +71,10 @@
                                 Width="30"
                                 Height="30"
                                 Source="{Binding Image}" />
-                            <hc:SimpleText Grid.Column="1" Text="{Binding Title}" />
+                            <TextBlock
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                Text="{Binding Category.Title}" />
                         </Grid>
 
                     </DataTemplate>
@@ -82,7 +85,7 @@
                 Grid.Row="2"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
-                Command="{Binding RemoveCategory}"
+                Command="{Binding RemoveCategoryCommand}"
                 Content="Удалить"
                 Style="{StaticResource ButtonDanger}" />
         </Grid>
@@ -98,6 +101,7 @@
             <DockPanel DockPanel.Dock="Top" LastChildFill="True">
                 <hc:ImageSelector
                     Width="60"
+                    
                     Height="60"
                     hc:BorderElement.CornerRadius="3"
                     BorderBrush="#FF5384F7"
@@ -109,18 +113,22 @@
                     hc:InfoElement.Placeholder="Название категории"
                     AcceptsReturn="True"
                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                    Text="{Binding SelectedCategory.Category.Title}"
                     TextWrapping="WrapWithOverflow" />
             </DockPanel>
 
             <Button
                 Margin="0,15,0,0"
                 HorizontalAlignment="Stretch"
-                Command="{Binding UpdateCategory}"
+                Command="{Binding UpdateCategoryCommand}"
                 Content="Обновить"
                 DockPanel.Dock="Bottom"
                 Style="{StaticResource ButtonWarning}" />
 
-            <hc:TextBox Margin="0,7,0,0" hc:InfoElement.Placeholder="Описание категории" />
+            <hc:TextBox
+                Margin="0,7,0,0"
+                hc:InfoElement.Placeholder="Описание категории"
+                Text="{Binding SelectedCategory.Category.Description}" />
         </DockPanel>
 
     </Grid>

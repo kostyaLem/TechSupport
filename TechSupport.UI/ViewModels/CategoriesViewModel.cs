@@ -1,5 +1,6 @@
 ﻿using DevExpress.Internal.WinApi.Windows.UI.Notifications;
 using DevExpress.Mvvm;
+using HandyControl.Controls;
 using HandyControl.Tools.Extension;
 using System;
 using System.Collections.Generic;
@@ -23,11 +24,15 @@ public sealed class CategoriesViewModel : BaseViewModel
 
     private readonly ObservableCollection<IconCategory> _categories;
 
-    public ICollectionView CategoriesView { get; }
+    public ICollectionView CategoriesView { get; set; }
 
     public override string Title => "Управление категориями";
 
-    public IconCategory SelectedCategory { get; }
+    public IconCategory SelectedCategory
+    {
+        get => GetValue<IconCategory>(nameof(SelectedCategory));
+        set => SetValue(value, nameof(SelectedCategory));
+    }
 
     public string SearchText
     {
@@ -46,8 +51,10 @@ public sealed class CategoriesViewModel : BaseViewModel
 
         LoadViewDataCommand = new AsyncCommand(LoadCategoories);
         CreateCategoryCommand = new AsyncCommand(CreateCategory);
-        UpdateCategoryCommand = new AsyncCommand(UpdateCategory);
+        UpdateCategoryCommand = new AsyncCommand(UpdateCategory, () => SelectedCategory is not null);
+        RemoveCategoryCommand = new AsyncCommand(RemoveCategory, () => SelectedCategory is not null);
 
+        _categories = new ObservableCollection<IconCategory>();
         CategoriesView = CollectionViewSource.GetDefaultView(_categories);
         CategoriesView.Filter += CanFilterCategory;
     }
@@ -68,6 +75,31 @@ public sealed class CategoriesViewModel : BaseViewModel
         return true;
     }
 
+    public async Task CreateCategory()
+    {
+        try
+        {
+            await _categoryService.CreateEmpty();
+            await LoadCategoories();
+        }
+        catch (Exception e)
+        {
+            MessageBox.Show(e.Message);
+        }
+    }
+
+    public async Task UpdateCategory()
+    {
+
+        await LoadCategoories();
+    }
+
+    public async Task RemoveCategory()
+    {
+        await _categoryService.Remove(SelectedCategory.Category.Id);
+        await LoadCategoories();
+    }
+
     private async Task LoadCategoories()
     {
         _categories.Clear();
@@ -75,19 +107,23 @@ public sealed class CategoriesViewModel : BaseViewModel
         var categories = await _categoryService.GetCategories();
         var iconCategories = categories.Select(x =>
         {
-            using (var stream = new MemoryStream(x.ImageData))
+            BitmapFrame image = null;
+
+            if (x.ImageData is not null)
             {
-                var image = BitmapFrame.Create(
+                using var stream = new MemoryStream(x.ImageData);
+                image = BitmapFrame.Create(
                     stream,
                     BitmapCreateOptions.None,
                     BitmapCacheOption.OnLoad);
-
-                return new IconCategory
-                {
-                    Category = x,
-                    Image = image
-                };
             }
+
+            return new IconCategory
+            {
+                Category = x,
+                Image = image
+            };
+
         }).ToList();
 
         _categories.AddRange(iconCategories);

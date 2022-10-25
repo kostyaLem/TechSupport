@@ -1,4 +1,4 @@
-﻿using System.Windows.Media;
+﻿using System.Windows.Media.Imaging;
 using TechSupport.BusinessLogic.Models.CategoriesModels;
 
 namespace TechSupport.UI.Models;
@@ -6,5 +6,5 @@ namespace TechSupport.UI.Models;
 public class IconCategory
 {
     public Category Category { get; init; }
-    public ImageSource Image { get; init; }
+    public BitmapFrame Image { get; init; }
 }

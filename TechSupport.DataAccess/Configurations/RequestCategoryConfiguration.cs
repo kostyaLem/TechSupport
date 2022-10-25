@@ -10,5 +10,7 @@ public class RequestCategoryConfiguration : IEntityTypeConfiguration<RequestCate
     {
         builder.HasIndex(x => x.Title);
         builder.Property(x => x.Title).IsRequired();
+        builder.Property(x => x.Description).IsRequired(false);
+        builder.Property(x => x.ImageData).IsRequired(false);
     }
 }
