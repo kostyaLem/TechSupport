@@ -24,10 +24,9 @@ public sealed class AdministrationViewModel : BaseViewModel
     private readonly IWindowDialogService _dialogService;
 
     private ObservableCollection<User> _users;
-
-    public override string Title => "Управления пользователями";
-
     public ICollectionView UsersView { get; }
+
+    public override string Title => "Управление пользователями";
 
     public string SearchText
     {

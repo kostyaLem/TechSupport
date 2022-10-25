@@ -13,11 +13,4 @@ internal static class CategoryMapping
             Description = category.Description,
             ImageData = category.ImageData
         };
-
-    public static SlimCategory ToSlimCategory(this Domain.RequestCategory category)
-        => new SlimCategory
-        {
-            Id = category.Id,
-            Title = category.Title
-        };
 }

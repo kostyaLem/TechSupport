@@ -24,13 +24,13 @@ internal sealed class CategoryService : ICategoryService
         return category.ToBl();
     }
 
-    public async Task<IReadOnlyList<SlimCategory>> GetSlimCategories()
+    public async Task<IReadOnlyList<Category>> GetCategories()
     {
         var categories = await _context.RequestCategories
             .AsNoTracking()
             .ToListAsync();
 
-        return categories.Select(x => x.ToSlimCategory()).ToList();
+        return categories.Select(x => x.ToBl()).ToList();
     }
 
     public async Task Remove(int categoryId)

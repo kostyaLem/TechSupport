@@ -10,6 +10,13 @@
     Width="800"
     Height="450"
     mc:Ignorable="d">
+
+    <hc:Interaction.Triggers>
+        <hc:EventTrigger EventName="Loaded">
+            <hc:InvokeCommandAction Command="{Binding LoadViewDataCommand}" />
+        </hc:EventTrigger>
+    </hc:Interaction.Triggers>
+
     <Grid Margin="5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
