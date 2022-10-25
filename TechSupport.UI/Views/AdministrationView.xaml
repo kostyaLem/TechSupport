@@ -35,7 +35,7 @@
 
         <hc:SearchBar
             Grid.Row="0"
-            Height="30"
+            Height="35"
             hc:InfoElement.Placeholder="Имя пользователя / ФИ / Дата рождения / Email / Телефон"
             hc:InfoElement.TitlePlacement="Left"
             Style="{StaticResource SearchBarExtend}"
@@ -46,6 +46,7 @@
             Grid.Row="1"
             Margin="0,10"
             hc:DataGridAttach.ShowRowNumber="True"
+            hc:Empty.ShowEmpty="true"
             AutoGenerateColumns="False"
             CanUserResizeColumns="False"
             ItemsSource="{Binding UsersView, Mode=OneWay}"

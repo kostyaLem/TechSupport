@@ -59,7 +59,7 @@
             <TextBox Text="{Binding User.Email}" />
 
             <Label Content="Дата рождения" />
-            <hc:DateTimePicker DateTimeFormat="dd/MM/yyyy" DisplayDateTime="{Binding User.Birthday}" />
+            <hc:DatePicker DisplayDate="{Binding User.Birthday, StringFormat=dd/MM/yyyy}" />
 
         </StackPanel>
     </Grid>
