@@ -1,12 +1,15 @@
 ﻿using DevExpress.Mvvm;
 using HandyControl.Controls;
 using HandyControl.Tools.Extension;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
@@ -31,7 +34,13 @@ public sealed class CategoriesViewModel : BaseViewModel
     public IconCategory SelectedCategory
     {
         get => GetValue<IconCategory>(nameof(SelectedCategory));
-        set => SetValue(value, nameof(SelectedCategory));
+        set => SetValue(value, () => SelectedImage = SelectedCategory?.Image, nameof(SelectedCategory));
+    }
+
+    public BitmapImage SelectedImage
+    {
+        get => GetValue<BitmapImage>(nameof(SelectedImage));
+        set => SetValue(value, nameof(SelectedImage));
     }
 
     public string SearchText
@@ -45,14 +54,20 @@ public sealed class CategoriesViewModel : BaseViewModel
     public ICommand UpdateCategoryCommand { get; }
     public ICommand RemoveCategoryCommand { get; }
 
+    public ICommand RemoveImageCommand { get; }
+    public ICommand UpdateImageCommand { get; }
+
     public CategoriesViewModel(ICategoryService categoryService)
     {
         _categoryService = categoryService;
 
         LoadViewDataCommand = new AsyncCommand(LoadCategoories);
         CreateCategoryCommand = new AsyncCommand(CreateCategory);
-        UpdateCategoryCommand = new AsyncCommand<object>(UpdateCategory, x => SelectedCategory is not null);
+        UpdateCategoryCommand = new AsyncCommand(UpdateCategory, () => SelectedCategory is not null);
         RemoveCategoryCommand = new AsyncCommand(RemoveCategory, () => SelectedCategory is not null);
+
+        RemoveImageCommand = new DelegateCommand(RemoveImage);
+        UpdateImageCommand = new DelegateCommand(UpdateImage);
 
         _categories = new ObservableCollection<IconCategory>();
         CategoriesView = CollectionViewSource.GetDefaultView(_categories);
@@ -88,11 +103,9 @@ public sealed class CategoriesViewModel : BaseViewModel
         }
     }
 
-    public async Task UpdateCategory(object imjSelector)
+    public async Task UpdateCategory()
     {
-        var imageUri = ((ImageSelector)imjSelector).Uri;
-
-        var category = SelectedCategory.Category.Recreate(imageUri);
+        var category = SelectedCategory.Category.Recreate(SelectedImage);
 
         await _categoryService.Update(category);
 
@@ -112,21 +125,31 @@ public sealed class CategoriesViewModel : BaseViewModel
         var categories = await _categoryService.GetCategories();
         var iconCategories = categories.Select(x =>
         {
-            BitmapImage image = null;
-
-            if (x.ImageData is not null)
-            {
-                image = ImageHelper.LoadImage(x.ImageData);
-            }
-
             return new IconCategory
             {
                 Category = x,
-                Image = image
+                Image = x.ImageData is not null ? ImageHelper.LoadImage(x.ImageData) : null
             };
 
         }).ToList();
 
         _categories.AddRange(iconCategories);
+    }
+
+    private void RemoveImage()
+    {
+        SelectedImage = null;
+    }
+
+    private void UpdateImage()
+    {
+        var dialog = new OpenFileDialog();
+        dialog.Filter = "PNG (*.png)|*.png";
+        var result = dialog.ShowDialog();
+
+        if (result.HasValue && result.Value)
+        {
+            SelectedImage = ImageHelper.LoadImage(File.ReadAllBytes(dialog.FileName));
+        }
     }
 }

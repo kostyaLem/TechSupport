@@ -57,7 +57,9 @@
                 hc:Empty.ShowEmpty="true"
                 ItemsSource="{Binding CategoriesView}"
                 SelectedItem="{Binding SelectedCategory}"
+                SelectionMode="Single"
                 Style="{StaticResource ListBoxTransparentStyle}">
+
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid Margin="5,0">
@@ -77,7 +79,6 @@
                                 VerticalAlignment="Center"
                                 Text="{Binding Category.Title}" />
                         </Grid>
-
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
@@ -100,18 +101,38 @@
 
         <DockPanel Grid.Column="2" Margin="10,18,10,10">
             <DockPanel DockPanel.Dock="Top" LastChildFill="True">
-                <hc:ImageSelector
-                    x:Name="imgSelector"
+                <UniformGrid
+                    Margin="3,0,0,0"
+                    DockPanel.Dock="Right"
+                    Rows="2">
+                    <Button
+                        hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}"
+                        Command="{Binding RemoveImageCommand}"
+                        Foreground="Red" />
+                    <Button
+                        hc:IconElement.Geometry="{StaticResource AddGeometry}"
+                        Command="{Binding UpdateImageCommand}"
+                        Foreground="Green" />
+                </UniformGrid>
+
+                <hc:DashedBorder
                     Width="60"
                     Height="60"
-                    hc:BorderElement.CornerRadius="3"
+                    Padding="5"
                     BorderBrush="#FF5384F7"
-                    DockPanel.Dock="Right"
-                    Filter="(.png)|*.png|(.jpg)|*.jpg"
-                    ToolTip="Изображение категории" />
+                    BorderDashArray="3, 1"
+                    BorderThickness="1"
+                    CornerRadius="5"
+                    DockPanel.Dock="Right">
+                    <Image
+                        x:Name="imgSelector"
+                        Source="{Binding SelectedImage}"
+                        ToolTip="Изображение категории" />
+                </hc:DashedBorder>
+
                 <hc:TextBox
                     Height="60"
-                    Margin="0,0,10,0"
+                    Margin="0,0,5,0"
                     hc:InfoElement.Placeholder="Название категории"
                     AcceptsReturn="True"
                     ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -123,7 +144,6 @@
                 Margin="0,15,0,0"
                 HorizontalAlignment="Stretch"
                 Command="{Binding UpdateCategoryCommand}"
-                CommandParameter="{Binding ElementName=imgSelector}"
                 Content="Обновить"
                 DockPanel.Dock="Bottom"
                 Style="{StaticResource ButtonWarning}" />
