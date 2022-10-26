@@ -6,5 +6,5 @@ namespace TechSupport.UI.Models;
 public class IconCategory
 {
     public Category Category { get; init; }
-    public BitmapFrame Image { get; init; }
+    public BitmapImage Image { get; init; }
 }

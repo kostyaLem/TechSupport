@@ -1,4 +1,5 @@
 ﻿using TechSupport.BusinessLogic.Models.UserModels;
+using TechSupport.UI.Models;
 
 namespace TechSupport.UI.Mapping;
 

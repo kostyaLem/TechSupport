@@ -1,12 +1,10 @@
-﻿using DevExpress.Internal.WinApi.Windows.UI.Notifications;
-using DevExpress.Mvvm;
+﻿using DevExpress.Mvvm;
 using HandyControl.Controls;
 using HandyControl.Tools.Extension;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Data;
@@ -14,6 +12,8 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using TechSupport.BusinessLogic.Interfaces;
 using TechSupport.BusinessLogic.Models.CategoriesModels;
+using TechSupport.UI.Helpers;
+using TechSupport.UI.Mapping;
 using TechSupport.UI.Models;
 
 namespace TechSupport.UI.ViewModels;
@@ -51,7 +51,7 @@ public sealed class CategoriesViewModel : BaseViewModel
 
         LoadViewDataCommand = new AsyncCommand(LoadCategoories);
         CreateCategoryCommand = new AsyncCommand(CreateCategory);
-        UpdateCategoryCommand = new AsyncCommand(UpdateCategory, () => SelectedCategory is not null);
+        UpdateCategoryCommand = new AsyncCommand<object>(UpdateCategory, x => SelectedCategory is not null);
         RemoveCategoryCommand = new AsyncCommand(RemoveCategory, () => SelectedCategory is not null);
 
         _categories = new ObservableCollection<IconCategory>();
@@ -88,8 +88,13 @@ public sealed class CategoriesViewModel : BaseViewModel
         }
     }
 
-    public async Task UpdateCategory()
+    public async Task UpdateCategory(object imjSelector)
     {
+        var imageUri = ((ImageSelector)imjSelector).Uri;
+
+        var category = SelectedCategory.Category.Recreate(imageUri);
+
+        await _categoryService.Update(category);
 
         await LoadCategoories();
     }
@@ -107,15 +112,11 @@ public sealed class CategoriesViewModel : BaseViewModel
         var categories = await _categoryService.GetCategories();
         var iconCategories = categories.Select(x =>
         {
-            BitmapFrame image = null;
+            BitmapImage image = null;
 
             if (x.ImageData is not null)
             {
-                using var stream = new MemoryStream(x.ImageData);
-                image = BitmapFrame.Create(
-                    stream,
-                    BitmapCreateOptions.None,
-                    BitmapCacheOption.OnLoad);
+                image = ImageHelper.LoadImage(x.ImageData);
             }
 
             return new IconCategory
