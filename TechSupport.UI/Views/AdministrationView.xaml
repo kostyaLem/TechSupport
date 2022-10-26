@@ -173,7 +173,6 @@
                 <Button
                     Margin="5"
                     Command="{Binding CreateUserCommand}"
-                    CommandParameter="{Binding ElementName=UsersGrid, Path=SelectedItems}"
                     Content="Добавить"
                     Style="{StaticResource ButtonSuccess}" />
             </StackPanel>

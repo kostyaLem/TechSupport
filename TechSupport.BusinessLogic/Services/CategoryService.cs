@@ -2,7 +2,7 @@
 using TechSupport.BusinessLogic.Exceptions;
 using TechSupport.BusinessLogic.Interfaces;
 using TechSupport.BusinessLogic.Mapping;
-using TechSupport.BusinessLogic.Models.CategoriesModels;
+using TechSupport.BusinessLogic.Models;
 using TechSupport.DataAccess.Context;
 using Domain = TechSupport.DataAccess.Models;
 
@@ -64,13 +64,13 @@ internal sealed class CategoryService : ICategoryService
 
     private async Task<Domain.RequestCategory> GetCategory(int entityId)
     {
-        var утешен = await _context.RequestCategories.FindAsync(entityId);
+        var caategory = await _context.RequestCategories.FindAsync(entityId);
 
-        if (утешен is null)
+        if (caategory is null)
         {
             throw new NotFoundException("Категория не найдена.");
         }
 
-        return утешен;
+        return caategory;
     }
 }

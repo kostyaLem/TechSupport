@@ -1,13 +1,130 @@
-﻿<Window
+﻿<hc:Window
     x:Class="TechSupport.UI.Views.DepartmentsView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:TechSupport.UI.Views"
+    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="DepartmentsView"
+    Title="{Binding Title}"
     Width="800"
     Height="450"
+    WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
-    <Grid />
-</Window>
+    <hc:Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisability" />
+        <dxmvvm:NumericToBooleanConverter x:Key="NumericToBooleanConverter" />
+    </hc:Window.Resources>
+
+    <hc:Interaction.Triggers>
+        <hc:EventTrigger EventName="Loaded">
+            <hc:InvokeCommandAction Command="{Binding LoadViewDataCommand}" />
+        </hc:EventTrigger>
+    </hc:Interaction.Triggers>
+
+    <Grid Margin="10">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="70" />
+        </Grid.RowDefinitions>
+
+        <hc:SearchBar
+            Grid.Row="0"
+            Height="35"
+            hc:InfoElement.Placeholder="Название / Местоположение / Кабинет"
+            hc:InfoElement.TitlePlacement="Left"
+            Style="{StaticResource SearchBarExtend}"
+            Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+        <DataGrid
+            x:Name="DepartmentsGrid"
+            Grid.Row="1"
+            Margin="0,10"
+            hc:DataGridAttach.ShowRowNumber="True"
+            hc:Empty.ShowEmpty="true"
+            AutoGenerateColumns="False"
+            CanUserResizeColumns="False"
+            ItemsSource="{Binding DepartmentsView, Mode=OneWay}"
+            RowHeaderWidth="60"
+            SelectedItem="{Binding SelectedDepartment, Mode=OneWayToSource}">
+            <DataGrid.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="HorizontalAlignment" Value="Right" />
+                </Style>
+            </DataGrid.Resources>
+
+            <DataGrid.RowHeaderTemplate>
+                <DataTemplate>
+                    <CheckBox IsChecked="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=DataGridRow}}" />
+                </DataTemplate>
+            </DataGrid.RowHeaderTemplate>
+
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding Title}"
+                    Header="Название"
+                    IsReadOnly="True" />
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding Place}"
+                    Header="Местоположение"
+                    IsReadOnly="True" />
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding Room}"
+                    Header="Кабинет"
+                    IsReadOnly="True" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <Label>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Кол-во записей: " />
+                        <TextBlock Text="{Binding ElementName=DepartmentsGrid, Path=Items.Count}" />
+                    </StackPanel>
+                </Label>
+            </StackPanel>
+
+            <StackPanel
+                Grid.Column="1"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <Button
+                    Margin="5"
+                    Command="{Binding RemoveDepartmentCommand}"
+                    CommandParameter="{Binding ElementName=DepartmentsGrid, Path=SelectedItems}"
+                    Content="Удалить"
+                    IsEnabled="{Binding ElementName=DepartmentsGrid, Path=SelectedItems.Count, Converter={StaticResource NumericToBooleanConverter}}"
+                    Style="{StaticResource ButtonDanger}" />
+                <Button
+                    Margin="5"
+                    Command="{Binding EditDepartmentCommand}"
+                    CommandParameter="{Binding ElementName=DepartmentsGrid, Path=SelectedItems}"
+                    Content="Редактировать"
+                    IsEnabled="{Binding ElementName=DepartmentsGrid, Path=SelectedItems.Count, Converter={StaticResource NumericToBooleanConverter}}"
+                    Style="{StaticResource ButtonWarning}" />
+                <Button
+                    Margin="5"
+                    Command="{Binding CreateDepartmentCommand}"
+                    Content="Добавить"
+                    Style="{StaticResource ButtonSuccess}" />
+            </StackPanel>
+        </Grid>
+
+    </Grid>
+
+</hc:Window>

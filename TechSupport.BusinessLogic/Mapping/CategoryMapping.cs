@@ -1,4 +1,5 @@
-﻿using TechSupport.BusinessLogic.Models.CategoriesModels;
+﻿using System.Runtime.CompilerServices;
+using TechSupport.BusinessLogic.Models;
 using Domain = TechSupport.DataAccess.Models;
 
 namespace TechSupport.BusinessLogic.Mapping;

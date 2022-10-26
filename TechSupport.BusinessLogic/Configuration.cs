@@ -12,6 +12,7 @@ public static class Configuration
         serviceCollection.AddTransient<IAuthorizationService, AuthorizationService>();
         serviceCollection.AddTransient<IUserService, UserService>();
         serviceCollection.AddTransient<ICategoryService, CategoryService>();
+        serviceCollection.AddTransient<IDepartmentService, DepartmentService>();
 
         serviceCollection.AddDataAccessLayer();
     }

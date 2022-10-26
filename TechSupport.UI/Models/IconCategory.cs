@@ -1,5 +1,5 @@
 ﻿using System.Windows.Media.Imaging;
-using TechSupport.BusinessLogic.Models.CategoriesModels;
+using TechSupport.BusinessLogic.Models;
 
 namespace TechSupport.UI.Models;
 

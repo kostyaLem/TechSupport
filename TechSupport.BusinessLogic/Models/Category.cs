@@ -1,4 +1,4 @@
-﻿namespace TechSupport.BusinessLogic.Models.CategoriesModels;
+﻿namespace TechSupport.BusinessLogic.Models;
 
 public record Category
 {

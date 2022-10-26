@@ -9,12 +9,10 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using TechSupport.BusinessLogic.Interfaces;
-using TechSupport.BusinessLogic.Models.CategoriesModels;
 using TechSupport.UI.Helpers;
 using TechSupport.UI.Mapping;
 using TechSupport.UI.Models;
@@ -76,12 +74,12 @@ public sealed class CategoriesViewModel : BaseViewModel
 
     private bool CanFilterCategory(object obj)
     {
-        if (SearchText is { } && obj is SlimCategory category)
+        if (SearchText is { } && obj is IconCategory category)
         {
             var predicates = new List<string>
             {
-                category.Title,
-                category.Description
+                category.Category.Title,
+                category.Category.Description
             };
 
             return predicates.Any(x => x.Contains(SearchText, StringComparison.OrdinalIgnoreCase));

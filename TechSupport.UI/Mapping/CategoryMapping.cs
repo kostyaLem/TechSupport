@@ -2,7 +2,7 @@
 using System.IO;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using TechSupport.BusinessLogic.Models.CategoriesModels;
+using TechSupport.BusinessLogic.Models;
 using TechSupport.UI.Helpers;
 
 namespace TechSupport.UI.Mapping;

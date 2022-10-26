@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TechSupport.DataAccess.Context;
 
@@ -11,9 +12,10 @@ using TechSupport.DataAccess.Context;
 namespace TechSupport.DataAccess.Migrations
 {
     [DbContext(typeof(TechSupportContext))]
-    partial class TechSupportContextModelSnapshot : ModelSnapshot
+    [Migration("20221026214742_CreateDepartment")]
+    partial class CreateDepartment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
