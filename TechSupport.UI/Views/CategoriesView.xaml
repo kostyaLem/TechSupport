@@ -9,6 +9,7 @@
     Title="{Binding Title}"
     Width="800"
     Height="450"
+    WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
 
     <hc:Interaction.Triggers>
@@ -151,6 +152,7 @@
             <hc:TextBox
                 Margin="0,7,0,0"
                 hc:InfoElement.Placeholder="Описание категории"
+                hc:InfoElement.ShowClearButton="True"
                 Text="{Binding SelectedCategory.Category.Description}" />
         </DockPanel>
 

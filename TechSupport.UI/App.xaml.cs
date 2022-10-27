@@ -31,6 +31,6 @@ public partial class App : Application
         base.OnStartup(e);
 
         //_serviceProvider.GetRequiredService<AuthView>().ShowDialog();
-        _serviceProvider.GetRequiredService<DepartmentsView>().ShowDialog();
+        _serviceProvider.GetRequiredService<RequestCreationView>().ShowDialog();
     }
 }

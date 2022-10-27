@@ -10,6 +10,8 @@ public class TechSupportContext : DbContext
     public DbSet<RequestCategory> RequestCategories { get; set; }
     public DbSet<Department> Departments { get; set; }
 
+    public DbSet<Request> Requests { get; set; }
+
     public TechSupportContext(DbContextOptions<TechSupportContext> options)
         : base(options) { }
 

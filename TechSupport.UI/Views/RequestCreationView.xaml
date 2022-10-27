@@ -1,13 +1,114 @@
-﻿<Window
+﻿<hc:Window
     x:Class="TechSupport.UI.Views.RequestCreationView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:local="clr-namespace:TechSupport.UI.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="RequestCreationView"
+    Title="{Binding Title}"
     Width="800"
     Height="450"
     mc:Ignorable="d">
-    <Grid />
-</Window>
+    <Grid Margin="20,10,20,10">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <Label
+                Margin="0,10,0,5"
+                HorizontalAlignment="Left"
+                Content="Тема заявки"
+                FontSize="16"
+                FontWeight="Bold" />
+            <hc:TextBox hc:InfoElement.ShowClearButton="True" />
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <DockPanel Grid.Column="0" LastChildFill="True">
+                <StackPanel DockPanel.Dock="Top">
+                    <Label
+                        Margin="0,10,0,5"
+                        HorizontalAlignment="Left"
+                        Content="Компьютер"
+                        FontWeight="DemiBold" />
+                    <hc:TextBox hc:InfoElement.ShowClearButton="True" />
+                </StackPanel>
+
+                <StackPanel DockPanel.Dock="Top">
+                    <Label
+                        Margin="0,10,0,5"
+                        HorizontalAlignment="Left"
+                        Content="Местоположение"
+                        FontWeight="DemiBold" />
+                    <hc:ComboBox hc:InfoElement.ShowClearButton="True" />
+                </StackPanel>
+
+                <Label
+                    Margin="0,10,0,5"
+                    HorizontalAlignment="Left"
+                    Content="Описание"
+                    DockPanel.Dock="Top"
+                    FontWeight="DemiBold" />
+                <hc:TextBox hc:InfoElement.ShowClearButton="True" AcceptsReturn="True" />
+
+            </DockPanel>
+
+            <DockPanel Grid.Column="1" Margin="10,0,0,0">
+
+                <Expander
+                    Margin="0,10"
+                    hc:InfoElement.Placeholder="wer"
+                    DockPanel.Dock="Top"
+                    Header="{Binding Title, FallbackValue='Выбранная атегория заявки'}" />
+
+                <ListBox hc:Empty.ShowEmpty="true">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Expander>
+                                <Expander.Header>
+
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="30" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Image Grid.Column="0" Stretch="UniformToFill" />
+
+                                        <TextBlock Grid.Column="1" />
+
+                                        <Button Grid.Column="2" />
+
+                                    </Grid>
+
+                                </Expander.Header>
+
+                                <TextBlock />
+
+                            </Expander>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+            </DockPanel>
+        </Grid>
+
+        <Button
+            Grid.Row="2"
+            Margin="0,10,0,0"
+            HorizontalAlignment="Stretch"
+            Content="Создать"
+            Style="{StaticResource ButtonSuccess}" />
+    </Grid>
+</hc:Window>
