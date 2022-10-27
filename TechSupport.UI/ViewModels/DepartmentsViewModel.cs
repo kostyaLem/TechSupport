@@ -17,14 +17,6 @@ using TechSupport.UI.Views.EditableViews;
 
 namespace TechSupport.UI.ViewModels;
 
-public sealed class RequestCreationViewModel : BaseViewModel
-{
-    public override string Title => "Создание заявки";
-
-    
-}
-
-
 public sealed class DepartmentsViewModel : BaseViewModel
 {
     private readonly IDepartmentService _departmentService;

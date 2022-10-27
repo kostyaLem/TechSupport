@@ -4,9 +4,9 @@ namespace TechSupport.BusinessLogic.Interfaces;
 
 public interface IRequestService
 {
-    Task<IReadOnlyList<CreateRequest>> GetRequests();
-    Task<CreateRequest> GetRequestById(int id);
+    Task<IReadOnlyList<Request>> GetRequests();
+    Task<Request> GetRequestById(int id);
     Task Create(CreateRequest request);
-    Task UpdateStatus();
+    Task UpdateStatus(RequestStatus status);
     Task Remove(int requestId);
 }

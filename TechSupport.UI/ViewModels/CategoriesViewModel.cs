@@ -121,17 +121,8 @@ public sealed class CategoriesViewModel : BaseViewModel
         _categories.Clear();
 
         var categories = await _categoryService.GetCategories();
-        var iconCategories = categories.Select(x =>
-        {
-            return new IconCategory
-            {
-                Category = x,
-                Image = x.ImageData is not null ? ImageHelper.LoadImage(x.ImageData) : null
-            };
 
-        }).ToList();
-
-        _categories.AddRange(iconCategories);
+        _categories.AddRange(categories.MapToIcons());
     }
 
     private void RemoveImage()
