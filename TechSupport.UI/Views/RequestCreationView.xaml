@@ -63,7 +63,23 @@
                     <hc:ComboBox
                         hc:InfoElement.ShowClearButton="True"
                         ItemsSource="{Binding Departments}"
-                        SelectedItem="{Binding SelectedDepartment}" />
+                        SelectedItem="{Binding SelectedDepartment}">
+                        <hc:ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Style="{StaticResource TextBlockSubTitle}" Text="{Binding Place}" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <StackPanel.Resources>
+                                            <Style BasedOn="{StaticResource TextBlockDefaultSecLight}" TargetType="TextBlock" />
+                                        </StackPanel.Resources>
+                                        <TextBlock Text="{Binding Title}" />
+                                        <TextBlock Text=" | " />
+                                        <TextBlock Text="{Binding Room}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </hc:ComboBox.ItemTemplate>
+                    </hc:ComboBox>
                 </StackPanel>
 
                 <Label
@@ -72,7 +88,10 @@
                     Content="Описание"
                     DockPanel.Dock="Top"
                     FontWeight="DemiBold" />
-                <hc:TextBox hc:InfoElement.ShowClearButton="True" AcceptsReturn="True" />
+                <hc:TextBox
+                    hc:InfoElement.ShowClearButton="True"
+                    AcceptsReturn="True"
+                    Text="{Binding Request.Description}" />
 
             </DockPanel>
 
@@ -175,6 +194,7 @@
             Grid.Row="2"
             Margin="0,20,0,0"
             HorizontalAlignment="Stretch"
+            Command="{Binding CreateRequestCommand}"
             Content="Создать"
             Style="{StaticResource ButtonSuccess}" />
     </Grid>

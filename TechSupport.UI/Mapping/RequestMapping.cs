@@ -8,7 +8,7 @@ public static class RequestMapping
     public static CreateRequest MapToCreateRequest(this SlimRequest request)
         => new CreateRequest
         {
-            CategoryId = request.Category.Id,
+            CategoryId = request.Category.Id,            
             DepartmentId = request.Department.Id,
             Description = request.Description,
             Computer = request.Computer,

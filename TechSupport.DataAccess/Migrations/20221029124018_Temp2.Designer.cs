@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TechSupport.DataAccess.Context;
 
@@ -11,9 +12,10 @@ using TechSupport.DataAccess.Context;
 namespace TechSupport.DataAccess.Migrations
 {
     [DbContext(typeof(TechSupportContext))]
-    partial class TechSupportContextModelSnapshot : ModelSnapshot
+    [Migration("20221029124018_Temp2")]
+    partial class Temp2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -79,9 +81,8 @@ namespace TechSupport.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()

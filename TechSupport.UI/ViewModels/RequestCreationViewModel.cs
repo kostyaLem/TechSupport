@@ -64,6 +64,9 @@ public sealed class RequestCreationViewModel : BaseViewModel
 
     private async Task CreateRequest()
     {
+        Request.Category = SelectedCategory.Category;
+        Request.Department = SelectedDepartment;
+
         await _requestService.Create(Request.MapToCreateRequest());
     }
 

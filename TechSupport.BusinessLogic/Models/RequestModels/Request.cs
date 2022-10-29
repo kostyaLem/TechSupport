@@ -12,7 +12,7 @@ public record Request
     public string Department { get; init; }
     public RequestStatus Status { get; init; }
     public DateTime CreatedOn { get; init; }
-    public DateTime PausedOn { get; init; }
-    public DateTime CompletedOn { get; init; }
+    public DateTime? PausedOn { get; init; }
+    public DateTime? CompletedOn { get; init; }
     public User User { get; init; }
 }

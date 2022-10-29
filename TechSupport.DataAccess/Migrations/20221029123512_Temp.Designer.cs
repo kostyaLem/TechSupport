@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TechSupport.DataAccess.Context;
 
@@ -11,9 +12,10 @@ using TechSupport.DataAccess.Context;
 namespace TechSupport.DataAccess.Migrations
 {
     [DbContext(typeof(TechSupportContext))]
-    partial class TechSupportContextModelSnapshot : ModelSnapshot
+    [Migration("20221029123512_Temp")]
+    partial class Temp
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,7 +57,7 @@ namespace TechSupport.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime?>("CompletedOn")
+                    b.Property<DateTime>("CompletedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Computer")
@@ -72,16 +74,15 @@ namespace TechSupport.DataAccess.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("PausedOn")
+                    b.Property<DateTime>("PausedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("RequestCategoryId")
                         .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
