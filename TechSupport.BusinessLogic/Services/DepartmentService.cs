@@ -38,9 +38,7 @@ internal sealed class DepartmentService : IDepartmentService
 
     public async Task<IReadOnlyList<Department>> GetDepartments()
     {
-        var departments = await _context.Departments
-            .AsNoTracking()
-            .ToListAsync();
+        var departments = await _context.Departments.ToListAsync();
 
         return departments.Select(x => x.ToBl()).ToList();
     }

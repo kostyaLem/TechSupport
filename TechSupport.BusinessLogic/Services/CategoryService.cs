@@ -26,9 +26,7 @@ internal sealed class CategoryService : ICategoryService
 
     public async Task<IReadOnlyList<Category>> GetCategories()
     {
-        var categories = await _context.RequestCategories
-            .AsNoTracking()
-            .ToListAsync();
+        var categories = await _context.RequestCategories.ToListAsync();
 
         return categories.Select(x => x.ToBl()).ToList();
     }

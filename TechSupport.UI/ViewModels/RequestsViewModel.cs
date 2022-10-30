@@ -1,5 +1,6 @@
 ﻿using DevExpress.Mvvm;
 using HandyControl.Tools.Extension;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -74,15 +75,22 @@ public sealed partial class RequestsViewModel : BaseViewModel
         _departmentService = departmentService;
         _userService = userService;
 
+        _requests = new ObservableCollection<ExtendedRequest>();
         LoadViewDataCommand = new AsyncCommand(LoadView);
         RequestsView = CollectionViewSource.GetDefaultView(_requests);
     }
 
     private async Task LoadView()
     {
-        _requests.AddRange(await _requestService.GetRequests());
-        Departments = await _departmentService.GetDepartments();
-        Categories = (await _categoryService.GetCategories()).MapToIcons();
-        Users = await _userService.GetUsers();
+        try
+        {
+            _requests.AddRange(await _requestService.GetRequests());
+            Departments = await _departmentService.GetDepartments();
+            Categories = (await _categoryService.GetCategories()).MapToIcons();
+            Users = await _userService.GetUsers();
+        }catch(Exception e)
+        {
+
+        }
     }
 }

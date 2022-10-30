@@ -14,7 +14,7 @@ public class Request
     public int? RequestCategoryId { get; set; }
     public int? UserId { get; set; }
 
-    public Department Department { get; set; }
-    public RequestCategory RequestCategory { get; set; }
-    public User User { get; set; }
+    public virtual Department Department { get; set; }
+    public virtual RequestCategory RequestCategory { get; set; }
+    public virtual User User { get; set; }
 }

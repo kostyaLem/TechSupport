@@ -11,6 +11,7 @@ internal class TechSupportContextFactory : IDesignTimeDbContextFactory<TechSuppo
     {
         var optionsBuilder = new DbContextOptionsBuilder<TechSupportContext>();
         optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=TechSupportDb;Trusted_Connection=True;");
+        optionsBuilder.UseLazyLoadingProxies();
 
         return new TechSupportContext(optionsBuilder.Options);
     }

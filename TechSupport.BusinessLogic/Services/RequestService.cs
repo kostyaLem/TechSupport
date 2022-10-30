@@ -32,9 +32,7 @@ internal class RequestService : IRequestService
 
     public async Task<IReadOnlyList<ExtendedRequest>> GetRequests()
     {
-        var requests = await _context.Requests
-            .AsNoTracking()
-            .ToListAsync();
+        var requests = await _context.Requests.ToListAsync();
 
         return requests.Select(x => x.ToExtendedBl()).ToList();
     }
