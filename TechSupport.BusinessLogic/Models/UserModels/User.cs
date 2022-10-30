@@ -12,4 +12,6 @@ public record User
     public DateTime CreatedOn { get; init; }
     public DateTime UpdatedOn { get; init; }
     public UserType UserType { get; init; }
+
+    public override string ToString() => $"{LastName} {FirstName}";
 }

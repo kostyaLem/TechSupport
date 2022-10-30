@@ -8,8 +8,7 @@ public class Request
     public string Description { get; set; }
     public RequestStatus Status { get; set; }
     public DateTime CreatedOn { get; init; }
-    public DateTime? PausedOn { get; init; }
-    public DateTime? CompletedOn { get; init; }
+    public DateTime? StatusUpdatedOn { get; init; }
 
     public int? DepartmentId { get; set; }
     public int? RequestCategoryId { get; set; }

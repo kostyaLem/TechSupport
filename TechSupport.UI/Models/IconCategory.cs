@@ -7,4 +7,6 @@ public class IconCategory
 {
     public Category Category { get; init; }
     public BitmapImage Image { get; init; }
+
+    public override string ToString() => Category.Title;
 }

@@ -26,12 +26,28 @@ internal static class RequestMapping
             Title = request.Title,
             Computer = request.Computer,
             CreatedOn = request.CreatedOn,
-            CompletedOn = request.CompletedOn,
+            StatusUpdatedOn = request.StatusUpdatedOn,
             Description = request.Description,
-            PausedOn = request.PausedOn,
             Status = request.Status.ToBl(),
-            User = request.User.ToBl()
+            User = request.User?.ToBl()
         };
+
+    public static ExtendedRequest ToExtendedBl(this Domain.Request request)
+    {
+        return new ExtendedRequest
+        {
+            Id = request.Id,
+            Category = request.RequestCategory.ToBl(),
+            Department = request.Department.ToBl(),
+            Title = request.Title,
+            Computer = request.Computer,
+            CreatedOn = request.CreatedOn,
+            StatusUpdatedOn = request.StatusUpdatedOn,
+            Description = request.Description,
+            RequestStatus = request.Status.ToBl(),
+            User = request.User?.ToBl()
+        };
+    }
 
     public static RequestStatus ToBl(this Domain.RequestStatus status)
         => status switch
@@ -40,6 +56,6 @@ internal static class RequestMapping
             Domain.RequestStatus.InProgress => RequestStatus.InProgress,
             Domain.RequestStatus.Paused => RequestStatus.Paused,
             Domain.RequestStatus.Completed => RequestStatus.Completed,
-            _ => throw new Exception("Не удалось преобразовать статус заявки")
+            _ => throw new Exception("Не удалось преобразовать статус заявки.")
         };
 }

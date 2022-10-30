@@ -30,13 +30,13 @@ internal class RequestService : IRequestService
         return request.ToBl();
     }
 
-    public async Task<IReadOnlyList<Request>> GetRequests()
+    public async Task<IReadOnlyList<ExtendedRequest>> GetRequests()
     {
         var requests = await _context.Requests
-            //.AsNoTracking()
+            .AsNoTracking()
             .ToListAsync();
 
-        return requests.Select(x => x.ToBl()).ToList();
+        return requests.Select(x => x.ToExtendedBl()).ToList();
     }
 
     public async Task Remove(int requestId)

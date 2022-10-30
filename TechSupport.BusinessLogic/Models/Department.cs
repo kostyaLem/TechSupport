@@ -6,4 +6,6 @@ public record Department
     public string Title { get; init; }
     public string Place { get; init; }
     public string Room { get; init; }
+
+    public override string ToString() => Place;
 }

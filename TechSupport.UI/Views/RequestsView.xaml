@@ -4,13 +4,25 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:helpers="clr-namespace:TechSupport.UI.Helpers"
     xmlns:local="clr-namespace:TechSupport.UI.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:md="clr-namespace:TechSupport.BusinessLogic.Models.RequestModels;assembly=TechSupport.BusinessLogic"
     Title="{Binding Title}"
     Width="1000"
     Height="600"
     d:Title="Заявки технической поддержки"
     mc:Ignorable="d">
+    <hc:Window.Resources>
+        <helpers:EnumDescriptionConverter x:Key="enumDescriptionConverter" />
+    </hc:Window.Resources>
+
+    <hc:Interaction.Triggers>
+        <hc:EventTrigger EventName="Loaded">
+            <hc:InvokeCommandAction Command="{Binding LoadViewDataCommand}" />
+        </hc:EventTrigger>
+    </hc:Interaction.Triggers>
+
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="220" />
@@ -24,6 +36,7 @@
                 <hc:SearchBar
                     Margin="5"
                     hc:InfoElement.Placeholder="Название / Описание"
+                    hc:InfoElement.ShowClearButton="True"
                     Style="{StaticResource SearchBarPlus}" />
             </GroupBox>
 
@@ -46,28 +59,83 @@
                     <Border Style="{StaticResource Border4FlexPanelDemoStyle}">
                         <StackPanel Margin="5,2,5,0">
                             <Label Content="Категория" />
-                            <hc:CheckComboBox ShowClearButton="True" />
+                            <hc:CheckComboBox
+                                Height="28"
+                                ItemsSource="{Binding Categories}"
+                                ShowClearButton="True"
+                                ShowSelectAllButton="True">
+                                <hc:CheckComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image
+                                                Width="22"
+                                                Height="25"
+                                                Margin="3"
+                                                Source="{Binding Image}"
+                                                Stretch="UniformToFill" />
+                                            <TextBlock
+                                                Margin="5,0,3,0"
+                                                VerticalAlignment="Center"
+                                                Text="{Binding Category.Title}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </hc:CheckComboBox.ItemTemplate>
+
+                            </hc:CheckComboBox>
                         </StackPanel>
                     </Border>
 
                     <Border Style="{StaticResource Border4FlexPanelDemoStyle}">
                         <StackPanel Margin="0,2,5,0">
                             <Label Content="Статус" />
-                            <hc:CheckComboBox ShowClearButton="True" />
+                            <hc:CheckComboBox
+                                Height="28"
+                                ItemsSource="{Binding RequestStatuses}"
+                                ShowClearButton="True"
+                                ShowSelectAllButton="True">
+                                <hc:CheckComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding RequestStatus, Converter={StaticResource enumDescriptionConverter}}" />
+                                    </DataTemplate>
+                                </hc:CheckComboBox.ItemTemplate>
+
+                            </hc:CheckComboBox>
                         </StackPanel>
                     </Border>
 
                     <Border Style="{StaticResource Border4FlexPanelDemoStyle}">
                         <StackPanel Margin="5,2,5,0">
                             <Label Content="Сотрудник" />
-                            <hc:CheckComboBox ShowClearButton="True" />
+                            <hc:CheckComboBox
+                                Height="28"
+                                ItemsSource="{Binding Users}"
+                                ShowClearButton="True"
+                                ShowSelectAllButton="True">
+                                <hc:CheckComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock TextWrapping="WrapWithOverflow">
+                                            <Run Text="{Binding LastName}" />
+                                            <Run Text="{Binding FirstName}" />
+                                            <LineBreak />
+                                            <Run
+                                                FontSize="12"
+                                                Foreground="Gray"
+                                                Text="{Binding Login}" />
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </hc:CheckComboBox.ItemTemplate>
+                            </hc:CheckComboBox>
                         </StackPanel>
                     </Border>
 
                     <Border Style="{StaticResource Border4FlexPanelDemoStyle}">
                         <StackPanel Margin="0,2,5,0">
                             <Label Content="Отдел" />
-                            <hc:CheckComboBox ShowClearButton="True" />
+                            <hc:CheckComboBox
+                                Height="28"
+                                ItemsSource="{Binding Departments}"
+                                ShowClearButton="True"
+                                ShowSelectAllButton="True" />
                         </StackPanel>
                     </Border>
 
@@ -85,6 +153,7 @@
             hc:Empty.ShowEmpty="true"
             AutoGenerateColumns="False"
             CanUserResizeColumns="False"
+            ItemsSource="{Binding RequestsView}"
             RowHeight="60">
             <DataGrid.Resources>
                 <Style TargetType="TextBlock">
