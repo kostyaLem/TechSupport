@@ -1,23 +1,20 @@
 ﻿using DevExpress.Mvvm;
-using System.Collections.Generic;
-using TechSupport.BusinessLogic.Models;
-using TechSupport.BusinessLogic.Models.RequestModels;
-using TechSupport.BusinessLogic.Models.UserModels;
+using HandyControl.Controls;
 
 namespace TechSupport.UI.Models;
 
 public class RequestFilter : BindableBase
 {
-    public IEnumerable<RequestStatus> RequestStatuses { get; set; }
-    public IEnumerable<IconCategory> Categories { get; set; }
-    public IEnumerable<Department> Departments { get; set; }
-    public IEnumerable<User> Users { get; set; }
+    public CheckComboBox RequestStatuses { get; set; }
+    public CheckComboBox Categories { get; set; }
+    public CheckComboBox Departments { get; set; }
+    public CheckComboBox Users { get; set; }
 
     public RequestFilter(
-        IEnumerable<RequestStatus> statuses,
-        IEnumerable<IconCategory> categories,
-        IEnumerable<Department> departments,
-        IEnumerable<User> users)
+        CheckComboBox statuses,
+        CheckComboBox categories,
+        CheckComboBox departments,
+        CheckComboBox users)
     {
         RequestStatuses = statuses;
         Categories = categories;

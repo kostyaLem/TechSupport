@@ -33,6 +33,12 @@ public sealed partial class RequestsViewModel : BaseViewModel
 
     public override string Title => "Заявки технической поддержки";
 
+    public bool IsUploading
+    {
+        get => GetValue<bool>(nameof(IsUploading));
+        set => SetValue(value, nameof(IsUploading));
+    }
+
     #region Search bars
 
     public IEnumerable<StrRequestStatus> RequestStatuses { get; } = new List<StrRequestStatus>
@@ -94,12 +100,16 @@ public sealed partial class RequestsViewModel : BaseViewModel
         _requests = new ObservableCollection<ExtendedRequest>();
         LoadViewDataCommand = new AsyncCommand(LoadView);
         RequestsView = CollectionViewSource.GetDefaultView(_requests);
+
+        SearchText = string.Empty;
     }
 
     private async Task LoadView()
     {
         try
         {
+            IsUploading = true;
+            _requests.Clear();
             _requests.AddRange(await _requestService.GetRequests());
             Departments = await _departmentService.GetDepartments();
             Categories = (await _categoryService.GetCategories()).MapToIcons();
@@ -108,6 +118,10 @@ public sealed partial class RequestsViewModel : BaseViewModel
         catch (Exception e)
         {
             MessageBox.Show(e.Message);
+        }
+        finally
+        {
+            IsUploading = false;
         }
     }
 
@@ -127,7 +141,46 @@ public sealed partial class RequestsViewModel : BaseViewModel
 
     private async Task SearchRequests(RequestFilter filter)
     {
+        RequestsView.Filter = x =>
+        {
+            var request = x as ExtendedRequest;
 
+            var users = filter.Users.SelectedItems.Cast<User>().ToList();
+            var categories = filter.Categories.SelectedItems.Cast<IconCategory>().ToList();
+            var department = filter.Departments.SelectedItems.Cast<Department>().ToList();
+            var status = filter.RequestStatuses.SelectedItems.Cast<RequestStatus>().ToList();
+
+            var isValid = true;
+
+            if (users.Count > 0)
+            {
+                isValid &= users.Exists(u => u.Id == request.User?.Id);
+            }
+
+            if (categories.Count > 0)
+            {
+                isValid &= categories.Exists(u => u.Category.Id == request.Category.Id);
+            }
+
+            if (department.Count > 0)
+            {
+                isValid &= department.Exists(u => u.Id == request.Department.Id);
+            }
+
+            if (status.Count > 0)
+            {
+                isValid &= status.Exists(u => u == request.RequestStatus);
+            }
+
+            if (!string.IsNullOrWhiteSpace(SearchText))
+            {
+                isValid &= request.Title.Contains(SearchText, StringComparison.OrdinalIgnoreCase);
+            }
+
+            return isValid;
+        };
+
+        RequestsView.Refresh();
     }
 
     private async Task ClearSearchFilter(IList[] boxes)
@@ -138,6 +191,8 @@ public sealed partial class RequestsViewModel : BaseViewModel
         }
 
         SearchText = string.Empty;
+
+        await LoadView();
     }
 
     private async Task CompleteRequest(ExtendedRequest extendedRequest)

@@ -14,6 +14,7 @@
     mc:Ignorable="d">
     <hc:Window.Resources>
         <helpers:EnumDescriptionConverter x:Key="enumDescriptionConverter" />
+        <BooleanToVisibilityConverter x:Key="BoolToVisability" />
     </hc:Window.Resources>
 
     <hc:Interaction.Triggers>
@@ -28,6 +29,16 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
+
+        <Border
+            Grid.RowSpan="3"
+            Panel.ZIndex="10"
+            d:Visibility="Hidden"
+            Background="#33000000"
+            CornerRadius="10"
+            Visibility="{Binding Path=IsUploading, Converter={StaticResource BoolToVisability}}">
+            <hc:LoadingCircle Style="{StaticResource LoadingCircleLight}" />
+        </Border>
 
         <StackPanel>
 
@@ -63,10 +74,10 @@
                         FontWeight="Normal">
                         <Button.CommandParameter>
                             <MultiBinding Converter="{helpers:SearchDataToFilterRequestConverter}">
-                                <Binding ElementName="cmbUsers" Path="SelectedItems" />
-                                <Binding ElementName="cmbCategories" Path="SelectedItems" />
-                                <Binding ElementName="cmbDepartments" Path="SelectedItems" />
-                                <Binding ElementName="cmbStatuses" Path="SelectedItems" />
+                                <Binding ElementName="cmbUsers" />
+                                <Binding ElementName="cmbCategories" />
+                                <Binding ElementName="cmbDepartments" />
+                                <Binding ElementName="cmbStatuses" />
                             </MultiBinding>
                         </Button.CommandParameter>
                     </Button>

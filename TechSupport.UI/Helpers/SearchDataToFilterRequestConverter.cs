@@ -32,10 +32,10 @@ public class SearchDataToFilterRequestConverter : MarkupExtension, IMultiValueCo
 {
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
-        var users = ((IList)values[0]).Cast<User>();
-        var categories = ((IList)values[1]).Cast<IconCategory>();
-        var departments = ((IList)values[2]).Cast<Department>();
-        var statuses = ((IList)values[3]).Cast<RequestStatus>();
+        var users = values[0] as CheckComboBox;
+        var categories = values[1] as CheckComboBox;
+        var departments = values[2] as CheckComboBox;
+        var statuses = values[3] as CheckComboBox;
 
         return new RequestFilter(statuses, categories, departments, users);
     }
