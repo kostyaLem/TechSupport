@@ -148,7 +148,7 @@ public sealed partial class RequestsViewModel : BaseViewModel
             var users = filter.Users.SelectedItems.Cast<User>().ToList();
             var categories = filter.Categories.SelectedItems.Cast<IconCategory>().ToList();
             var department = filter.Departments.SelectedItems.Cast<Department>().ToList();
-            var status = filter.RequestStatuses.SelectedItems.Cast<RequestStatus>().ToList();
+            var status = filter.RequestStatuses.SelectedItems.Cast<StrRequestStatus>().ToList();
 
             var isValid = true;
 
@@ -169,7 +169,7 @@ public sealed partial class RequestsViewModel : BaseViewModel
 
             if (status.Count > 0)
             {
-                isValid &= status.Exists(u => u == request.RequestStatus);
+                isValid &= status.Exists(u => u.RequestStatus == request.RequestStatus);
             }
 
             if (!string.IsNullOrWhiteSpace(SearchText))
