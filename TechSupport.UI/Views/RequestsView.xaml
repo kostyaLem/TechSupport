@@ -285,7 +285,7 @@
                 </DataGridTemplateColumn>
 
                 <DataGridTemplateColumn
-                    Width="120"
+                    Width="140"
                     Header="Действие"
                     IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
@@ -293,6 +293,7 @@
                             <UniformGrid HorizontalAlignment="Center" Columns="3">
                                 <Button
                                     MinWidth="28"
+                                    Margin="2,0"
                                     Padding="2"
                                     hc:IconElement.Geometry="{StaticResource ErrorGeometry}"
                                     Command="{Binding Path=DataContext.RemoveRequestCommand, ElementName=RequestsGrid}"
@@ -300,12 +301,14 @@
                                     Foreground="Red"
                                     ToolTip="Удалить" />
                                 <Button
+                                    Margin="2,0"
                                     Padding="2"
                                     hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
                                     Command="{Binding Path=DataContext.UpdateRequestCommand, ElementName=RequestsGrid}"
                                     CommandParameter="{Binding}"
                                     ToolTip="Изменить" />
                                 <Button
+                                    Margin="2,0"
                                     Padding="2"
                                     hc:IconElement.Geometry="{StaticResource SuccessGeometry}"
                                     Command="{Binding Path=DataContext.CompleteRequestCommand, ElementName=RequestsGrid}"
