@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Reflection;
 using System.Windows.Data;
-using System.Windows.Markup;
 
 namespace TechSupport.UI.Helpers;
 

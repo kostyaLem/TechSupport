@@ -5,13 +5,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:helpers="clr-namespace:TechSupport.UI.Helpers"
-    xmlns:local="clr-namespace:TechSupport.UI.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:md="clr-namespace:TechSupport.BusinessLogic.Models.RequestModels;assembly=TechSupport.BusinessLogic"
     Title="{Binding Title}"
     Width="1000"
     Height="600"
     d:Title="Заявки технической поддержки"
+    WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <hc:Window.Resources>
         <helpers:EnumDescriptionConverter x:Key="enumDescriptionConverter" />
@@ -32,17 +31,57 @@
 
         <StackPanel>
 
-            <GroupBox hc:TitleElement.TitlePlacement="Left" Header="Поиск">
-                <hc:SearchBar
-                    Margin="5"
-                    hc:InfoElement.Placeholder="Название / Описание"
-                    hc:InfoElement.ShowClearButton="True"
-                    Style="{StaticResource SearchBarPlus}" />
+            <GroupBox
+                hc:TitleElement.TitlePlacement="Left"
+                FontWeight="Bold"
+                Header="Поиск">
+                <DockPanel LastChildFill="True">
+                    <Button
+                        VerticalAlignment="Stretch"
+                        hc:IconElement.Geometry="{StaticResource ErrorGeometry}"
+                        Command="{Binding ClearSearchFilterCommand}"
+                        DockPanel.Dock="Right"
+                        FontWeight="Normal"
+                        Foreground="Red"
+                        ToolTip="Очистить фильтр">
+                        <Button.CommandParameter>
+                            <MultiBinding Converter="{helpers:ClearFilterConverter}">
+                                <Binding ElementName="cmbUsers" Path="SelectedItems" />
+                                <Binding ElementName="cmbCategories" Path="SelectedItems" />
+                                <Binding ElementName="cmbDepartments" Path="SelectedItems" />
+                                <Binding ElementName="cmbStatuses" Path="SelectedItems" />
+                            </MultiBinding>
+                        </Button.CommandParameter>
+                    </Button>
+                    <Button
+                        Margin="5,0"
+                        VerticalAlignment="Stretch"
+                        hc:IconElement.Geometry="{StaticResource SearchGeometry}"
+                        Command="{Binding SearchRequestsCommand}"
+                        Content="Поиск"
+                        DockPanel.Dock="Right"
+                        FontWeight="Normal">
+                        <Button.CommandParameter>
+                            <MultiBinding Converter="{helpers:SearchDataToFilterRequestConverter}">
+                                <Binding ElementName="cmbUsers" Path="SelectedItems" />
+                                <Binding ElementName="cmbCategories" Path="SelectedItems" />
+                                <Binding ElementName="cmbDepartments" Path="SelectedItems" />
+                                <Binding ElementName="cmbStatuses" Path="SelectedItems" />
+                            </MultiBinding>
+                        </Button.CommandParameter>
+                    </Button>
+                    <hc:TextBox
+                        Height="30"
+                        hc:InfoElement.Placeholder="Название / Описание"
+                        hc:InfoElement.ShowClearButton="True"
+                        FontWeight="Normal" />
+                </DockPanel>
             </GroupBox>
 
             <GroupBox
                 Margin="0,10,0,0"
                 hc:TitleElement.TitlePlacement="Left"
+                FontWeight="Bold"
                 Header="Критерии поиска">
 
                 <UniformGrid Columns="2">
@@ -58,9 +97,11 @@
 
                     <Border Style="{StaticResource Border4FlexPanelDemoStyle}">
                         <StackPanel Margin="5,2,5,0">
-                            <Label Content="Категория" />
+                            <Label HorizontalAlignment="Left" Content="Категория" />
                             <hc:CheckComboBox
+                                x:Name="cmbCategories"
                                 Height="28"
+                                FontWeight="Normal"
                                 ItemsSource="{Binding Categories}"
                                 ShowClearButton="True"
                                 ShowSelectAllButton="True">
@@ -87,9 +128,11 @@
 
                     <Border Style="{StaticResource Border4FlexPanelDemoStyle}">
                         <StackPanel Margin="0,2,5,0">
-                            <Label Content="Статус" />
+                            <Label HorizontalAlignment="Left" Content="Статус" />
                             <hc:CheckComboBox
+                                x:Name="cmbStatuses"
                                 Height="28"
+                                FontWeight="Normal"
                                 ItemsSource="{Binding RequestStatuses}"
                                 ShowClearButton="True"
                                 ShowSelectAllButton="True">
@@ -105,9 +148,11 @@
 
                     <Border Style="{StaticResource Border4FlexPanelDemoStyle}">
                         <StackPanel Margin="5,2,5,0">
-                            <Label Content="Сотрудник" />
+                            <Label HorizontalAlignment="Left" Content="Сотрудник" />
                             <hc:CheckComboBox
+                                x:Name="cmbUsers"
                                 Height="28"
+                                FontWeight="Normal"
                                 ItemsSource="{Binding Users}"
                                 ShowClearButton="True"
                                 ShowSelectAllButton="True">
@@ -130,9 +175,11 @@
 
                     <Border Style="{StaticResource Border4FlexPanelDemoStyle}">
                         <StackPanel Margin="0,2,5,0">
-                            <Label Content="Отдел" />
+                            <Label HorizontalAlignment="Left" Content="Отдел" />
                             <hc:CheckComboBox
+                                x:Name="cmbDepartments"
                                 Height="28"
+                                FontWeight="Normal"
                                 ItemsSource="{Binding Departments}"
                                 ShowClearButton="True"
                                 ShowSelectAllButton="True" />
@@ -145,9 +192,8 @@
         </StackPanel>
 
         <DataGrid
-            x:Name="UsersGrid"
+            x:Name="RequestsGrid"
             Grid.Row="1"
-            d:ItemsSource="{d:SampleData ItemCount=5}"
             hc:DataGridAttach.ShowRowNumber="False"
             hc:Empty.ShowEmpty="true"
             AutoGenerateColumns="False"
@@ -187,7 +233,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <DockPanel LastChildFill="True">
-                                <Image Margin="5" Source="{Binding Image}" />
+                                <Image Margin="5" Source="{Binding Category.ImageData, Converter={helpers:ByteArrayToImageConverter}}" />
                                 <TextBlock
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center"
@@ -247,20 +293,23 @@
                             <UniformGrid HorizontalAlignment="Center" Columns="3">
                                 <Button
                                     MinWidth="28"
-                                    Margin="2"
                                     Padding="2"
-                                    hc:IconElement.Geometry="{StaticResource CloseGeometry}"
+                                    hc:IconElement.Geometry="{StaticResource ErrorGeometry}"
+                                    Command="{Binding Path=DataContext.RemoveRequestCommand, ElementName=RequestsGrid}"
+                                    CommandParameter="{Binding}"
                                     Foreground="Red"
                                     ToolTip="Удалить" />
                                 <Button
-                                    Margin="2"
                                     Padding="2"
                                     hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
-                                    ToolTip="Обновить" />
+                                    Command="{Binding Path=DataContext.UpdateRequestCommand, ElementName=RequestsGrid}"
+                                    CommandParameter="{Binding}"
+                                    ToolTip="Изменить" />
                                 <Button
-                                    Margin="2"
                                     Padding="2"
                                     hc:IconElement.Geometry="{StaticResource SuccessGeometry}"
+                                    Command="{Binding Path=DataContext.CompleteRequestCommand, ElementName=RequestsGrid}"
+                                    CommandParameter="{Binding}"
                                     Foreground="Green"
                                     ToolTip="Завершить" />
                             </UniformGrid>
@@ -278,7 +327,7 @@
             <Label>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Кол-во записей: " />
-                    <TextBlock Text="{Binding ElementName=UsersGrid, Path=Items.Count}" />
+                    <TextBlock Text="{Binding ElementName=RequestsGrid, Path=Items.Count}" />
                 </StackPanel>
             </Label>
         </StackPanel>

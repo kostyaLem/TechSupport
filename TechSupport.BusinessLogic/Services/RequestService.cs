@@ -45,9 +45,14 @@ internal class RequestService : IRequestService
         await _context.SaveChangesAsync();
     }
 
-    public Task UpdateStatus(RequestStatus requestStatus)
+    public async Task CompleteRequest(int requestId)
     {
-        throw new NotImplementedException();
+        var request = await GetRequest(requestId);
+
+        request.Status = Domain.RequestStatus.Completed;
+        request.StatusUpdatedOn = DateTime.Now;
+
+        await _context.SaveChangesAsync();
     }
 
     private async Task<Domain.Request> GetRequest(int requestId)

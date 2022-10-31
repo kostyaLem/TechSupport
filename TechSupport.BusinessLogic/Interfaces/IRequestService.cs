@@ -7,6 +7,6 @@ public interface IRequestService
     Task<IReadOnlyList<ExtendedRequest>> GetRequests();
     Task<Request> GetRequestById(int id);
     Task Create(CreateRequest request);
-    Task UpdateStatus(RequestStatus status);
+    Task CompleteRequest(int requestId);
     Task Remove(int requestId);
 }
