@@ -9,12 +9,20 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="AppIco.ico" />
 	  <None Remove="Resources\Images\AdminImage.png" />
+	  <None Remove="Resources\Images\categories.png" />
+	  <None Remove="Resources\Images\create.png" />
+	  <None Remove="Resources\Images\departments.png" />
+	  <None Remove="Resources\Images\requests.png" />
 	  <None Remove="Resources\Images\SupportImage.png" />
+	  <None Remove="Resources\Images\users.png" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Content Include="AppIcon.ico" />
+	  <Content Include="AppIcon.ico">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -29,7 +37,12 @@
 
 	<ItemGroup>
 	  <Resource Include="Resources\Images\AdminImage.png" />
+	  <Resource Include="Resources\Images\categories.png" />
+	  <Resource Include="Resources\Images\create.png" />
+	  <Resource Include="Resources\Images\departments.png" />
+	  <Resource Include="Resources\Images\requests.png" />
 	  <Resource Include="Resources\Images\SupportImage.png" />
+	  <Resource Include="Resources\Images\users.png" />
 	</ItemGroup>
 
 </Project>

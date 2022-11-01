@@ -6,9 +6,10 @@
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="{Binding Title}"
+    Closed="Window_Closed"
+    Icon="{StaticResource IconImage}"
     ResizeMode="NoResize"
     SizeToContent="WidthAndHeight"
-    Closed="Window_Closed"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Grid>

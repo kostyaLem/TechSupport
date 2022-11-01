@@ -10,6 +10,7 @@
     Width="1000"
     Height="600"
     d:Title="Заявки технической поддержки"
+    Icon="{StaticResource IconImage}"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <hc:Window.Resources>

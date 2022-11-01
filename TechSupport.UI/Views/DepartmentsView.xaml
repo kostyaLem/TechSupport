@@ -9,6 +9,7 @@
     Title="{Binding Title}"
     Width="800"
     Height="450"
+    Icon="{StaticResource IconImage}"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <hc:Window.Resources>

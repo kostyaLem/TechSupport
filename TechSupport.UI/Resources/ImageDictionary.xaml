@@ -3,6 +3,12 @@
         <ResourceDictionary>
             <BitmapImage x:Key="SupportImage" UriSource="Images\SupportImage.png" />
             <BitmapImage x:Key="AdminImage" UriSource="Images\AdminImage.png" />
+            <BitmapImage x:Key="IconImage" UriSource="..\AppIcon.ico" />
+            <BitmapImage x:Key="CategoriesImage" UriSource="Images\categories.png" />
+            <BitmapImage x:Key="CreateRequestImage" UriSource="Images\create.png" />
+            <BitmapImage x:Key="UsersImage" UriSource="Images\users.png" />
+            <BitmapImage x:Key="DepartmentsImage" UriSource="Images\departments.png" />
+            <BitmapImage x:Key="RequestsImage" UriSource="Images\requests.png" />
         </ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

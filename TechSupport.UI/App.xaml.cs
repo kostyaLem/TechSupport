@@ -2,6 +2,7 @@
 using System;
 using System.Windows;
 using TechSupport.BusinessLogic;
+using TechSupport.BusinessLogic.Models.UserModels;
 using TechSupport.UI.Views;
 using TechSupport.UI.Views.EditableViews;
 
@@ -10,6 +11,8 @@ namespace TechSupport.UI;
 public partial class App : Application
 {
     private readonly IServiceProvider _serviceProvider;
+
+    public static CurrentUser CurrentUser { get; set; } = new CurrentUser("temp", UserType.Admin);
 
     public App()
     {
@@ -22,6 +25,7 @@ public partial class App : Application
 
         serviceCollection.AddBusinessLogicServices();
         serviceCollection.AddUIServices();
+        serviceCollection.AddViewItems();
 
         return serviceCollection.BuildServiceProvider();
     }
@@ -30,7 +34,7 @@ public partial class App : Application
     {
         base.OnStartup(e);
 
-        _serviceProvider.GetRequiredService<RequestsView>().ShowDialog();
+        _serviceProvider.GetRequiredService<MainView>().ShowDialog();
         //_serviceProvider.GetRequiredService<RequestCreationView>().ShowDialog();
     }
 }
