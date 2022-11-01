@@ -27,6 +27,7 @@ public abstract class BaseViewModel : ViewModelBase
     public async Task Execute(Func<Task> action)
     {
         IsUploading = true;
+        await Task.Delay(50);
 
         try
         {
