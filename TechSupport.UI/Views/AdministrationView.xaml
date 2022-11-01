@@ -49,7 +49,7 @@
             hc:Empty.ShowEmpty="true"
             AutoGenerateColumns="False"
             CanUserResizeColumns="False"
-            ItemsSource="{Binding UsersView, Mode=OneWay}"
+            ItemsSource="{Binding ItemsView, Mode=OneWay}"
             RowHeaderWidth="60"
             SelectedItem="{Binding SelectedUser, Mode=OneWayToSource}">
             <DataGrid.Resources>

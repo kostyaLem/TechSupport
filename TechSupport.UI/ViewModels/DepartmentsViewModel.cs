@@ -1,10 +1,8 @@
 ﻿using DevExpress.Mvvm;
-using HandyControl.Controls;
 using HandyControl.Tools.Extension;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Data;
@@ -24,20 +22,12 @@ public sealed class DepartmentsViewModel : BaseViewModel
 
     private readonly ObservableCollection<Department> _departments;
 
-    public ICollectionView DepartmentsView { get; set; }
-
     public override string Title => "Управление отделами";
 
     public Department SelectedDepartment
     {
         get => GetValue<Department>(nameof(SelectedDepartment));
         set => SetValue(value, nameof(SelectedDepartment));
-    }
-
-    public string SearchText
-    {
-        get => GetValue<string>(nameof(SearchText));
-        set => SetValue(value, () => DepartmentsView.Refresh(), nameof(SearchText));
     }
 
     public ICommand LoadViewDataCommand { get; }
@@ -56,8 +46,8 @@ public sealed class DepartmentsViewModel : BaseViewModel
         RemoveDepartmentCommand = new AsyncCommand(RemoveDepartment, () => SelectedDepartment is not null);
 
         _departments = new ObservableCollection<Department>();
-        DepartmentsView = CollectionViewSource.GetDefaultView(_departments);
-        DepartmentsView.Filter += CanFilterDepartment;
+        ItemsView = CollectionViewSource.GetDefaultView(_departments);
+        ItemsView.Filter += CanFilterDepartment;
     }
 
     private bool CanFilterDepartment(object obj)
@@ -79,62 +69,59 @@ public sealed class DepartmentsViewModel : BaseViewModel
 
     private async Task CreateDepartment()
     {
-        var departmentViewModel = new EditDepartmentViewModel();
-
-        var result = _dialogService.ShowDialog(
-            "Создание нового отдела",
-            typeof(EditDepartmentPage),
-            departmentViewModel);
-
-        if (result == Models.DialogResult.OK)
+        await Execute(async () =>
         {
-            try
+            var departmentViewModel = new EditDepartmentViewModel();
+
+            var result = _dialogService.ShowDialog(
+                "Создание нового отдела",
+                typeof(EditDepartmentPage),
+                departmentViewModel);
+
+            if (result == Models.DialogResult.OK)
             {
                 await _departmentService.Create(departmentViewModel.Department);
                 await LoadDepartments();
             }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
-        }
+        });
     }
 
     private async Task EditDepartment()
     {
-        var department = await _departmentService.GetDepartmentById(SelectedDepartment.Id);
-        var departmentViewModel = new EditDepartmentViewModel(department);
-
-        var result = _dialogService.ShowDialog(
-            "Редактирование отдела",
-            typeof(EditDepartmentPage),
-            departmentViewModel);
-
-        if (result == Models.DialogResult.OK)
+        await Execute(async () =>
         {
-            try
+            var department = await _departmentService.GetDepartmentById(SelectedDepartment.Id);
+            var departmentViewModel = new EditDepartmentViewModel(department);
+
+            var result = _dialogService.ShowDialog(
+                "Редактирование отдела",
+                typeof(EditDepartmentPage),
+                departmentViewModel);
+
+            if (result == Models.DialogResult.OK)
             {
                 await _departmentService.Update(department);
-
                 await LoadDepartments();
             }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
-        }
+        });
     }
 
     private async Task RemoveDepartment()
     {
-        await _departmentService.Remove(SelectedDepartment.Id);
+        await Execute(async () =>
+        {
+            await _departmentService.Remove(SelectedDepartment.Id);
+        });
         await LoadDepartments();
     }
 
     private async Task LoadDepartments()
     {
-        _departments.Clear();
-        var departments = await _departmentService.GetDepartments();
-        _departments.AddRange(departments);
+        await Execute(async () =>
+        {
+            _departments.Clear();
+            var departments = await _departmentService.GetDepartments();
+            _departments.AddRange(departments);
+        });
     }
 }

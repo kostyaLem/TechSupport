@@ -64,10 +64,13 @@ public sealed class RequestCreationViewModel : BaseViewModel
 
     private async Task CreateRequest()
     {
-        Request.Category = SelectedCategory.Category;
-        Request.Department = SelectedDepartment;
+        await Execute(async () =>
+        {
+            Request.Category = SelectedCategory.Category;
+            Request.Department = SelectedDepartment;
 
-        await _requestService.Create(Request.MapToCreateRequest());
+            await _requestService.Create(Request.MapToCreateRequest());
+        });
     }
 
     private void SelectCategory(IconCategory category)
@@ -77,7 +80,10 @@ public sealed class RequestCreationViewModel : BaseViewModel
 
     private async Task LoadView()
     {
-        Departments = await _departmentService.GetDepartments();
-        Categories = (await _categoryService.GetCategories()).MapToIcons();
+        await Execute(async () =>
+        {
+            Departments = await _departmentService.GetDepartments();
+            Categories = (await _categoryService.GetCategories()).MapToIcons();
+        });
     }
 }

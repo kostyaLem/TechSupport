@@ -29,7 +29,7 @@
             Background="#33000000"
             CornerRadius="10"
             Visibility="{Binding Path=IsUploading, Converter={StaticResource BoolToVisability}}">
-            <hc:LoadingCircle Style="{StaticResource LoadingCircleLight}" />
+            <hc:LoadingIndicator Style="{StaticResource LoadingIndicatorArcsStyle}" />
         </Border>
 
         <TextBlock

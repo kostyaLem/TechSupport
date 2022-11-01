@@ -30,6 +30,16 @@
             <RowDefinition Height="70" />
         </Grid.RowDefinitions>
 
+        <Border
+            Grid.RowSpan="3"
+            Panel.ZIndex="10"
+            d:Visibility="Hidden"
+            Background="#33000000"
+            CornerRadius="10"
+            Visibility="{Binding Path=IsUploading, Converter={StaticResource BoolToVisability}}">
+            <hc:LoadingIndicator Style="{StaticResource LoadingIndicatorArcsStyle}" />
+        </Border>
+
         <hc:SearchBar
             Grid.Row="0"
             Height="35"
@@ -46,7 +56,7 @@
             hc:Empty.ShowEmpty="true"
             AutoGenerateColumns="False"
             CanUserResizeColumns="False"
-            ItemsSource="{Binding DepartmentsView, Mode=OneWay}"
+            ItemsSource="{Binding ItemsView, Mode=OneWay}"
             RowHeaderWidth="60"
             SelectedItem="{Binding SelectedDepartment, Mode=OneWayToSource}">
             <DataGrid.Resources>

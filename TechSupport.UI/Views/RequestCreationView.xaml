@@ -13,6 +13,10 @@
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
 
+    <hc:Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisability" />
+    </hc:Window.Resources>
+
     <hc:Interaction.Triggers>
         <hc:EventTrigger EventName="Loaded">
             <hc:InvokeCommandAction Command="{Binding LoadViewDataCommand}" />
@@ -26,6 +30,16 @@
             <RowDefinition />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
+
+        <Border
+            Grid.RowSpan="3"
+            Panel.ZIndex="10"
+            d:Visibility="Hidden"
+            Background="#33000000"
+            CornerRadius="10"
+            Visibility="{Binding Path=IsUploading, Converter={StaticResource BoolToVisability}}">
+            <hc:LoadingIndicator Style="{StaticResource LoadingIndicatorArcsStyle}" />
+        </Border>
 
         <StackPanel Grid.Row="0">
             <Label

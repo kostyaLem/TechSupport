@@ -21,12 +21,6 @@ public sealed class AuthViewModel : BaseViewModel
         set => SetValue(value, nameof(Login));
     }
 
-    public bool IsUploading
-    {
-        get => GetValue<bool>(nameof(IsUploading));
-        set => SetValue(value, nameof(IsUploading));
-    }
-
     public ICommand LoginCommand { get; }
 
     public AuthViewModel(IAuthorizationService authSerivce)
@@ -38,7 +32,7 @@ public sealed class AuthViewModel : BaseViewModel
 
     public async Task TryLogin(object passwordControl)
     {
-        await ExecuteCommand(async () =>
+        await Execute(async () =>
         {
             var pswrdBox = (PasswordBox)passwordControl;
 
@@ -65,15 +59,5 @@ public sealed class AuthViewModel : BaseViewModel
                 MessageBox.Error(e.Message, "Внутренняя ошибка");
             }
         });
-    }
-
-    private async Task ExecuteCommand(Func<Task> action)
-    {
-        IsUploading = true;
-
-        await Task.Delay(200);
-        await action();
-
-        IsUploading = false;
     }
 }

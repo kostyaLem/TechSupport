@@ -1,10 +1,8 @@
 ﻿using DevExpress.Mvvm;
-using HandyControl.Controls;
 using HandyControl.Tools.Extension;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Data;
@@ -24,15 +22,8 @@ public sealed class AdministrationViewModel : BaseViewModel
     private readonly IWindowDialogService _dialogService;
 
     private ObservableCollection<User> _users;
-    public ICollectionView UsersView { get; }
 
     public override string Title => "Управление пользователями";
-
-    public string SearchText
-    {
-        get => GetValue<string>(nameof(SearchText));
-        set => SetValue(value, () => UsersView.Refresh(), nameof(SearchText));
-    }
 
     public User SelectedUser
     {
@@ -56,8 +47,8 @@ public sealed class AdministrationViewModel : BaseViewModel
         RemoveUserCommand = new AsyncCommand(RemoveUser, () => SelectedUser is not null);
 
         _users = new ObservableCollection<User>();
-        UsersView = CollectionViewSource.GetDefaultView(_users);
-        UsersView.Filter += CanFilterUser;
+        ItemsView = CollectionViewSource.GetDefaultView(_users);
+        ItemsView.Filter += CanFilterUser;
     }
 
     private bool CanFilterUser(object obj)
@@ -83,64 +74,62 @@ public sealed class AdministrationViewModel : BaseViewModel
 
     private async Task LoadUsers()
     {
-        _users.Clear();
-        var users = await _userService.GetUsers();
-        _users.AddRange(users);
+        await Execute(async () =>
+        {
+            _users.Clear();
+            var users = await _userService.GetUsers();
+            _users.AddRange(users);
+        });
     }
 
     private async Task CreateUser()
     {
-        var userViewModel = new EditCustomerViewModel();
-
-        var result = _dialogService.ShowDialog(
-            "Создание нового пользователя",
-            typeof(EditCustomerPage),
-            userViewModel);
-
-        if (result == Models.DialogResult.OK)
+        await Execute(async () =>
         {
-            try
+            var userViewModel = new EditCustomerViewModel();
+
+            var result = _dialogService.ShowDialog(
+                "Создание нового пользователя",
+                typeof(EditCustomerPage),
+                userViewModel);
+
+            if (result == Models.DialogResult.OK)
             {
                 var user = userViewModel.User.MapToCreateRequest(userViewModel.Password);
                 await _userService.Create(user);
 
                 await LoadUsers();
             }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
-        }
+        });
     }
 
     private async Task EditUser()
     {
-        var user = await _userService.GetUserById(SelectedUser.Id);
-        var userViewModel = new EditCustomerViewModel(user);
-
-        var result = _dialogService.ShowDialog(
-            "Редактирование пользователя",
-            typeof(EditCustomerPage),
-            userViewModel);
-
-        if (result == Models.DialogResult.OK)
+        await Execute(async () =>
         {
-            try
+            var user = await _userService.GetUserById(SelectedUser.Id);
+            var userViewModel = new EditCustomerViewModel(user);
+
+            var result = _dialogService.ShowDialog(
+                "Редактирование пользователя",
+                typeof(EditCustomerPage),
+                userViewModel);
+
+            if (result == Models.DialogResult.OK)
             {
                 await _userService.Update(userViewModel.User, userViewModel.Password);
 
                 await LoadUsers();
             }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
-        }
+        });
     }
 
     private async Task RemoveUser()
     {
-        await _userService.Remove(SelectedUser.Id);
-        await LoadUsers();
+        await Execute(async () =>
+        {
+            await _userService.Remove(SelectedUser.Id);
+            await LoadUsers();
+        });
     }
 }

@@ -1,14 +1,11 @@
 ﻿using DevExpress.Mvvm;
-using HandyControl.Controls;
 using HandyControl.Tools.Extension;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using TechSupport.BusinessLogic.Interfaces;
@@ -17,7 +14,6 @@ using TechSupport.BusinessLogic.Models.RequestModels;
 using TechSupport.BusinessLogic.Models.UserModels;
 using TechSupport.UI.Mapping;
 using TechSupport.UI.Models;
-using MessageBox = HandyControl.Controls.MessageBox;
 
 namespace TechSupport.UI.ViewModels;
 
@@ -29,15 +25,8 @@ public sealed partial class RequestsViewModel : BaseViewModel
     private readonly IUserService _userService;
 
     private ObservableCollection<ExtendedRequest> _requests;
-    public ICollectionView RequestsView { get; }
 
     public override string Title => "Заявки технической поддержки";
-
-    public bool IsUploading
-    {
-        get => GetValue<bool>(nameof(IsUploading));
-        set => SetValue(value, nameof(IsUploading));
-    }
 
     #region Search bars
 
@@ -48,12 +37,6 @@ public sealed partial class RequestsViewModel : BaseViewModel
         new StrRequestStatus(RequestStatus.Paused),
         new StrRequestStatus(RequestStatus.Completed),
     };
-
-    public string SearchText
-    {
-        get => GetValue<string>(nameof(SearchText));
-        set => SetValue(value, () => RequestsView.Refresh(), nameof(SearchText));
-    }
 
     public IReadOnlyList<IconCategory> Categories
     {
@@ -99,30 +82,21 @@ public sealed partial class RequestsViewModel : BaseViewModel
 
         _requests = new ObservableCollection<ExtendedRequest>();
         LoadViewDataCommand = new AsyncCommand(LoadView);
-        RequestsView = CollectionViewSource.GetDefaultView(_requests);
+        ItemsView = CollectionViewSource.GetDefaultView(_requests);
 
         SearchText = string.Empty;
     }
 
     private async Task LoadView()
     {
-        try
+        await Execute(async () =>
         {
-            IsUploading = true;
             _requests.Clear();
             _requests.AddRange(await _requestService.GetRequests());
             Departments = await _departmentService.GetDepartments();
             Categories = (await _categoryService.GetCategories()).MapToIcons();
             Users = await _userService.GetUsers();
-        }
-        catch (Exception e)
-        {
-            MessageBox.Show(e.Message);
-        }
-        finally
-        {
-            IsUploading = false;
-        }
+        });
     }
 
     private bool CanTerminateRequest(ExtendedRequest er)
@@ -130,8 +104,11 @@ public sealed partial class RequestsViewModel : BaseViewModel
 
     private async Task RemoveRequest(ExtendedRequest extendedRequest)
     {
-        await _requestService.Remove(extendedRequest.Id);
-        _requests.Remove(extendedRequest);
+        await Execute(async () =>
+        {
+            await _requestService.Remove(extendedRequest.Id);
+            _requests.Remove(extendedRequest);
+        });
     }
 
     private async Task EditRequest(ExtendedRequest extendedRequest)
@@ -141,7 +118,7 @@ public sealed partial class RequestsViewModel : BaseViewModel
 
     private async Task SearchRequests(RequestFilter filter)
     {
-        RequestsView.Filter = x =>
+        ItemsView.Filter = x =>
         {
             var request = x as ExtendedRequest;
 
@@ -180,7 +157,7 @@ public sealed partial class RequestsViewModel : BaseViewModel
             return isValid;
         };
 
-        RequestsView.Refresh();
+        ItemsView.Refresh();
     }
 
     private async Task ClearSearchFilter(IList[] boxes)
@@ -197,7 +174,9 @@ public sealed partial class RequestsViewModel : BaseViewModel
 
     private async Task CompleteRequest(ExtendedRequest extendedRequest)
     {
-        await _requestService.CompleteRequest(extendedRequest.Id);
-        RaisePropertiesChanged(nameof(extendedRequest.RequestStatus));
+        await Execute(async () =>
+        {
+            await _requestService.CompleteRequest(extendedRequest.Id);
+        });
     }
 }

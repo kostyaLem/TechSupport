@@ -37,7 +37,7 @@
             Background="#33000000"
             CornerRadius="10"
             Visibility="{Binding Path=IsUploading, Converter={StaticResource BoolToVisability}}">
-            <hc:LoadingCircle Style="{StaticResource LoadingCircleLight}" />
+            <hc:LoadingIndicator Style="{StaticResource LoadingIndicatorArcsStyle}" />
         </Border>
 
         <StackPanel>
@@ -85,7 +85,8 @@
                         Height="30"
                         hc:InfoElement.Placeholder="Название / Описание"
                         hc:InfoElement.ShowClearButton="True"
-                        FontWeight="Normal" />
+                        FontWeight="Normal"
+                        Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 </DockPanel>
             </GroupBox>
 
@@ -209,7 +210,7 @@
             hc:Empty.ShowEmpty="true"
             AutoGenerateColumns="False"
             CanUserResizeColumns="False"
-            ItemsSource="{Binding RequestsView}"
+            ItemsSource="{Binding ItemsView}"
             RowHeight="50">
             <DataGrid.Resources>
                 <Style TargetType="TextBlock">

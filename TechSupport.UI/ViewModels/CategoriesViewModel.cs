@@ -1,11 +1,9 @@
 ﻿using DevExpress.Mvvm;
-using HandyControl.Controls;
 using HandyControl.Tools.Extension;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,8 +23,6 @@ public sealed class CategoriesViewModel : BaseViewModel
 
     private readonly ObservableCollection<IconCategory> _categories;
 
-    public ICollectionView CategoriesView { get; set; }
-
     public override string Title => "Управление категориями";
 
     public IconCategory SelectedCategory
@@ -39,12 +35,6 @@ public sealed class CategoriesViewModel : BaseViewModel
     {
         get => GetValue<BitmapImage>(nameof(SelectedImage));
         set => SetValue(value, nameof(SelectedImage));
-    }
-
-    public string SearchText
-    {
-        get => GetValue<string>(nameof(SearchText));
-        set => SetValue(value, () => CategoriesView.Refresh(), nameof(SearchText));
     }
 
     public ICommand LoadViewDataCommand { get; }
@@ -65,11 +55,11 @@ public sealed class CategoriesViewModel : BaseViewModel
         RemoveCategoryCommand = new AsyncCommand(RemoveCategory, () => SelectedCategory is not null);
 
         RemoveImageCommand = new DelegateCommand(RemoveImage);
-        UpdateImageCommand = new DelegateCommand(UpdateImage);
+        UpdateImageCommand = new AsyncCommand(UpdateImage);
 
         _categories = new ObservableCollection<IconCategory>();
-        CategoriesView = CollectionViewSource.GetDefaultView(_categories);
-        CategoriesView.Filter += CanFilterCategory;
+        ItemsView = CollectionViewSource.GetDefaultView(_categories);
+        ItemsView.Filter += CanFilterCategory;
     }
 
     private bool CanFilterCategory(object obj)
@@ -90,39 +80,44 @@ public sealed class CategoriesViewModel : BaseViewModel
 
     public async Task CreateCategory()
     {
-        try
+        await Execute(async () =>
         {
             await _categoryService.CreateEmpty();
             await LoadCategoories();
-        }
-        catch (Exception e)
-        {
-            MessageBox.Show(e.Message);
-        }
+        });
     }
 
     public async Task UpdateCategory()
     {
-        var category = SelectedCategory.Category.Recreate(SelectedImage);
+        await Execute(async () =>
+        {
+            var category = SelectedCategory.Category.Recreate(SelectedImage);
 
-        await _categoryService.Update(category);
+            await _categoryService.Update(category);
+        });
 
         await LoadCategoories();
     }
 
     public async Task RemoveCategory()
     {
-        await _categoryService.Remove(SelectedCategory.Category.Id);
-        await LoadCategoories();
+        await Execute(async () =>
+        {
+            await _categoryService.Remove(SelectedCategory.Category.Id);
+            await LoadCategoories();
+        });
     }
 
     private async Task LoadCategoories()
     {
-        _categories.Clear();
+        await Execute(async () =>
+        {
+            _categories.Clear();
 
-        var categories = await _categoryService.GetCategories();
+            var categories = await _categoryService.GetCategories();
 
-        _categories.AddRange(categories.MapToIcons());
+            _categories.AddRange(categories.MapToIcons());
+        });
     }
 
     private void RemoveImage()
@@ -130,15 +125,20 @@ public sealed class CategoriesViewModel : BaseViewModel
         SelectedImage = null;
     }
 
-    private void UpdateImage()
+    private async Task UpdateImage()
     {
-        var dialog = new OpenFileDialog();
-        dialog.Filter = "PNG (*.png)|*.png";
-        var result = dialog.ShowDialog();
-
-        if (result.HasValue && result.Value)
+        await Execute(async () =>
         {
-            SelectedImage = ImageHelper.LoadImage(File.ReadAllBytes(dialog.FileName));
-        }
+            var dialog = new OpenFileDialog();
+            dialog.Filter = "PNG (*.png)|*.png";
+            var result = dialog.ShowDialog();
+
+            await Task.CompletedTask;
+
+            if (result.HasValue && result.Value)
+            {
+                SelectedImage = ImageHelper.LoadImage(File.ReadAllBytes(dialog.FileName));
+            }
+        });
     }
 }
