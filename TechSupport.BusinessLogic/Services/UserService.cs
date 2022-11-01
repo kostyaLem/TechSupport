@@ -73,7 +73,7 @@ internal class UserService : IUserService
 
         if (!string.IsNullOrWhiteSpace(passwordHash))
         {
-            existingUser.PasswordHash = passwordHash;
+            existingUser.PasswordHash = PasswordGenerator.Generate(passwordHash);
         }
 
         await _context.SaveChangesAsync();

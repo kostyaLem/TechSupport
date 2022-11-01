@@ -32,7 +32,10 @@
             <TextBox Text="{Binding User.Login}" />
 
             <Label Content="Пароль" />
-            <hc:PasswordBox IsSafeEnabled="False" UnsafePassword="{Binding Password}" />
+            <hc:PasswordBox
+                IsSafeEnabled="False"
+                ShowEyeButton="True"
+                UnsafePassword="{Binding Password}" />
 
             <Label Content="Тип пользователя" />
             <hc:ComboBox ItemsSource="{Binding UserTypes}" SelectedItem="{Binding User.UserType}">

@@ -3,6 +3,7 @@ using TechSupport.BusinessLogic.Interfaces;
 using TechSupport.BusinessLogic.Models.UserModels;
 using TechSupport.DataAccess.Context;
 using TechSupport.BusinessLogic.Mapping;
+using Microsoft.EntityFrameworkCore;
 
 namespace TechSupport.BusinessLogic.Services;
 
@@ -19,7 +20,7 @@ internal class AuthorizationService : IAuthorizationService
     {
         var passwordHash = PasswordGenerator.Generate(password);
 
-        var user = await _context.Users.FindAsync(nickname);
+        var user = await _context.Users.FirstOrDefaultAsync(x => x.Login == nickname);
 
         if (user is null)
         {

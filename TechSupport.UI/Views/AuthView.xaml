@@ -20,7 +20,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="70" />
             <RowDefinition />
-            <RowDefinition Height="65" />
+            <RowDefinition Height="60" />
         </Grid.RowDefinitions>
 
         <Border
@@ -52,7 +52,7 @@
 
         <Grid
             Grid.Row="1"
-            Margin="20,15"
+            Margin="20,15,20,5"
             VerticalAlignment="Center">
             <Grid.RowDefinitions>
                 <RowDefinition />

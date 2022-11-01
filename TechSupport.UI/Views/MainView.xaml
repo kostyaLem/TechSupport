@@ -26,51 +26,52 @@
             FontSize="24"
             FontWeight="DemiBold" />
 
-        <ItemsControl
-            Grid.Row="1"
-            HorizontalAlignment="Center"
-            ItemsSource="{Binding ItemsView}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
+        <hc:ScrollViewer Grid.Row="1">
 
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <hc:Card
-                        Width="180"
-                        Height="180"
-                        Margin="10"
-                        BorderThickness="0"
-                        Effect="{DynamicResource EffectShadow4}">
-                        <Border CornerRadius="4,4,0,0">
-                            <Image
-                                Margin="15"
-                                Source="{Binding ImageName, Converter={helpers:NameToImageConverter}}"
-                                Stretch="Uniform" />
-                        </Border>
-                        <hc:Card.Footer>
-                            <StackPanel Margin="10">
-                                <TextBlock
-                                    HorizontalAlignment="Left"
-                                    FontWeight="Bold"
-                                    Text="{Binding Title}"
-                                    TextTrimming="CharacterEllipsis"
-                                    TextWrapping="Wrap" />
-                                <TextBlock
-                                    Margin="0,6,0,0"
-                                    HorizontalAlignment="Left"
-                                    Style="{DynamicResource TextBlockDefault}"
-                                    Text="{Binding Description}"
-                                    TextTrimming="CharacterEllipsis"
-                                    TextWrapping="Wrap" />
-                            </StackPanel>
-                        </hc:Card.Footer>
-                    </hc:Card>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
+            <ItemsControl HorizontalAlignment="Center" ItemsSource="{Binding ItemsView}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
 
-        </ItemsControl>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <hc:Card
+                            Width="180"
+                            Height="180"
+                            Margin="10"
+                            BorderThickness="0"
+                            Effect="{DynamicResource EffectShadow4}">
+                            <Border CornerRadius="4,4,0,0">
+                                <Image
+                                    Margin="15"
+                                    Source="{Binding ImageName, Converter={helpers:NameToImageConverter}}"
+                                    Stretch="Uniform" />
+                            </Border>
+                            <hc:Card.Footer>
+                                <StackPanel Margin="10">
+                                    <TextBlock
+                                        HorizontalAlignment="Left"
+                                        FontWeight="Bold"
+                                        Text="{Binding Title}"
+                                        TextTrimming="CharacterEllipsis"
+                                        TextWrapping="Wrap" />
+                                    <TextBlock
+                                        Margin="0,6,0,0"
+                                        HorizontalAlignment="Left"
+                                        Style="{DynamicResource TextBlockDefault}"
+                                        Text="{Binding Description}"
+                                        TextTrimming="CharacterEllipsis"
+                                        TextWrapping="Wrap" />
+                                </StackPanel>
+                            </hc:Card.Footer>
+                        </hc:Card>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+
+            </ItemsControl>
+
+        </hc:ScrollViewer>
     </Grid>
 </hc:Window>
