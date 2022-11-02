@@ -19,15 +19,15 @@ public static class Configuration
 
         serviceCollection.Remove(new ServiceDescriptor(typeof(MainViewModel), typeof(MainViewModel), ServiceLifetime.Singleton));
 
-        serviceCollection.AddTransient<MainViewModel>(x =>
+        serviceCollection.AddTransient<MainViewModel>(sp =>
         {
-            var viewItems = x.GetServices<ViewItem>();
+            var viewItems = sp.GetServices<ViewItem>();
 
             viewItems = App.CurrentUser.UserType != UserType.Admin
                 ? viewItems.Where(x => x.IsProtected == false)
                 : viewItems;
 
-            return new MainViewModel(viewItems.ToArray());
+            return new MainViewModel(viewItems.ToArray(), sp);
         });
 
         serviceCollection.AddTransient<IWindowDialogService, WindowDialogService>();

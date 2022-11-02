@@ -9,6 +9,11 @@
             <BitmapImage x:Key="UsersImage" UriSource="Images\users.png" />
             <BitmapImage x:Key="DepartmentsImage" UriSource="Images\departments.png" />
             <BitmapImage x:Key="RequestsImage" UriSource="Images\requests.png" />
+
+            <BitmapImage x:Key="ConfigImage" UriSource="Images\config.png" />
+            <BitmapImage x:Key="GoImage" UriSource="Images\go.png" />
+            <BitmapImage x:Key="RemoveImage" UriSource="Images\remove.png" />
+            <BitmapImage x:Key="CompleteImage" UriSource="Images\complete.png" />
         </ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

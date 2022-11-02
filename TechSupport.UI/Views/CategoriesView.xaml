@@ -85,7 +85,7 @@
 
                             <Image
                                 Grid.Column="0"
-                                Margin="3"
+                                Margin="6"
                                 Source="{Binding Image}"
                                 Stretch="UniformToFill" />
                             <TextBlock

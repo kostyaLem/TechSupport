@@ -42,7 +42,34 @@
                             Height="180"
                             Margin="10"
                             BorderThickness="0"
-                            Effect="{DynamicResource EffectShadow4}">
+                            ToolTip="Открыть">
+
+                            <hc:Interaction.Triggers>
+                                <hc:EventTrigger EventName="MouseUp">
+                                    <hc:InvokeCommandAction Command="{Binding Path=DataContext.OpenViewCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=hc:Window}}" 
+                                                            CommandParameter="{Binding Path=DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=hc:Card}}" />
+                                </hc:EventTrigger>
+                            </hc:Interaction.Triggers>
+
+                            <hc:Card.Style>
+                                <Style BasedOn="{StaticResource {x:Type hc:Card}}" TargetType="hc:Card">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Cursor" Value="Hand" />
+                                            <Setter Property="Effect">
+                                                <Setter.Value>
+                                                    <DropShadowEffect
+                                                        BlurRadius="15"
+                                                        Opacity="0.2"
+                                                        ShadowDepth="8"
+                                                        Color="MediumSeaGreen" />
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </hc:Card.Style>
+
                             <Border CornerRadius="4,4,0,0">
                                 <Image
                                     Margin="15"
