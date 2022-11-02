@@ -50,11 +50,9 @@
                 <DockPanel LastChildFill="True">
                     <Button
                         VerticalAlignment="Stretch"
-                        hc:IconElement.Geometry="{StaticResource ErrorGeometry}"
                         Command="{Binding ClearSearchFilterCommand}"
                         DockPanel.Dock="Right"
                         FontWeight="Normal"
-                        Foreground="Red"
                         ToolTip="Очистить фильтр">
                         <Button.CommandParameter>
                             <MultiBinding Converter="{helpers:ClearFilterConverter}">
@@ -64,6 +62,7 @@
                                 <Binding ElementName="cmbStatuses" Path="SelectedItems" />
                             </MultiBinding>
                         </Button.CommandParameter>
+                        <Image Source="{StaticResource RemoveImage}" />
                     </Button>
                     <Button
                         Margin="5,0"
@@ -308,26 +307,27 @@
                                     MinWidth="28"
                                     Margin="2,0"
                                     Padding="2"
-                                    hc:IconElement.Geometry="{StaticResource ErrorGeometry}"
                                     Command="{Binding Path=DataContext.RemoveRequestCommand, ElementName=RequestsGrid}"
                                     CommandParameter="{Binding}"
-                                    Foreground="Red"
-                                    ToolTip="Удалить" />
+                                    ToolTip="Удалить">
+                                    <Image Source="{StaticResource RemoveImage}" />
+                                </Button>
                                 <Button
                                     Margin="2,0"
                                     Padding="2"
-                                    hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
                                     Command="{Binding Path=DataContext.UpdateRequestCommand, ElementName=RequestsGrid}"
                                     CommandParameter="{Binding}"
-                                    ToolTip="Изменить" />
+                                    ToolTip="Изменить">
+                                    <Image Source="{StaticResource ConfigImage}" />
+                                </Button>
                                 <Button
                                     Margin="2,0"
                                     Padding="2"
-                                    hc:IconElement.Geometry="{StaticResource SuccessGeometry}"
                                     Command="{Binding Path=DataContext.CompleteRequestCommand, ElementName=RequestsGrid}"
                                     CommandParameter="{Binding}"
-                                    Foreground="Green"
-                                    ToolTip="Завершить" />
+                                    ToolTip="Завершить">
+                                    <Image Source="{StaticResource CompleteImage}" />
+                                </Button>
                             </UniformGrid>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

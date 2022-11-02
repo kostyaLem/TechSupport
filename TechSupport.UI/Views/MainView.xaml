@@ -13,12 +13,24 @@
     SizeToContent="Width"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisability" />
+    </Window.Resources>
     <Grid Margin="15">
-
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+
+        <Border
+            Grid.RowSpan="2"
+            Panel.ZIndex="10"
+            d:Visibility="Hidden"
+            Background="#33000000"
+            CornerRadius="10"
+            Visibility="{Binding Path=IsUploading, Converter={StaticResource BoolToVisability}}">
+            <hc:LoadingIndicator Style="{StaticResource LoadingIndicatorArcsStyle}" />
+        </Border>
 
         <Label
             Margin="0,10"
@@ -46,8 +58,7 @@
 
                             <hc:Interaction.Triggers>
                                 <hc:EventTrigger EventName="MouseUp">
-                                    <hc:InvokeCommandAction Command="{Binding Path=DataContext.OpenViewCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=hc:Window}}" 
-                                                            CommandParameter="{Binding Path=DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=hc:Card}}" />
+                                    <hc:InvokeCommandAction Command="{Binding Path=DataContext.OpenViewCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=hc:Window}}" CommandParameter="{Binding Path=DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=hc:Card}}" />
                                 </hc:EventTrigger>
                             </hc:Interaction.Triggers>
 

@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:um="clr-namespace:TechSupport.BusinessLogic.Models.UserModels;assembly=TechSupport.BusinessLogic"
     Title="{Binding Title}"
-    Width="950"
+    Width="1000"
     Height="450"
     MinWidth="800"
     MinHeight="400"
@@ -33,6 +33,16 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="70" />
         </Grid.RowDefinitions>
+
+        <Border
+            Grid.RowSpan="3"
+            Panel.ZIndex="10"
+            d:Visibility="Hidden"
+            Background="#33000000"
+            CornerRadius="10"
+            Visibility="{Binding Path=IsUploading, Converter={StaticResource BoolToVisability}}">
+            <hc:LoadingIndicator Style="{StaticResource LoadingIndicatorArcsStyle}" />
+        </Border>
 
         <hc:SearchBar
             Grid.Row="0"

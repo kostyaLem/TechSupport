@@ -29,9 +29,13 @@ public class MainViewModel : BaseViewModel
 
     private void OpenView(ViewItem viewItem)
     {
+        IsUploading = true;
+
         App.Current.MainWindow.Visibility = System.Windows.Visibility.Hidden;
         var view = _serviceProvider.GetRequiredService(viewItem.ViewType) as Window;
         view.ShowDialog();
+
+        IsUploading = false;
         App.Current.MainWindow.Visibility = System.Windows.Visibility.Visible;
     }
 }

@@ -17,7 +17,7 @@ internal static class IocExtensions
             .Where(x => IsViewModel(x) || IsView(x))
             .ToList();
 
-        viewModels.ForEach(vm => services.AddSingleton(vm));
+        viewModels.ForEach(vm => services.AddTransient(vm));
     }
 
     public static void SetupPages(this IServiceCollection services)

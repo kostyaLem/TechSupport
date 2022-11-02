@@ -33,7 +33,6 @@ public partial class App : Application
     {
         base.OnStartup(e);
 
-        _serviceProvider.GetRequiredService<MainView>().ShowDialog();
-        //_serviceProvider.GetRequiredService<ma>().ShowDialog();
+        _serviceProvider.GetRequiredService<AuthView>().ShowDialog();
     }
 }
