@@ -11,6 +11,7 @@ internal static class RequestMapping
             Title = request.Title,
             DepartmentId = request.DepartmentId,
             CreatedOn = DateTime.Now,
+            StatusUpdatedOn = DateTime.Now,
             Description = request.Description,
             Computer = request.Computer,
             Status = Domain.RequestStatus.Created,
@@ -56,6 +57,16 @@ internal static class RequestMapping
             Domain.RequestStatus.InProgress => RequestStatus.InProgress,
             Domain.RequestStatus.Paused => RequestStatus.Paused,
             Domain.RequestStatus.Completed => RequestStatus.Completed,
+            _ => throw new Exception("Не удалось преобразовать статус заявки.")
+        };
+
+    public static Domain.RequestStatus ToDomain(this RequestStatus status)
+        => status switch
+        {
+            RequestStatus.Created => Domain.RequestStatus.Created,
+            RequestStatus.InProgress => Domain.RequestStatus.InProgress,
+            RequestStatus.Paused => Domain.RequestStatus.Paused,
+            RequestStatus.Completed => Domain.RequestStatus.Completed,
             _ => throw new Exception("Не удалось преобразовать статус заявки.")
         };
 }

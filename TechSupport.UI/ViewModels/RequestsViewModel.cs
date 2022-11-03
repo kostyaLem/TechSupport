@@ -14,11 +14,15 @@ using TechSupport.BusinessLogic.Models.RequestModels;
 using TechSupport.BusinessLogic.Models.UserModels;
 using TechSupport.UI.Mapping;
 using TechSupport.UI.Models;
+using TechSupport.UI.Services;
+using TechSupport.UI.ViewModels.EditViewModels;
+using TechSupport.UI.Views.EditableViews;
 
 namespace TechSupport.UI.ViewModels;
 
 public sealed partial class RequestsViewModel : BaseViewModel
 {
+    private readonly IWindowDialogService _dialogService;
     private readonly IRequestService _requestService;
     private readonly ICategoryService _categoryService;
     private readonly IDepartmentService _departmentService;
@@ -64,18 +68,20 @@ public sealed partial class RequestsViewModel : BaseViewModel
     public ICommand CompleteRequestCommand { get; }
 
     public RequestsViewModel(
+        IWindowDialogService dialogService,
         IRequestService requestService,
         ICategoryService categoryService,
         IDepartmentService departmentService,
         IUserService userService)
     {
+        _dialogService = dialogService;
         _requestService = requestService;
         _categoryService = categoryService;
         _departmentService = departmentService;
         _userService = userService;
 
         RemoveRequestCommand = new AsyncCommand<ExtendedRequest>(RemoveRequest, CanTerminateRequest);
-        UpdateRequestCommand = new AsyncCommand<ExtendedRequest>(EditRequest, CanTerminateRequest);
+        UpdateRequestCommand = new AsyncCommand<ExtendedRequest>(UodateRequest, CanTerminateRequest);
         SearchRequestsCommand = new AsyncCommand<RequestFilter>(SearchRequests);
         ClearSearchFilterCommand = new AsyncCommand<IList[]>(ClearSearchFilter);
         CompleteRequestCommand = new AsyncCommand<ExtendedRequest>(CompleteRequest, CanTerminateRequest);
@@ -111,9 +117,26 @@ public sealed partial class RequestsViewModel : BaseViewModel
         });
     }
 
-    private async Task EditRequest(ExtendedRequest extendedRequest)
+    private async Task UodateRequest(ExtendedRequest extendedRequest)
     {
-        await Task.CompletedTask;
+        await Execute(async () =>
+        {
+            var requestViewModel = new EditRequestViewModel(
+                extendedRequest,
+                _categoryService,
+                _departmentService,
+                _userService);
+
+            var result = _dialogService.ShowDialog(
+                "Редактирование заявки",
+                typeof(EditRequestPage),
+                requestViewModel);
+
+            if (result == Models.DialogResult.OK)
+            {
+                await _requestService.Update(requestViewModel.Request);
+            }
+        });
     }
 
     private async Task SearchRequests(RequestFilter filter)

@@ -1,6 +1,7 @@
-﻿using System.Windows.Data;
+﻿using System.Collections.Generic;
+using System.Windows.Data;
 using TechSupport.BusinessLogic.Models.RequestModels;
-using TechSupport.UI.Helpers;
+using TechSupport.UI.Converters;
 
 namespace TechSupport.UI.ViewModels;
 
@@ -8,7 +9,7 @@ public sealed partial class RequestsViewModel
 {
     public record StrRequestStatus
     {
-        private static readonly IValueConverter _converter = new EnumDescriptionConverter();
+        private static readonly IValueConverter _converter = new EnumToDescriptionConverter();
 
         public StrRequestStatus(RequestStatus requestStatus)
         {

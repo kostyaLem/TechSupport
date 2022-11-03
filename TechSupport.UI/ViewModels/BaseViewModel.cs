@@ -8,7 +8,7 @@ namespace TechSupport.UI.ViewModels;
 
 public abstract class BaseViewModel : ViewModelBase
 {
-    public abstract string Title { get; }
+    public virtual string Title { get; }
 
     public ICollectionView ItemsView { get; protected set; }
 

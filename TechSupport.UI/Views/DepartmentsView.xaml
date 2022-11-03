@@ -12,10 +12,6 @@
     Icon="{StaticResource IconImage}"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
-    <hc:Window.Resources>
-        <BooleanToVisibilityConverter x:Key="BoolToVisability" />
-        <dxmvvm:NumericToBooleanConverter x:Key="NumericToBooleanConverter" />
-    </hc:Window.Resources>
 
     <hc:Interaction.Triggers>
         <hc:EventTrigger EventName="Loaded">
@@ -37,7 +33,7 @@
             d:Visibility="Hidden"
             Background="#33000000"
             CornerRadius="10"
-            Visibility="{Binding Path=IsUploading, Converter={StaticResource BoolToVisability}}">
+            Visibility="{Binding Path=IsUploading, Converter={dxmvvm:BooleanToVisibilityConverter}}">
             <hc:LoadingIndicator Style="{StaticResource LoadingIndicatorArcsStyle}" />
         </Border>
 
@@ -119,14 +115,14 @@
                     Command="{Binding RemoveDepartmentCommand}"
                     CommandParameter="{Binding ElementName=DepartmentsGrid, Path=SelectedItems}"
                     Content="Удалить"
-                    IsEnabled="{Binding ElementName=DepartmentsGrid, Path=SelectedItems.Count, Converter={StaticResource NumericToBooleanConverter}}"
+                    IsEnabled="{Binding ElementName=DepartmentsGrid, Path=SelectedItems.Count, Converter={dxmvvm:NumericToBooleanConverter}}"
                     Style="{StaticResource ButtonDanger}" />
                 <Button
                     Margin="5"
                     Command="{Binding EditDepartmentCommand}"
                     CommandParameter="{Binding ElementName=DepartmentsGrid, Path=SelectedItems}"
                     Content="Редактировать"
-                    IsEnabled="{Binding ElementName=DepartmentsGrid, Path=SelectedItems.Count, Converter={StaticResource NumericToBooleanConverter}}"
+                    IsEnabled="{Binding ElementName=DepartmentsGrid, Path=SelectedItems.Count, Converter={dxmvvm:NumericToBooleanConverter}}"
                     Style="{StaticResource ButtonWarning}" />
                 <Button
                     Margin="5"

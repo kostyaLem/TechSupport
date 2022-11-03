@@ -3,10 +3,11 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Reflection;
 using System.Windows.Data;
+using System.Windows.Markup;
 
-namespace TechSupport.UI.Helpers;
+namespace TechSupport.UI.Converters;
 
-public class EnumDescriptionConverter : IValueConverter
+public class EnumToDescriptionConverter : MarkupExtension, IValueConverter
 {
     private string GetEnumDescription(Enum enumObj)
     {
@@ -36,4 +37,7 @@ public class EnumDescriptionConverter : IValueConverter
     {
         return string.Empty;
     }
+
+    public override object ProvideValue(IServiceProvider serviceProvider)
+        => this;
 }

@@ -66,4 +66,25 @@ internal class RequestService : IRequestService
 
         return request;
     }
+
+    public async Task Update(ExtendedRequest updateRequest)
+    {
+        var request = await GetRequest(updateRequest.Id);
+
+        request.Title = updateRequest.Title;
+        request.Description = updateRequest.Description;
+        request.Computer = updateRequest.Computer;
+        request.UserId = updateRequest.User.Id;
+        request.DepartmentId = updateRequest.Department.Id;
+        request.RequestCategoryId = updateRequest.Category.Id;
+
+        var status = updateRequest.RequestStatus.ToDomain();
+        if (request.Status != status)
+        {
+            request.Status = status;
+            request.StatusUpdatedOn = DateTime.Now;
+        }
+
+        await _context.SaveChangesAsync();
+    }
 }

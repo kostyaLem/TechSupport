@@ -5,12 +5,9 @@ using System.Globalization;
 using System.Linq;
 using System.Windows.Data;
 using System.Windows.Markup;
-using TechSupport.BusinessLogic.Models;
-using TechSupport.BusinessLogic.Models.RequestModels;
-using TechSupport.BusinessLogic.Models.UserModels;
 using TechSupport.UI.Models;
 
-namespace TechSupport.UI.Helpers;
+namespace TechSupport.UI.Converters;
 
 public class ClearFilterConverter : MarkupExtension, IMultiValueConverter
 {
@@ -45,5 +42,6 @@ public class SearchDataToFilterRequestConverter : MarkupExtension, IMultiValueCo
         throw new NotImplementedException();
     }
 
-    public override object ProvideValue(IServiceProvider serviceProvider) => this;
+    public override object ProvideValue(IServiceProvider serviceProvider)
+        => this;
 }

@@ -2,7 +2,9 @@
     x:Class="TechSupport.UI.Views.RequestsView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:TechSupport.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:helpers="clr-namespace:TechSupport.UI.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -13,10 +15,6 @@
     Icon="{StaticResource IconImage}"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
-    <hc:Window.Resources>
-        <helpers:EnumDescriptionConverter x:Key="enumDescriptionConverter" />
-        <BooleanToVisibilityConverter x:Key="BoolToVisability" />
-    </hc:Window.Resources>
 
     <hc:Interaction.Triggers>
         <hc:EventTrigger EventName="Loaded">
@@ -37,7 +35,7 @@
             d:Visibility="Hidden"
             Background="#33000000"
             CornerRadius="10"
-            Visibility="{Binding Path=IsUploading, Converter={StaticResource BoolToVisability}}">
+            Visibility="{Binding Path=IsUploading, Converter={dxmvvm:BooleanToVisibilityConverter}}">
             <hc:LoadingIndicator Style="{StaticResource LoadingIndicatorArcsStyle}" />
         </Border>
 
@@ -55,7 +53,7 @@
                         FontWeight="Normal"
                         ToolTip="Очистить фильтр">
                         <Button.CommandParameter>
-                            <MultiBinding Converter="{helpers:ClearFilterConverter}">
+                            <MultiBinding Converter="{converters:ClearFilterConverter}">
                                 <Binding ElementName="cmbUsers" Path="SelectedItems" />
                                 <Binding ElementName="cmbCategories" Path="SelectedItems" />
                                 <Binding ElementName="cmbDepartments" Path="SelectedItems" />
@@ -73,7 +71,7 @@
                         DockPanel.Dock="Right"
                         FontWeight="Normal">
                         <Button.CommandParameter>
-                            <MultiBinding Converter="{helpers:SearchDataToFilterRequestConverter}">
+                            <MultiBinding Converter="{converters:SearchDataToFilterRequestConverter}">
                                 <Binding ElementName="cmbUsers" />
                                 <Binding ElementName="cmbCategories" />
                                 <Binding ElementName="cmbDepartments" />
@@ -150,7 +148,7 @@
                                 ShowSelectAllButton="True">
                                 <hc:CheckComboBox.ItemTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding RequestStatus, Converter={StaticResource enumDescriptionConverter}}" />
+                                        <TextBlock Text="{Binding RequestStatus, Converter={converters:EnumToDescriptionConverter}}" />
                                     </DataTemplate>
                                 </hc:CheckComboBox.ItemTemplate>
 
@@ -245,7 +243,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <DockPanel LastChildFill="True">
-                                <Image Margin="5" Source="{Binding Category.ImageData, Converter={helpers:ByteArrayToImageConverter}}" />
+                                <Image Margin="5" Source="{Binding Category.ImageData, Converter={converters:ByteArrayToImageConverter}}" />
                                 <TextBlock
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center"
@@ -285,7 +283,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock TextWrapping="WrapWithOverflow">
-                                <Run Text="{Binding RequestStatus, Converter={StaticResource enumDescriptionConverter}}" />
+                                <Run Text="{Binding RequestStatus, Converter={converters:EnumToDescriptionConverter}}" />
                                 <LineBreak />
                                 <Run
                                     FontSize="12"

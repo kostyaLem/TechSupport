@@ -2,26 +2,28 @@
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Markup;
+using System.Windows.Media.Imaging;
 
-namespace TechSupport.UI.Helpers;
+namespace TechSupport.UI.Converters;
 
-public class ByteArrayToImageConverter : MarkupExtension, IValueConverter
+internal class NameToImageConverter : MarkupExtension, IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (value is byte[] data)
+        if (string.IsNullOrWhiteSpace(value as string))
         {
-            return ImageHelper.LoadImage(data);
+            return null;
         }
 
-        return null;
+        var imageName = value.ToString();
+        return System.Windows.Application.Current.FindResource(imageName) as BitmapImage;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
         throw new NotImplementedException();
     }
-    
+
     public override object ProvideValue(IServiceProvider serviceProvider)
         => this;
 }
