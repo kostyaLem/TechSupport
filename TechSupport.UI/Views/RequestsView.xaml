@@ -62,23 +62,6 @@
                         </Button.CommandParameter>
                         <Image Source="{StaticResource RemoveImage}" />
                     </Button>
-                    <Button
-                        Margin="5,0"
-                        VerticalAlignment="Stretch"
-                        hc:IconElement.Geometry="{StaticResource SearchGeometry}"
-                        Command="{Binding SearchRequestsCommand}"
-                        Content="Поиск"
-                        DockPanel.Dock="Right"
-                        FontWeight="Normal">
-                        <Button.CommandParameter>
-                            <MultiBinding Converter="{converters:SearchDataToFilterRequestConverter}">
-                                <Binding ElementName="cmbUsers" />
-                                <Binding ElementName="cmbCategories" />
-                                <Binding ElementName="cmbDepartments" />
-                                <Binding ElementName="cmbStatuses" />
-                            </MultiBinding>
-                        </Button.CommandParameter>
-                    </Button>
                     <hc:TextBox
                         Height="30"
                         hc:InfoElement.Placeholder="Название / Описание"
@@ -104,7 +87,6 @@
                         </Style>
                     </UniformGrid.Resources>
 
-
                     <Border Style="{StaticResource Border4FlexPanelDemoStyle}">
                         <StackPanel Margin="5,2,5,0">
                             <Label HorizontalAlignment="Left" Content="Категория" />
@@ -113,8 +95,21 @@
                                 Height="28"
                                 FontWeight="Normal"
                                 ItemsSource="{Binding Categories}"
-                                ShowClearButton="True"
-                                ShowSelectAllButton="True">
+                                ShowClearButton="True">
+                                <hc:Interaction.Triggers>
+                                    <hc:EventTrigger EventName="SelectionChanged">
+                                        <hc:InvokeCommandAction Command="{Binding SearchRequestsCommand}">
+                                            <hc:InvokeCommandAction.CommandParameter>
+                                                <MultiBinding Converter="{converters:SearchDataToFilterRequestConverter}">
+                                                    <Binding ElementName="cmbUsers" />
+                                                    <Binding ElementName="cmbCategories" />
+                                                    <Binding ElementName="cmbDepartments" />
+                                                    <Binding ElementName="cmbStatuses" />
+                                                </MultiBinding>
+                                            </hc:InvokeCommandAction.CommandParameter>
+                                        </hc:InvokeCommandAction>
+                                    </hc:EventTrigger>
+                                </hc:Interaction.Triggers>
                                 <hc:CheckComboBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
@@ -144,8 +139,21 @@
                                 Height="28"
                                 FontWeight="Normal"
                                 ItemsSource="{Binding RequestStatuses}"
-                                ShowClearButton="True"
-                                ShowSelectAllButton="True">
+                                ShowClearButton="True">
+                                <hc:Interaction.Triggers>
+                                    <hc:EventTrigger EventName="SelectionChanged">
+                                        <hc:InvokeCommandAction Command="{Binding SearchRequestsCommand}">
+                                            <hc:InvokeCommandAction.CommandParameter>
+                                                <MultiBinding Converter="{converters:SearchDataToFilterRequestConverter}">
+                                                    <Binding ElementName="cmbUsers" />
+                                                    <Binding ElementName="cmbCategories" />
+                                                    <Binding ElementName="cmbDepartments" />
+                                                    <Binding ElementName="cmbStatuses" />
+                                                </MultiBinding>
+                                            </hc:InvokeCommandAction.CommandParameter>
+                                        </hc:InvokeCommandAction>
+                                    </hc:EventTrigger>
+                                </hc:Interaction.Triggers>
                                 <hc:CheckComboBox.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding RequestStatus, Converter={converters:EnumToDescriptionConverter}}" />
@@ -164,8 +172,21 @@
                                 Height="28"
                                 FontWeight="Normal"
                                 ItemsSource="{Binding Users}"
-                                ShowClearButton="True"
-                                ShowSelectAllButton="True">
+                                ShowClearButton="True">
+                                <hc:Interaction.Triggers>
+                                    <hc:EventTrigger EventName="SelectionChanged">
+                                        <hc:InvokeCommandAction Command="{Binding SearchRequestsCommand}">
+                                            <hc:InvokeCommandAction.CommandParameter>
+                                                <MultiBinding Converter="{converters:SearchDataToFilterRequestConverter}">
+                                                    <Binding ElementName="cmbUsers" />
+                                                    <Binding ElementName="cmbCategories" />
+                                                    <Binding ElementName="cmbDepartments" />
+                                                    <Binding ElementName="cmbStatuses" />
+                                                </MultiBinding>
+                                            </hc:InvokeCommandAction.CommandParameter>
+                                        </hc:InvokeCommandAction>
+                                    </hc:EventTrigger>
+                                </hc:Interaction.Triggers>
                                 <hc:CheckComboBox.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock TextWrapping="WrapWithOverflow">
@@ -191,8 +212,22 @@
                                 Height="28"
                                 FontWeight="Normal"
                                 ItemsSource="{Binding Departments}"
-                                ShowClearButton="True"
-                                ShowSelectAllButton="True" />
+                                ShowClearButton="True">
+                                <hc:Interaction.Triggers>
+                                    <hc:EventTrigger EventName="SelectionChanged">
+                                        <hc:InvokeCommandAction Command="{Binding SearchRequestsCommand}">
+                                            <hc:InvokeCommandAction.CommandParameter>
+                                                <MultiBinding Converter="{converters:SearchDataToFilterRequestConverter}">
+                                                    <Binding ElementName="cmbUsers" />
+                                                    <Binding ElementName="cmbCategories" />
+                                                    <Binding ElementName="cmbDepartments" />
+                                                    <Binding ElementName="cmbStatuses" />
+                                                </MultiBinding>
+                                            </hc:InvokeCommandAction.CommandParameter>
+                                        </hc:InvokeCommandAction>
+                                    </hc:EventTrigger>
+                                </hc:Interaction.Triggers>
+                            </hc:CheckComboBox>
                         </StackPanel>
                     </Border>
 
