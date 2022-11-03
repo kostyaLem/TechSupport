@@ -1,5 +1,6 @@
 ﻿using DevExpress.Mvvm;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using TechSupport.BusinessLogic.Interfaces;
@@ -8,7 +9,6 @@ using TechSupport.BusinessLogic.Models.RequestModels;
 using TechSupport.BusinessLogic.Models.UserModels;
 using TechSupport.UI.Mapping;
 using TechSupport.UI.Models;
-using static TechSupport.UI.ViewModels.RequestsViewModel;
 
 namespace TechSupport.UI.ViewModels.EditViewModels;
 
@@ -20,6 +20,7 @@ public class EditRequestViewModel : BaseViewModel
 
     public IEnumerable<StrRequestStatus> RequestStatuses { get; } = new List<StrRequestStatus>
     {
+        new StrRequestStatus(RequestStatus.Created),
         new StrRequestStatus(RequestStatus.InProgress),
         new StrRequestStatus(RequestStatus.Paused),
         new StrRequestStatus(RequestStatus.Completed),
@@ -39,6 +40,18 @@ public class EditRequestViewModel : BaseViewModel
     {
         get => GetValue<IReadOnlyList<User>>(nameof(Users));
         set => SetValue(value, nameof(Users));
+    }
+
+    public IconCategory SelectedCategory
+    {
+        get => GetValue<IconCategory>(nameof(SelectedCategory));
+        set => SetValue(value, () => Request.Category = value.Category, nameof(SelectedCategory));
+    }
+
+    public StrRequestStatus SelectedStatus
+    {
+        get => GetValue<StrRequestStatus>(nameof(SelectedStatus));
+        set => SetValue(value, () => Request.RequestStatus = value.RequestStatus, nameof(SelectedStatus));
     }
 
     public ExtendedRequest Request { get; }
@@ -67,6 +80,9 @@ public class EditRequestViewModel : BaseViewModel
             Departments = await _departmentService.GetDepartments();
             Categories = (await _categoryService.GetCategories()).MapToIcons();
             Users = await _userService.GetUsers();
+
+            SelectedCategory = Categories.First(x => x.Category.Id == Request.Category.Id);
+            SelectedStatus = RequestStatuses.First(x => x.RequestStatus == Request.RequestStatus);
         });
     }
 }

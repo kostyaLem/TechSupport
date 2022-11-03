@@ -68,6 +68,7 @@
                 Height="28"
                 FontWeight="Normal"
                 ItemsSource="{Binding Users}"
+                SelectedItem="{Binding Request.User}"
                 SelectionMode="Single"
                 ShowClearButton="True">
                 <hc:CheckComboBox.ItemTemplate>
@@ -116,6 +117,7 @@
                     Height="28"
                     FontWeight="Normal"
                     ItemsSource="{Binding Departments}"
+                    SelectedItem="{Binding Request.Department}"
                     SelectionMode="Single"
                     ShowClearButton="True" />
             </StackPanel>
@@ -128,6 +130,7 @@
                 <hc:CheckComboBox
                     Height="28"
                     ItemsSource="{Binding Categories}"
+                    SelectedItem="{Binding SelectedCategory}"
                     SelectionMode="Single"
                     ShowClearButton="True">
                     <hc:CheckComboBox.ItemTemplate>
@@ -152,7 +155,10 @@
 
             <StackPanel Grid.Row="1" Grid.Column="2">
                 <Label Margin="3" Content="Статус" />
-                <hc:CheckComboBox ItemsSource="{Binding RequestStatuses}" SelectionMode="Single">
+                <hc:CheckComboBox
+                    ItemsSource="{Binding RequestStatuses}"
+                    SelectedItem="{Binding SelectedStatus}"
+                    SelectionMode="Single">
                     <hc:CheckComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding RequestStatus, Converter={converters:EnumToDescriptionConverter}}" />

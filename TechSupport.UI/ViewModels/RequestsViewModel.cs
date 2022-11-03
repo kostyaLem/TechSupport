@@ -20,7 +20,7 @@ using TechSupport.UI.Views.EditableViews;
 
 namespace TechSupport.UI.ViewModels;
 
-public sealed partial class RequestsViewModel : BaseViewModel
+public sealed class RequestsViewModel : BaseViewModel
 {
     private readonly IWindowDialogService _dialogService;
     private readonly IRequestService _requestService;
@@ -115,6 +115,8 @@ public sealed partial class RequestsViewModel : BaseViewModel
             await _requestService.Remove(extendedRequest.Id);
             _requests.Remove(extendedRequest);
         });
+
+        await LoadView();
     }
 
     private async Task UodateRequest(ExtendedRequest extendedRequest)
@@ -137,6 +139,8 @@ public sealed partial class RequestsViewModel : BaseViewModel
                 await _requestService.Update(requestViewModel.Request);
             }
         });
+
+        await LoadView();
     }
 
     private async Task SearchRequests(RequestFilter filter)
@@ -201,5 +205,7 @@ public sealed partial class RequestsViewModel : BaseViewModel
         {
             await _requestService.CompleteRequest(extendedRequest.Id);
         });
+
+        await LoadView();
     }
 }

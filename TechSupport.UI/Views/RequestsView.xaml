@@ -209,7 +209,7 @@
             AutoGenerateColumns="False"
             CanUserResizeColumns="False"
             ItemsSource="{Binding ItemsView}"
-            RowHeight="50">
+            MinRowHeight="60">
             <DataGrid.Resources>
                 <Style TargetType="TextBlock">
                     <Setter Property="HorizontalAlignment" Value="Right" />
@@ -288,7 +288,7 @@
                                 <Run
                                     FontSize="12"
                                     Foreground="Gray"
-                                    Text="{Binding StatusUpdatedOn}" />
+                                    Text="{Binding StatusUpdatedOn, StringFormat=dd/MM/yyyy}" />
                             </TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
