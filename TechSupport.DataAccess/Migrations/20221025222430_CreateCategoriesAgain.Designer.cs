@@ -12,8 +12,8 @@ using TechSupport.DataAccess.Context;
 namespace TechSupport.DataAccess.Migrations
 {
     [DbContext(typeof(TechSupportContext))]
-    [Migration("20221025222430_CreateCategories2")]
-    partial class CreateCategories2
+    [Migration("20221025222430_CreateCategoriesAgain")]
+    partial class CreateCategoriesAgain
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

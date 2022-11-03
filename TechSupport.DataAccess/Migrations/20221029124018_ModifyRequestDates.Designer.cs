@@ -12,8 +12,8 @@ using TechSupport.DataAccess.Context;
 namespace TechSupport.DataAccess.Migrations
 {
     [DbContext(typeof(TechSupportContext))]
-    [Migration("20221029124018_Temp2")]
-    partial class Temp2
+    [Migration("20221029124018_ModifyRequestDates")]
+    partial class ModifyRequestDates
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

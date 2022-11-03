@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TechSupport.DataAccess.Migrations
 {
-    public partial class Temp2 : Migration
+    public partial class ModifyRequestDates : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

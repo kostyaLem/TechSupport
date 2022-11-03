@@ -1,8 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows;
 using TechSupport.BusinessLogic;
 using TechSupport.BusinessLogic.Models.UserModels;
+using TechSupport.DataAccess.Context;
 using TechSupport.UI.Views;
 
 namespace TechSupport.UI;
@@ -33,6 +35,7 @@ public partial class App : Application
     {
         base.OnStartup(e);
 
+        _serviceProvider.GetRequiredService<TechSupportContext>().Database.Migrate();
         _serviceProvider.GetRequiredService<AuthView>().ShowDialog();
     }
 }

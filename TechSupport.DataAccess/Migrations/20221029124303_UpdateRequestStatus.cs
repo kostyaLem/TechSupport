@@ -4,7 +4,7 @@
 
 namespace TechSupport.DataAccess.Migrations
 {
-    public partial class Temp23 : Migration
+    public partial class UpdateRequestStatus : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

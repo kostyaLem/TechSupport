@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TechSupport.DataAccess.Migrations
 {
-    public partial class updateDb : Migration
+    public partial class ExchangeDateColumns : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

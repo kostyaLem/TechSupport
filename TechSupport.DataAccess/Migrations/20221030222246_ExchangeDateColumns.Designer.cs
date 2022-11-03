@@ -12,8 +12,8 @@ using TechSupport.DataAccess.Context;
 namespace TechSupport.DataAccess.Migrations
 {
     [DbContext(typeof(TechSupportContext))]
-    [Migration("20221030222246_updateDb")]
-    partial class updateDb
+    [Migration("20221030222246_ExchangeDateColumns")]
+    partial class ExchangeDateColumns
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
