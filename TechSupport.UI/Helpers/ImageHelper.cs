@@ -3,8 +3,12 @@ using System.Windows.Media.Imaging;
 
 namespace TechSupport.UI.Helpers;
 
+/// <summary>
+/// Класс для работы с картинками
+/// </summary>
 internal static class ImageHelper
 {
+    // Преобразовать массив байтов в картинку
     public static BitmapImage LoadImage(byte[] imageData)
     {
         var image = new BitmapImage();
@@ -21,6 +25,7 @@ internal static class ImageHelper
         return image;
     }
 
+    // Преобразовать картинку в массив байтов
     public static byte[] ImageToByteArray(BitmapImage image)
     {
         return File.ReadAllBytes(image.UriSource.AbsolutePath);

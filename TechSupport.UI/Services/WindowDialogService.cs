@@ -10,6 +10,9 @@ public interface IWindowDialogService
     DialogResult ShowDialog(string title, Type controlType, object dataContext);
 }
 
+/// <summary>
+/// Класс для открытия вспомогательного окна с выбором "Да/Нет"
+/// </summary>
 public sealed class WindowDialogService : IWindowDialogService
 {
     public DialogResult ShowDialog(string title, Type controlType, object dataContext)

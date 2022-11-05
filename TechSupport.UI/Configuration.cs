@@ -11,9 +11,9 @@ namespace TechSupport.UI;
 
 public static class Configuration
 {
+    // Регистрация типов для UI
     public static void AddUIServices(this IServiceCollection serviceCollection)
     {
-        serviceCollection.SetupPages();
         serviceCollection.SetupViews();
 
         serviceCollection.Remove(new ServiceDescriptor(typeof(MainViewModel), typeof(MainViewModel), ServiceLifetime.Transient));
@@ -21,8 +21,10 @@ public static class Configuration
 
         serviceCollection.AddTransient<MainViewModel>(sp =>
         {
+            // Получить список всех пункто меню пользователя
             var viewItems = sp.GetServices<ViewItem>();
 
+            // Скрыть те, которые требуют прав администратора
             viewItems = App.CurrentUser.UserType != UserType.Admin
                 ? viewItems.Where(x => x.IsProtected == false)
                 : viewItems;
@@ -39,6 +41,7 @@ public static class Configuration
         serviceCollection.AddTransient<IWindowDialogService, WindowDialogService>();
     }
 
+    // Создание списка разделов в меню пользоаателя
     public static void AddViewItems(this IServiceCollection serviceCollection)
     {        
         serviceCollection.AddSingleton(new ViewItem
