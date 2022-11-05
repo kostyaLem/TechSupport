@@ -50,12 +50,12 @@ public sealed class CategoriesViewModel : BaseViewModel
         _categoryService = categoryService;
 
         LoadViewDataCommand = new AsyncCommand(LoadCategoories);
-        CreateCategoryCommand = new AsyncCommand(CreateCategory);
-        UpdateCategoryCommand = new AsyncCommand(UpdateCategory, () => SelectedCategory is not null);
-        RemoveCategoryCommand = new AsyncCommand(RemoveCategory, () => SelectedCategory is not null);
+        CreateCategoryCommand = new AsyncCommand(CreateCategory, () => App.IsAdmin);
+        UpdateCategoryCommand = new AsyncCommand(UpdateCategory, () => SelectedCategory is not null && App.IsAdmin);
+        RemoveCategoryCommand = new AsyncCommand(RemoveCategory, () => SelectedCategory is not null && App.IsAdmin);
 
-        RemoveImageCommand = new DelegateCommand(RemoveImage);
-        UpdateImageCommand = new AsyncCommand(UpdateImage);
+        RemoveImageCommand = new DelegateCommand(RemoveImage, () => App.IsAdmin);
+        UpdateImageCommand = new AsyncCommand(UpdateImage, () => App.IsAdmin);
 
         _categories = new ObservableCollection<IconCategory>();
         ItemsView = CollectionViewSource.GetDefaultView(_categories);

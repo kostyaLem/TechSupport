@@ -13,7 +13,8 @@ public partial class App : Application
 {
     private readonly IServiceProvider _serviceProvider;
 
-    public static CurrentUser CurrentUser { get; set; } = new CurrentUser("temp", UserType.Admin);
+    public static CurrentUser CurrentUser { get; set; }
+    public static bool IsAdmin => CurrentUser.UserType == UserType.Admin;
 
     public App()
     {

@@ -106,7 +106,7 @@ public sealed class RequestsViewModel : BaseViewModel
     }
 
     private bool CanTerminateRequest(ExtendedRequest er)
-        => er is not null && er.RequestStatus != RequestStatus.Completed;
+        => er is not null && er.RequestStatus != RequestStatus.Completed && App.IsAdmin;
 
     private async Task RemoveRequest(ExtendedRequest extendedRequest)
     {

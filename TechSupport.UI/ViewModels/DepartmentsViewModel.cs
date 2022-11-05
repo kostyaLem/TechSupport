@@ -41,9 +41,9 @@ public sealed class DepartmentsViewModel : BaseViewModel
         _dialogService = dialogService;
 
         LoadViewDataCommand = new AsyncCommand(LoadDepartments);
-        CreateDepartmentCommand = new AsyncCommand(CreateDepartment);
-        UpdateDepartmentCommand = new AsyncCommand(EditDepartment, () => SelectedDepartment is not null);
-        RemoveDepartmentCommand = new AsyncCommand(RemoveDepartment, () => SelectedDepartment is not null);
+        CreateDepartmentCommand = new AsyncCommand(CreateDepartment, () => App.IsAdmin);
+        UpdateDepartmentCommand = new AsyncCommand(EditDepartment, () => SelectedDepartment is not null && App.IsAdmin);
+        RemoveDepartmentCommand = new AsyncCommand(RemoveDepartment, () => SelectedDepartment is not null && App.IsAdmin);
 
         _departments = new ObservableCollection<Department>();
         ItemsView = CollectionViewSource.GetDefaultView(_departments);

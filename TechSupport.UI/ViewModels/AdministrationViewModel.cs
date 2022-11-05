@@ -42,9 +42,9 @@ public sealed class AdministrationViewModel : BaseViewModel
         _dialogService = dialogService;
 
         LoadViewDataCommand = new AsyncCommand(LoadUsers);
-        CreateUserCommand = new AsyncCommand(CreateUser);
-        EditUserCommand = new AsyncCommand(EditUser, () => SelectedUser is not null);
-        RemoveUserCommand = new AsyncCommand(RemoveUser, () => SelectedUser is not null);
+        CreateUserCommand = new AsyncCommand(CreateUser, () => App.IsAdmin);
+        EditUserCommand = new AsyncCommand(EditUser, () => SelectedUser is not null && App.IsAdmin);
+        RemoveUserCommand = new AsyncCommand(RemoveUser, () => SelectedUser is not null && App.IsAdmin);
 
         _users = new ObservableCollection<User>();
         ItemsView = CollectionViewSource.GetDefaultView(_users);

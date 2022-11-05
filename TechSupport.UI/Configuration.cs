@@ -1,7 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
-using System.Windows;
-using System.Windows.Media.Imaging;
 using TechSupport.BusinessLogic.Models.UserModels;
 using TechSupport.UI.Models;
 using TechSupport.UI.Services;
@@ -50,7 +48,7 @@ public static class Configuration
             Description = "Категории заявок технической поддержки",
             ViewType = typeof(CategoriesView),
             ImageName = "CategoriesImage",
-            IsProtected = true
+            IsProtected = false
         });
 
         serviceCollection.AddSingleton(new ViewItem
@@ -59,7 +57,7 @@ public static class Configuration
             Description = "Физические отделы/кабинеты",
             ViewType = typeof(DepartmentsView),
             ImageName = "DepartmentsImage",
-            IsProtected = true
+            IsProtected = false
         });
 
         serviceCollection.AddSingleton(new ViewItem
