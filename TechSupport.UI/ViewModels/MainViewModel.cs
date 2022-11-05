@@ -36,6 +36,7 @@ public class MainViewModel : BaseViewModel
         view.ShowDialog();
 
         IsUploading = false;
+
         App.Current.MainWindow.Visibility = System.Windows.Visibility.Visible;
     }
 }

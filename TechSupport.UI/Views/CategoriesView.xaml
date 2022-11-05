@@ -2,6 +2,7 @@
     x:Class="TechSupport.UI.Views.CategoriesView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:app="clr-namespace:TechSupport.UI"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
     xmlns:hc="https://handyorg.github.io/handycontrol"
@@ -164,7 +165,8 @@
                 Margin="0,7,0,0"
                 VerticalContentAlignment="Top"
                 hc:InfoElement.Placeholder="Описание категории"
-                hc:InfoElement.ShowClearButton="True"
+                hc:InfoElement.ShowClearButton="{x:Static app:App.IsAdmin}"
+                IsReadOnly="{Binding Source={x:Static app:App.IsAdmin}, Converter={dxmvvm:BooleanNegationConverter}}"
                 AcceptsReturn="True"
                 Text="{Binding SelectedCategory.Category.Description}" />
         </DockPanel>

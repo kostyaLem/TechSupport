@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
+using TechSupport.BusinessLogic.Interfaces;
 using TechSupport.BusinessLogic.Models.UserModels;
 using TechSupport.UI.Models;
 using TechSupport.UI.Services;
@@ -15,7 +16,8 @@ public static class Configuration
         serviceCollection.SetupPages();
         serviceCollection.SetupViews();
 
-        serviceCollection.Remove(new ServiceDescriptor(typeof(MainViewModel), typeof(MainViewModel), ServiceLifetime.Singleton));
+        serviceCollection.Remove(new ServiceDescriptor(typeof(MainViewModel), typeof(MainViewModel), ServiceLifetime.Transient));
+        serviceCollection.Remove(new ServiceDescriptor(typeof(AuthViewModel), typeof(AuthViewModel), ServiceLifetime.Transient));
 
         serviceCollection.AddTransient<MainViewModel>(sp =>
         {
@@ -26,6 +28,12 @@ public static class Configuration
                 : viewItems;
 
             return new MainViewModel(viewItems.ToArray(), sp);
+        });
+
+        serviceCollection.AddTransient(sp =>
+        {
+            var authService = sp.GetRequiredService<IAuthorizationService>();
+            return new AuthViewModel(authService, sp);
         });
 
         serviceCollection.AddTransient<IWindowDialogService, WindowDialogService>();

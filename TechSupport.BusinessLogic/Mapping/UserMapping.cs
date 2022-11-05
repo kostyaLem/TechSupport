@@ -1,4 +1,5 @@
 ﻿using TechSupport.BusinessLogic.Models.UserModels;
+using TechSupport.BusinessLogic.Services;
 using BL = TechSupport.BusinessLogic.Models.UserModels;
 using Domain = TechSupport.DataAccess.Models;
 
@@ -35,7 +36,7 @@ internal static class UserMapping
             Birthday = request.Birthday,
             Email = request.Email,
             Login = request.Login,
-            PasswordHash = request.PasswordHash,
+            PasswordHash = PasswordGenerator.Generate(request.PasswordHash),
             Phone = request.Phone,
             Type = request.UserType.ToDomain(),
             CreatedOn = creationDate,
