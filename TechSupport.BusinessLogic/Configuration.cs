@@ -9,6 +9,7 @@ public static class Configuration
 {
     public static void AddBusinessLogicServices(this IServiceCollection serviceCollection)
     {
+        // Регистрация сервисов уровня бизнес-логики в контейнере
         serviceCollection.AddTransient<IAuthorizationService, AuthorizationService>();
         serviceCollection.AddTransient<IUserService, UserService>();
         serviceCollection.AddTransient<ICategoryService, CategoryService>();

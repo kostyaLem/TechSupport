@@ -6,6 +6,9 @@ using System.Windows.Media.Imaging;
 
 namespace TechSupport.UI.Converters;
 
+/// <summary>
+/// Поиск картинки по строке в ресурсах
+/// </summary>
 internal class NameToImageConverter : MarkupExtension, IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

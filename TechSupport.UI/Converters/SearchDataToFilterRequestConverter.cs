@@ -1,30 +1,15 @@
 ﻿using HandyControl.Controls;
 using System;
-using System.Collections;
 using System.Globalization;
-using System.Linq;
 using System.Windows.Data;
 using System.Windows.Markup;
 using TechSupport.UI.Models;
 
 namespace TechSupport.UI.Converters;
 
-public class ClearFilterConverter : MarkupExtension, IMultiValueConverter
-{
-    public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-    {
-        var boxes = values.Cast<IList>().ToArray();
-        return boxes;
-    }
-
-    public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override object ProvideValue(IServiceProvider serviceProvider) => this;
-}
-
+/// <summary>
+/// Класс для сбора выбранных параметров фильтра по поиску заявок
+/// </summary>
 public class SearchDataToFilterRequestConverter : MarkupExtension, IMultiValueConverter
 {
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)

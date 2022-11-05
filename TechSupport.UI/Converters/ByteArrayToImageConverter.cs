@@ -6,6 +6,9 @@ using TechSupport.UI.Helpers;
 
 namespace TechSupport.UI.Converters;
 
+/// <summary>
+/// Класс для преобразования массива байтов в картинку
+/// </summary>
 public class ByteArrayToImageConverter : MarkupExtension, IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

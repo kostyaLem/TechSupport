@@ -7,6 +7,9 @@ using System.Windows.Markup;
 
 namespace TechSupport.UI.Converters;
 
+/// <summary>
+/// Класс для преобразования перечисления в строку для пользователя
+/// </summary>
 public class EnumToDescriptionConverter : MarkupExtension, IValueConverter
 {
     private string GetEnumDescription(Enum enumObj)
