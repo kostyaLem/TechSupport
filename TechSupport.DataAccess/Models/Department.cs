@@ -1,5 +1,8 @@
 ﻿namespace TechSupport.DataAccess.Models;
 
+/// <summary>
+/// Сущность "Отдел"
+/// </summary>
 public class Department
 {
     public int Id { get; set; }

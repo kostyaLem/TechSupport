@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore.Design;
 
 namespace TechSupport.DataAccess.Context;
 
+/// <summary>
+/// Класс для создания контекста базы данных
+/// </summary>
 internal class TechSupportContextFactory : IDesignTimeDbContextFactory<TechSupportContext>
 {
     public TechSupportContext CreateDbContext() => CreateDbContext(Array.Empty<string>());

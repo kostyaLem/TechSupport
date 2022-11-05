@@ -1,5 +1,8 @@
 ﻿namespace TechSupport.DataAccess.Models;
 
+/// <summary>
+/// Сущность "Категория заявки"
+/// </summary>
 public class RequestCategory
 {
     public int Id { get; set; }

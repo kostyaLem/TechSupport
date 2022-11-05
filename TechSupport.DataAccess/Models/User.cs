@@ -1,5 +1,8 @@
 ﻿namespace TechSupport.DataAccess.Models;
 
+/// <summary>
+/// Сущность "Пользователя системы"
+/// </summary>
 public class User
 {
     public int Id { get; set; }

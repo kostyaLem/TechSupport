@@ -1,5 +1,8 @@
 ﻿namespace TechSupport.DataAccess.Models;
 
+/// <summary>
+/// Сущность "Заявка технической поддержки"
+/// </summary>
 public class Request
 {
     public int Id { get; set; }
@@ -14,6 +17,7 @@ public class Request
     public int? RequestCategoryId { get; set; }
     public int? UserId { get; set; }
 
+    // Навигационные свойства заявки
     public virtual Department Department { get; set; }
     public virtual RequestCategory RequestCategory { get; set; }
     public virtual User User { get; set; }
