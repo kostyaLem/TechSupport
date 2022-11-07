@@ -102,11 +102,12 @@ public sealed class RequestsViewModel : BaseViewModel
             Departments = await _departmentService.GetDepartments();
             Categories = (await _categoryService.GetCategories()).MapToIcons();
             Users = await _userService.GetUsers();
+            SearchRequests(default);
         });
     }
 
     private bool CanTerminateRequest(ExtendedRequest er)
-        => er is not null && er.RequestStatus != RequestStatus.Completed && App.IsAdmin;
+        => er is not null && er.RequestStatus != RequestStatus.Completed;
 
     private async Task RemoveRequest(ExtendedRequest extendedRequest)
     {
@@ -147,14 +148,25 @@ public sealed class RequestsViewModel : BaseViewModel
     {
         ItemsView.Filter = x =>
         {
+            var isValid = true;
             var request = x as ExtendedRequest;
+
+            if (!string.IsNullOrWhiteSpace(SearchText))
+            {
+                isValid &= (request.Title + request.Description)
+                .Contains(SearchText, StringComparison.OrdinalIgnoreCase);
+            }
+
+            if (filter is null)
+            {
+                return isValid;
+            }
 
             var users = filter.Users.SelectedItems.Cast<User>().ToList();
             var categories = filter.Categories.SelectedItems.Cast<IconCategory>().ToList();
             var department = filter.Departments.SelectedItems.Cast<Department>().ToList();
             var status = filter.RequestStatuses.SelectedItems.Cast<StrRequestStatus>().ToList();
 
-            var isValid = true;
 
             if (users.Count > 0)
             {
@@ -174,11 +186,6 @@ public sealed class RequestsViewModel : BaseViewModel
             if (status.Count > 0)
             {
                 isValid &= status.Exists(u => u.RequestStatus == request.RequestStatus);
-            }
-
-            if (!string.IsNullOrWhiteSpace(SearchText))
-            {
-                isValid &= request.Title.Contains(SearchText, StringComparison.OrdinalIgnoreCase);
             }
 
             return isValid;

@@ -12,7 +12,7 @@ public abstract class BaseViewModel : ViewModelBase
 
     public ICollectionView ItemsView { get; protected set; }
 
-    public string SearchText
+    public virtual string SearchText
     {
         get => GetValue<string>(nameof(SearchText));
         set => SetValue(value, () => ItemsView.Refresh(), nameof(SearchText));

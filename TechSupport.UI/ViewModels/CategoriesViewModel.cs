@@ -69,7 +69,7 @@ public sealed class CategoriesViewModel : BaseViewModel
             var predicates = new List<string>
             {
                 category.Category.Title,
-                category.Category.Description
+                category.Category.Description ?? string.Empty,
             };
 
             return predicates.Any(x => x.Contains(SearchText, StringComparison.OrdinalIgnoreCase));

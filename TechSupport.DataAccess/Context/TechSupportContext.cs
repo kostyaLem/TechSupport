@@ -18,5 +18,10 @@ public class TechSupportContext : DbContext
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+        foreach (var foreignKey in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+        {
+            foreignKey.DeleteBehavior = DeleteBehavior.Cascade;
+        }
     }
 }

@@ -6,6 +6,7 @@ using TechSupport.BusinessLogic.Interfaces;
 using TechSupport.BusinessLogic.Models;
 using TechSupport.UI.Mapping;
 using TechSupport.UI.Models;
+using TechSupport.UI.Views;
 
 namespace TechSupport.UI.ViewModels;
 
@@ -70,6 +71,15 @@ public sealed class RequestCreationViewModel : BaseViewModel
             Request.Department = SelectedDepartment;
 
             await _requestService.Create(Request.MapToCreateRequest());
+
+            foreach(var window in App.Current.Windows)
+            {
+                if (window is RequestCreationView view)
+                {
+                    view.Close();
+                    return;
+                }
+            }
         });
     }
 
