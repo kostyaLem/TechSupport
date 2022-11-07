@@ -3,6 +3,9 @@ using TechSupport.UI.Views;
 
 namespace TechSupport.UI.Models;
 
+/// <summary>
+/// Легковесное отображене заявки в таблице
+/// </summary>
 public class SlimRequest
 {
     public string Title { get; set; }

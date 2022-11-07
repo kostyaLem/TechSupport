@@ -4,6 +4,9 @@ using TechSupport.UI.Converters;
 
 namespace TechSupport.UI.Models;
 
+/// <summary>
+/// Вспомогательный класс для отображение Enum в string
+/// </summary>
 public record StrRequestStatus
 {
     private static readonly IValueConverter _converter = new EnumToDescriptionConverter();

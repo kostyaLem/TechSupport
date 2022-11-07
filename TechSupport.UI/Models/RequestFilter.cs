@@ -3,6 +3,9 @@ using HandyControl.Controls;
 
 namespace TechSupport.UI.Models;
 
+/// <summary>
+/// Класс-сборщик всех фильтров по заявкам
+/// </summary>
 public class RequestFilter : BindableBase
 {
     public CheckComboBox RequestStatuses { get; set; }

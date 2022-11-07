@@ -3,6 +3,9 @@ using TechSupport.BusinessLogic.Models;
 
 namespace TechSupport.UI.Models;
 
+/// <summary>
+/// Обёртка над типом Category для удобного отображения картинок на UI
+/// </summary>
 public class IconCategory
 {
     public Category Category { get; init; }

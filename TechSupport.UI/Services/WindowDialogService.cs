@@ -17,8 +17,10 @@ public sealed class WindowDialogService : IWindowDialogService
 {
     public DialogResult ShowDialog(string title, Type controlType, object dataContext)
     {
+        // Создать представление (View)
         var control = (ContentControl)Activator.CreateInstance(controlType, dataContext);
 
+        // Заполнить заголовок и внутреннее содержимое окна с имзенениями
         var editView = new EditView(title, control);
         var dialogResult = editView.ShowDialog();
 
