@@ -6,9 +6,13 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows.Input;
 using TechSupport.UI.Models;
+using TechSupport.UI.ViewModels.Base;
 
 namespace TechSupport.UI.ViewModels;
 
+/// <summary>
+/// Меню пользователя на UI
+/// </summary>
 public class MainViewModel : BaseItemsViewModel<ViewItem>
 {
     private readonly IServiceProvider _serviceProvider;
@@ -25,16 +29,20 @@ public class MainViewModel : BaseItemsViewModel<ViewItem>
         OpenViewCommand = new DelegateCommand<ViewItem>(OpenView);
     }
 
+    // Отображение окна, соответствующего выбранному пункту меню
     private void OpenView(ViewItem viewItem)
     {
         IsUploading = true;
 
+        // Скрыть меню пользователя
         App.Current.MainWindow.Visibility = System.Windows.Visibility.Hidden;
         var view = _serviceProvider.GetRequiredService(viewItem.ViewType) as Window;
+        // Отобразить выбранный пункт меню
         view.ShowDialog();
 
         IsUploading = false;
 
+        // Отобразить ст
         App.Current.MainWindow.Visibility = System.Windows.Visibility.Visible;
     }
 }

@@ -12,21 +12,27 @@ using TechSupport.BusinessLogic.Interfaces;
 using TechSupport.UI.Helpers;
 using TechSupport.UI.Mapping;
 using TechSupport.UI.Models;
+using TechSupport.UI.ViewModels.Base;
 
 namespace TechSupport.UI.ViewModels;
 
+/// <summary>
+/// Класс управления категориями с UI
+/// </summary>
 public sealed class CategoriesViewModel : BaseItemsViewModel<IconCategory>
 {
     private readonly ICategoryService _categoryService;
 
     public override string Title => "Управление категориями";
 
+    // Выбранная категория
     public IconCategory SelectedCategory
     {
         get => GetValue<IconCategory>(nameof(SelectedCategory));
         set => SetValue(value, () => SelectedImage = SelectedCategory?.Image, nameof(SelectedCategory));
     }
 
+    // Изображение выбранной категории
     public BitmapImage SelectedImage
     {
         get => GetValue<BitmapImage>(nameof(SelectedImage));
@@ -56,6 +62,7 @@ public sealed class CategoriesViewModel : BaseItemsViewModel<IconCategory>
         ItemsView.Filter += CanFilterCategory;
     }
 
+    // Фильтр поиска категории
     private bool CanFilterCategory(object obj)
     {
         if (SearchText is { } && obj is IconCategory category)
@@ -72,32 +79,43 @@ public sealed class CategoriesViewModel : BaseItemsViewModel<IconCategory>
         return true;
     }
 
+    // Метод создания пустой категории
     public async Task CreateCategory()
     {
         await Execute(async () =>
         {
+            // Вызов создаания категории
             await _categoryService.CreateEmpty();
+
+            // Обновить коллекцию на интерфейсе
             await LoadCategoories();
         });
     }
 
+    // Метод обновления выбранной категории
     public async Task UpdateCategory()
     {
         await Execute(async () =>
         {
+            // Подготовка данных для обновления
             var category = SelectedCategory.Category.Recreate(SelectedImage);
-
+            // Вызов обновления категории
             await _categoryService.Update(category);
         });
 
+        // Обновить коллекцию на интерфейсе
         await LoadCategoories();
     }
 
+    // Метод удаления выбранной категории
     public async Task RemoveCategory()
     {
         await Execute(async () =>
         {
+            // Удалить выбранную категорию
             await _categoryService.Remove(SelectedCategory.Category.Id);
+
+            // Обновить коллекцию на интерфейсе
             await LoadCategoories();
         });
     }
@@ -113,23 +131,27 @@ public sealed class CategoriesViewModel : BaseItemsViewModel<IconCategory>
         });
     }
 
+    // Очистить иконку изображения
     private void RemoveImage()
     {
         SelectedImage = null;
     }
 
+    // Загрузить в иконку новое изображение
     private async Task UpdateImage()
     {
         await Execute(async () =>
         {
             var dialog = new OpenFileDialog();
             dialog.Filter = "PNG (*.png)|*.png";
+            // Открыть диалоговое окно выбора изображения
             var result = dialog.ShowDialog();
 
             await Task.CompletedTask;
 
             if (result.HasValue && result.Value)
             {
+                // Загрузить картинку в иконку, если есть подтверждение
                 SelectedImage = ImageHelper.LoadImage(File.ReadAllBytes(dialog.FileName));
             }
         });

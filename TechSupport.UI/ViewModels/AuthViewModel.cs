@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using TechSupport.BusinessLogic.Exceptions;
 using TechSupport.BusinessLogic.Interfaces;
+using TechSupport.UI.ViewModels.Base;
 using TechSupport.UI.Views;
 using PasswordBox = HandyControl.Controls.PasswordBox;
 
 namespace TechSupport.UI.ViewModels;
 
 /// <summary>
-/// Класс авторизации пользователя в системе
+/// Класс авторизации пользователя в системе с UI
 /// </summary>
 public sealed class AuthViewModel : BaseViewModel
 {

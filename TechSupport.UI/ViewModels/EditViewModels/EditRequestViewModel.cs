@@ -9,6 +9,7 @@ using TechSupport.BusinessLogic.Models.RequestModels;
 using TechSupport.BusinessLogic.Models.UserModels;
 using TechSupport.UI.Mapping;
 using TechSupport.UI.Models;
+using TechSupport.UI.ViewModels.Base;
 
 namespace TechSupport.UI.ViewModels.EditViewModels;
 

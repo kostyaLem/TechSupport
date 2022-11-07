@@ -2,26 +2,30 @@
 using HandyControl.Tools.Extension;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Data;
 using System.Windows.Input;
 using TechSupport.BusinessLogic.Interfaces;
 using TechSupport.BusinessLogic.Models;
 using TechSupport.UI.Services;
+using TechSupport.UI.ViewModels.Base;
 using TechSupport.UI.ViewModels.EditViewModels;
 using TechSupport.UI.Views.EditableViews;
 
 namespace TechSupport.UI.ViewModels;
 
+/// <summary>
+/// Класс для управления отделами технической поддержки с UI
+/// </summary>
 public sealed class DepartmentsViewModel : BaseItemsViewModel<Department>
 {
     private readonly IDepartmentService _departmentService;
+    // Серивс для работы с диалоговыси окнами
     private readonly IWindowDialogService _dialogService;
 
     public override string Title => "Управление отделами";
 
+    // Выделенный отдел
     public Department SelectedDepartment
     {
         get => GetValue<Department>(nameof(SelectedDepartment));
@@ -46,6 +50,7 @@ public sealed class DepartmentsViewModel : BaseItemsViewModel<Department>
         ItemsView.Filter += CanFilterDepartment;
     }
 
+    // Фильтр отделов при поиске
     private bool CanFilterDepartment(object obj)
     {
         if (SearchText is { } && obj is Department department)
@@ -63,6 +68,7 @@ public sealed class DepartmentsViewModel : BaseItemsViewModel<Department>
         return true;
     }
 
+    // Метод вызова окна для создания отдела
     private async Task CreateDepartment()
     {
         await Execute(async () =>
@@ -76,12 +82,16 @@ public sealed class DepartmentsViewModel : BaseItemsViewModel<Department>
 
             if (result == Models.DialogResult.OK)
             {
+                // Создать отдел, если есть подтверждение
                 await _departmentService.Create(departmentViewModel.Department);
-                await LoadDepartments();
             }
         });
+
+        // Обновить коллекцию на интерфейсе
+        await LoadDepartments();
     }
 
+    // Метод вызова окна обновления отдела
     private async Task EditDepartment()
     {
         await Execute(async () =>
@@ -96,18 +106,25 @@ public sealed class DepartmentsViewModel : BaseItemsViewModel<Department>
 
             if (result == Models.DialogResult.OK)
             {
+                // Обновить данные отдела, если есть подтверждение
                 await _departmentService.Update(department);
+
+                // Обновить коллекцию на интерфейсе
                 await LoadDepartments();
             }
         });
     }
 
+    // Метод удаления выбранного отдела
     private async Task RemoveDepartment()
     {
         await Execute(async () =>
         {
+            // Удалить отдел
             await _departmentService.Remove(SelectedDepartment.Id);
         });
+
+        // Обновить коллекцию на интерфейсе
         await LoadDepartments();
     }
 

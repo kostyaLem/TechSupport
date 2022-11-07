@@ -6,12 +6,13 @@ using TechSupport.BusinessLogic.Interfaces;
 using TechSupport.BusinessLogic.Models;
 using TechSupport.UI.Mapping;
 using TechSupport.UI.Models;
+using TechSupport.UI.ViewModels.Base;
 using TechSupport.UI.Views;
 
 namespace TechSupport.UI.ViewModels;
 
 /// <summary>
-/// Класс для создания заявки технической поддержки
+/// Класс для создания заявки технической поддержки с UI
 /// </summary>
 public sealed class RequestCreationViewModel : BaseViewModel
 {
@@ -95,6 +96,7 @@ public sealed class RequestCreationViewModel : BaseViewModel
         });
     }
 
+    // Пометить категорию как выбранную
     private void SelectCategory(IconCategory category)
     {
         SelectedCategory = category;

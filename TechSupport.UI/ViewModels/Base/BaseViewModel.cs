@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using System;
 using HandyControl.Controls;
 
-namespace TechSupport.UI.ViewModels;
+namespace TechSupport.UI.ViewModels.Base;
 
 /// <summary>
 /// Базоовая ViewModel для всех дочерних

@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace TechSupport.UI.ViewModels;
+namespace TechSupport.UI.ViewModels.Base;
 
 /// <summary>
 /// Базовый класс для всех ViewModel'ей.

@@ -9,21 +9,24 @@ using TechSupport.BusinessLogic.Interfaces;
 using TechSupport.BusinessLogic.Models.UserModels;
 using TechSupport.UI.Mapping;
 using TechSupport.UI.Services;
+using TechSupport.UI.ViewModels.Base;
 using TechSupport.UI.ViewModels.EditViewModels;
 using TechSupport.UI.Views.EditableViews;
 
 namespace TechSupport.UI.ViewModels;
 
 /// <summary>
-/// Класс для работы с пользователями в системе
+/// Класс для работы с пользователями в системе с UI
 /// </summary>
 public sealed class AdministrationViewModel : BaseItemsViewModel<User>
 {
     private readonly IUserService _userService;
+    // Серивс для работы с диалоговыси окнами
     private readonly IWindowDialogService _dialogService;
 
     public override string Title => "Управление пользователями";
 
+    // Выбранный пользователь в таблице
     public User SelectedUser
     {
         get => GetValue<User>(nameof(SelectedUser));
@@ -80,6 +83,7 @@ public sealed class AdministrationViewModel : BaseItemsViewModel<User>
         });
     }
 
+    // Метод вызова окна для создания пользователя в системе
     private async Task CreateUser()
     {
         await Execute(async () =>
@@ -93,14 +97,18 @@ public sealed class AdministrationViewModel : BaseItemsViewModel<User>
 
             if (result == Models.DialogResult.OK)
             {
+                // Подготовка данных
                 var user = userViewModel.User.MapToCreateRequest(userViewModel.Password);
+                // Вызов создания пользователя в сервисе
                 await _userService.Create(user);
 
+                // Обновить коллекцию на интерфейсе
                 await LoadUsers();
             }
         });
     }
 
+    // Метод вызова окна для редактирования пользователя
     private async Task EditUser()
     {
         await Execute(async () =>
@@ -115,18 +123,24 @@ public sealed class AdministrationViewModel : BaseItemsViewModel<User>
 
             if (result == Models.DialogResult.OK)
             {
+                // Вызвать обновление пользователя, если есть подтверждение
                 await _userService.Update(userViewModel.User, userViewModel.Password);
 
+                // Обновить коллекцию на интерфейсе
                 await LoadUsers();
             }
         });
     }
 
+    // Меотд удаления выбранного пользователя
     private async Task RemoveUser()
     {
         await Execute(async () =>
         {
+            // Вызвать удаление пользователя в сервисе
             await _userService.Remove(SelectedUser.Id);
+
+            // Обновить коллекцию на интерфейсе
             await LoadUsers();
         });
     }
