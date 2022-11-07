@@ -3,11 +3,9 @@ using HandyControl.Tools.Extension;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using TechSupport.BusinessLogic.Interfaces;
@@ -17,11 +15,9 @@ using TechSupport.UI.Models;
 
 namespace TechSupport.UI.ViewModels;
 
-public sealed class CategoriesViewModel : BaseViewModel
+public sealed class CategoriesViewModel : BaseItemsViewModel<IconCategory>
 {
     private readonly ICategoryService _categoryService;
-
-    private readonly ObservableCollection<IconCategory> _categories;
 
     public override string Title => "Управление категориями";
 
@@ -57,8 +53,6 @@ public sealed class CategoriesViewModel : BaseViewModel
         RemoveImageCommand = new DelegateCommand(RemoveImage, () => App.IsAdmin);
         UpdateImageCommand = new AsyncCommand(UpdateImage, () => App.IsAdmin);
 
-        _categories = new ObservableCollection<IconCategory>();
-        ItemsView = CollectionViewSource.GetDefaultView(_categories);
         ItemsView.Filter += CanFilterCategory;
     }
 
@@ -108,15 +102,14 @@ public sealed class CategoriesViewModel : BaseViewModel
         });
     }
 
+    // Метод загрузки предварительных данных после появления окна на экране
     private async Task LoadCategoories()
     {
         await Execute(async () =>
         {
-            _categories.Clear();
-
+            _items.Clear();
             var categories = await _categoryService.GetCategories();
-
-            _categories.AddRange(categories.MapToIcons());
+            _items.AddRange(categories.MapToIcons());
         });
     }
 

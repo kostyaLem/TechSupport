@@ -1,15 +1,15 @@
 ﻿using DevExpress.Mvvm;
 using DevExpress.Mvvm.POCO;
 using HandyControl.Controls;
+using HandyControl.Tools.Extension;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Windows.Data;
 using System.Windows.Input;
 using TechSupport.UI.Models;
 
 namespace TechSupport.UI.ViewModels;
 
-public class MainViewModel : BaseViewModel
+public class MainViewModel : BaseItemsViewModel<ViewItem>
 {
     private readonly IServiceProvider _serviceProvider;
 
@@ -17,11 +17,9 @@ public class MainViewModel : BaseViewModel
 
     public ICommand OpenViewCommand { get; }
 
-    public MainViewModel(
-        ViewItem[] viewItems,
-        IServiceProvider serviceProvider)
+    public MainViewModel(ViewItem[] viewItems, IServiceProvider serviceProvider)
     {
-        ItemsView = CollectionViewSource.GetDefaultView(viewItems);
+        _items.AddRange(viewItems);
         _serviceProvider = serviceProvider;
 
         OpenViewCommand = new DelegateCommand<ViewItem>(OpenView);

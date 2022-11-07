@@ -15,12 +15,10 @@ using TechSupport.UI.Views.EditableViews;
 
 namespace TechSupport.UI.ViewModels;
 
-public sealed class DepartmentsViewModel : BaseViewModel
+public sealed class DepartmentsViewModel : BaseItemsViewModel<Department>
 {
     private readonly IDepartmentService _departmentService;
     private readonly IWindowDialogService _dialogService;
-
-    private readonly ObservableCollection<Department> _departments;
 
     public override string Title => "Управление отделами";
 
@@ -45,8 +43,6 @@ public sealed class DepartmentsViewModel : BaseViewModel
         UpdateDepartmentCommand = new AsyncCommand(EditDepartment, () => SelectedDepartment is not null && App.IsAdmin);
         RemoveDepartmentCommand = new AsyncCommand(RemoveDepartment, () => SelectedDepartment is not null && App.IsAdmin);
 
-        _departments = new ObservableCollection<Department>();
-        ItemsView = CollectionViewSource.GetDefaultView(_departments);
         ItemsView.Filter += CanFilterDepartment;
     }
 
@@ -115,13 +111,14 @@ public sealed class DepartmentsViewModel : BaseViewModel
         await LoadDepartments();
     }
 
+    // Метод загрузки предварительных данных после появления окна на экране
     private async Task LoadDepartments()
     {
         await Execute(async () =>
         {
-            _departments.Clear();
+            _items.Clear();
             var departments = await _departmentService.GetDepartments();
-            _departments.AddRange(departments);
+            _items.AddRange(departments);
         });
     }
 }

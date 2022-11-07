@@ -15,6 +15,7 @@ public static class Configuration
     public static void AddUIServices(this IServiceCollection serviceCollection)
     {
         serviceCollection.SetupViews();
+        serviceCollection.SetupViewModels();
 
         serviceCollection.Remove(new ServiceDescriptor(typeof(MainViewModel), typeof(MainViewModel), ServiceLifetime.Transient));
         serviceCollection.Remove(new ServiceDescriptor(typeof(AuthViewModel), typeof(AuthViewModel), ServiceLifetime.Transient));

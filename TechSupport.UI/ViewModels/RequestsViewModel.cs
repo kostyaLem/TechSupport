@@ -20,15 +20,13 @@ using TechSupport.UI.Views.EditableViews;
 
 namespace TechSupport.UI.ViewModels;
 
-public sealed class RequestsViewModel : BaseViewModel
+public sealed class RequestsViewModel : BaseItemsViewModel<ExtendedRequest>
 {
     private readonly IWindowDialogService _dialogService;
     private readonly IRequestService _requestService;
     private readonly ICategoryService _categoryService;
     private readonly IDepartmentService _departmentService;
     private readonly IUserService _userService;
-
-    private ObservableCollection<ExtendedRequest> _requests;
 
     public override string Title => "Заявки технической поддержки";
 
@@ -86,19 +84,18 @@ public sealed class RequestsViewModel : BaseViewModel
         ClearSearchFilterCommand = new AsyncCommand<IList[]>(ClearSearchFilter);
         CompleteRequestCommand = new AsyncCommand<ExtendedRequest>(CompleteRequest, CanTerminateRequest);
 
-        _requests = new ObservableCollection<ExtendedRequest>();
         LoadViewDataCommand = new AsyncCommand(LoadView);
-        ItemsView = CollectionViewSource.GetDefaultView(_requests);
 
         SearchText = string.Empty;
     }
 
+    // Метод загрузки предварительных данных после появления окна на экране
     private async Task LoadView()
     {
         await Execute(async () =>
         {
-            _requests.Clear();
-            _requests.AddRange(await _requestService.GetRequests());
+            _items.Clear();
+            _items.AddRange(await _requestService.GetRequests());
             Departments = await _departmentService.GetDepartments();
             Categories = (await _categoryService.GetCategories()).MapToIcons();
             Users = await _userService.GetUsers();
@@ -114,7 +111,7 @@ public sealed class RequestsViewModel : BaseViewModel
         await Execute(async () =>
         {
             await _requestService.Remove(extendedRequest.Id);
-            _requests.Remove(extendedRequest);
+            _items.Remove(extendedRequest);
         });
 
         await LoadView();

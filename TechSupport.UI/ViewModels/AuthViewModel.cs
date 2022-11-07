@@ -12,6 +12,9 @@ using PasswordBox = HandyControl.Controls.PasswordBox;
 
 namespace TechSupport.UI.ViewModels;
 
+/// <summary>
+/// Класс авторизации пользователя в системе
+/// </summary>
 public sealed class AuthViewModel : BaseViewModel
 {
     private readonly IAuthorizationService _authService;
@@ -19,6 +22,7 @@ public sealed class AuthViewModel : BaseViewModel
 
     public override string Title => "Авторизация";
 
+    // Логин пользователя
     public string Login
     {
         get => GetValue<string>(nameof(Login));
@@ -34,12 +38,14 @@ public sealed class AuthViewModel : BaseViewModel
         LoginCommand = new AsyncCommand<object>(TryLogin, x => !string.IsNullOrWhiteSpace(Login));
     }
 
+    // Метод авторизации пользователя
     public async Task TryLogin(object passwordControl)
     {
         await Execute(async () =>
         {
             var pswrdBox = (PasswordBox)passwordControl;
 
+            // Проверка полей
             if (string.IsNullOrWhiteSpace(Login) || string.IsNullOrWhiteSpace(pswrdBox.Password))
             {
                 MessageBox.Error("Заполните все поля.", "Ошибка авторизации");
@@ -48,9 +54,13 @@ public sealed class AuthViewModel : BaseViewModel
 
             try
             {
+                // Попытка авторизовать пользователя
                 var user = await _authService.Authorize(Login, pswrdBox.Password);
+                // Установка текущего пользователя
                 App.CurrentUser = user;
+                // Отображение окна с меню
                 _serviceProvider.GetRequiredService<MainView>().Show();
+                // Закрыть окно авторизации
                 App.Current.Windows[0].Close();
             }
             catch (AuthorizeException)

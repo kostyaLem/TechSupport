@@ -2,10 +2,8 @@
 using HandyControl.Tools.Extension;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Data;
 using System.Windows.Input;
 using TechSupport.BusinessLogic.Interfaces;
 using TechSupport.BusinessLogic.Models.UserModels;
@@ -16,12 +14,13 @@ using TechSupport.UI.Views.EditableViews;
 
 namespace TechSupport.UI.ViewModels;
 
-public sealed class AdministrationViewModel : BaseViewModel
+/// <summary>
+/// Класс для работы с пользователями в системе
+/// </summary>
+public sealed class AdministrationViewModel : BaseItemsViewModel<User>
 {
     private readonly IUserService _userService;
     private readonly IWindowDialogService _dialogService;
-
-    private ObservableCollection<User> _users;
 
     public override string Title => "Управление пользователями";
 
@@ -46,9 +45,7 @@ public sealed class AdministrationViewModel : BaseViewModel
         EditUserCommand = new AsyncCommand(EditUser, () => SelectedUser is not null && App.IsAdmin);
         RemoveUserCommand = new AsyncCommand(RemoveUser, () => SelectedUser is not null && App.IsAdmin);
 
-        _users = new ObservableCollection<User>();
-        ItemsView = CollectionViewSource.GetDefaultView(_users);
-        ItemsView.Filter += CanFilterUser;
+        ItemsView.Filter = CanFilterUser;
     }
 
     private bool CanFilterUser(object obj)
@@ -72,13 +69,14 @@ public sealed class AdministrationViewModel : BaseViewModel
         return true;
     }
 
+    // Метод загрузки предварительных данных после появления окна на экране
     private async Task LoadUsers()
     {
         await Execute(async () =>
         {
-            _users.Clear();
+            _items.Clear();
             var users = await _userService.GetUsers();
-            _users.AddRange(users);
+            _items.AddRange(users);
         });
     }
 
