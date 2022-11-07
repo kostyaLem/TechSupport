@@ -12,8 +12,8 @@ using TechSupport.DataAccess.Context;
 namespace TechSupport.DataAccess.Migrations
 {
     [DbContext(typeof(TechSupportContext))]
-    [Migration("20221107110048_Temp")]
-    partial class Temp
+    [Migration("20221107120009_AddInitialUser")]
+    partial class AddInitialUser
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

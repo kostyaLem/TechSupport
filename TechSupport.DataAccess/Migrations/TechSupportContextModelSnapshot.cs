@@ -44,7 +44,7 @@ namespace TechSupport.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departments");
+                    b.ToTable("Departments", (string)null);
                 });
 
             modelBuilder.Entity("TechSupport.DataAccess.Models.Request", b =>
@@ -95,7 +95,7 @@ namespace TechSupport.DataAccess.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Requests");
+                    b.ToTable("Requests", (string)null);
                 });
 
             modelBuilder.Entity("TechSupport.DataAccess.Models.RequestCategory", b =>
@@ -120,7 +120,7 @@ namespace TechSupport.DataAccess.Migrations
 
                     b.HasIndex("Title");
 
-                    b.ToTable("RequestCategories");
+                    b.ToTable("RequestCategories", (string)null);
                 });
 
             modelBuilder.Entity("TechSupport.DataAccess.Models.User", b =>
@@ -174,7 +174,7 @@ namespace TechSupport.DataAccess.Migrations
 
                     b.HasIndex("FirstName", "LastName", "Phone");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("TechSupport.DataAccess.Models.Request", b =>
