@@ -95,7 +95,7 @@ internal class RequestService : IRequestService
         request.Title = updateRequest.Title;
         request.Description = updateRequest.Description;
         request.Computer = updateRequest.Computer;
-        request.UserId = updateRequest.User.Id;
+        request.UserId = updateRequest.User?.Id ?? null;
         request.DepartmentId = updateRequest.Department.Id;
         request.RequestCategoryId = updateRequest.Category.Id;
 

@@ -9,7 +9,7 @@
     xmlns:helpers="clr-namespace:TechSupport.UI.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="{Binding Title}"
-    Width="1000"
+    Width="1200"
     Height="600"
     d:Title="Заявки технической поддержки"
     Icon="{StaticResource IconImage}"

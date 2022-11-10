@@ -78,7 +78,10 @@
                         <hc:ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Style="{StaticResource TextBlockSubTitle}" Text="{Binding Place}" />
+                                    <TextBlock
+                                        HorizontalAlignment="Left"
+                                        Style="{StaticResource TextBlockSubTitle}"
+                                        Text="{Binding Place}" />
                                     <StackPanel Orientation="Horizontal">
                                         <StackPanel.Resources>
                                             <Style BasedOn="{StaticResource TextBlockDefaultSecLight}" TargetType="TextBlock" />
@@ -100,6 +103,7 @@
                     DockPanel.Dock="Top"
                     FontWeight="DemiBold" />
                 <hc:TextBox
+                    VerticalContentAlignment="Top"
                     hc:InfoElement.ShowClearButton="True"
                     AcceptsReturn="True"
                     Text="{Binding Request.Description}" />
