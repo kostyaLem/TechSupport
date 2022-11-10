@@ -95,7 +95,6 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-            </hc:ScrollViewer>
 
             <Button
                 Grid.Row="2"

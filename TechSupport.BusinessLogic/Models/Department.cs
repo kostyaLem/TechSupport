@@ -7,5 +7,5 @@ public record Department
     public string Place { get; init; }
     public string Room { get; init; }
 
-    public override string ToString() => Place;
+    public override string ToString() => Title;
 }
