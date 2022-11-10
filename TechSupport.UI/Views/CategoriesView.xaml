@@ -64,37 +64,38 @@
                     Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </DockPanel>
 
-            <ListBox
-                Grid.Row="1"
-                Margin="0,10,0,15"
-                hc:Empty.ShowEmpty="true"
-                ItemsSource="{Binding ItemsView}"
-                SelectedItem="{Binding SelectedCategory}"
-                SelectionMode="Single"
-                Style="{StaticResource ListBoxTransparentStyle}">
+                <ListBox
+                    Grid.Row="1"
+                    Margin="0,10,0,15"
+                    hc:Empty.ShowEmpty="true"
+                    ItemsSource="{Binding ItemsView}"
+                    SelectedItem="{Binding SelectedCategory}"
+                    SelectionMode="Single"
+                    Style="{StaticResource ListBoxTransparentStyle}">
 
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Margin="5,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="5,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
 
-                            <Image
-                                Grid.Column="0"
-                                Margin="6"
-                                Source="{Binding Image}"
-                                Stretch="UniformToFill" />
-                            <TextBlock
-                                Grid.Column="1"
-                                Margin="5,0,3,0"
-                                VerticalAlignment="Center"
-                                Text="{Binding Category.Title}" />
-                        </Grid>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+                                <Image
+                                    Grid.Column="0"
+                                    Margin="6"
+                                    Source="{Binding Image}"
+                                    Stretch="UniformToFill" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Margin="5,0,3,0"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding Category.Title}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </hc:ScrollViewer>
 
             <Button
                 Grid.Row="2"
@@ -166,8 +167,8 @@
                 VerticalContentAlignment="Top"
                 hc:InfoElement.Placeholder="Описание категории"
                 hc:InfoElement.ShowClearButton="{x:Static app:App.IsAdmin}"
-                IsReadOnly="{Binding Source={x:Static app:App.IsAdmin}, Converter={dxmvvm:BooleanNegationConverter}}"
                 AcceptsReturn="True"
+                IsReadOnly="{Binding Source={x:Static app:App.IsAdmin}, Converter={dxmvvm:BooleanNegationConverter}}"
                 Text="{Binding SelectedCategory.Category.Description}" />
         </DockPanel>
 

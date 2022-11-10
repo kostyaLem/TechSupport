@@ -49,6 +49,13 @@ internal class UserService : IUserService
     {
         var user = await GetUser(userId);
 
+        var otherAdmins = await _context.Users.CountAsync(x => x.Type == Domain.UserType.Admin);
+
+        if (user.Type == Domain.UserType.Admin && otherAdmins == 1)
+        {
+            throw new Exception("Невозможно удалить последнего администратора.");
+        }
+
         // Пометить сущность на удаление
         _context.Users.Remove(user);
         // Сохранить изменения в базе

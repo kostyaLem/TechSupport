@@ -143,60 +143,63 @@
                             Text="{Binding SelectedCategory.Category.Title}" />
                     </StackPanel>
                 </Border>
-                <ItemsControl
-                    hc:Empty.ShowEmpty="true"
-                    Background="White"
-                    ItemsSource="{Binding Categories}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Expander x:Name="exp" Margin="6,4">
-                                <Expander.HeaderTemplate>
-                                    <DataTemplate>
-                                        <Grid HorizontalAlignment="{Binding Path=HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="30" />
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="30" />
-                                            </Grid.ColumnDefinitions>
 
-                                            <Image
-                                                Grid.Column="0"
-                                                Margin="2"
-                                                Source="{Binding Path=DataContext.Image, ElementName=exp}"
-                                                Stretch="UniformToFill" />
+                <ScrollViewer VerticalScrollBarVisibility="Visible">
+                    <ItemsControl
+                        hc:Empty.ShowEmpty="true"
+                        Background="White"
+                        ItemsSource="{Binding Categories}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Expander x:Name="exp" Margin="6,4">
+                                    <Expander.HeaderTemplate>
+                                        <DataTemplate>
+                                            <Grid HorizontalAlignment="{Binding Path=HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="30" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="30" />
+                                                </Grid.ColumnDefinitions>
 
-                                            <TextBlock
-                                                Grid.Column="1"
-                                                Margin="5,0,0,0"
-                                                VerticalAlignment="Center"
-                                                Text="{Binding Path=DataContext.Category.Title, ElementName=exp}"
-                                                TextWrapping="WrapWithOverflow" />
+                                                <Image
+                                                    Grid.Column="0"
+                                                    Margin="2"
+                                                    Source="{Binding Path=DataContext.Image, ElementName=exp}"
+                                                    Stretch="UniformToFill" />
 
-                                            <Button
-                                                Grid.Column="2"
-                                                hc:IconElement.Geometry="{StaticResource AddGeometry}"
-                                                BorderBrush="DarkGray"
-                                                BorderThickness="0"
-                                                Command="{Binding Path=DataContext.SelectCategoryCommand, ElementName=Win}"
-                                                CommandParameter="{Binding Path=DataContext, ElementName=exp}"
-                                                Cursor="Hand"
-                                                Style="{StaticResource ButtonIcon}"
-                                                ToolTip="Выбрать" />
+                                                <TextBlock
+                                                    Grid.Column="1"
+                                                    Margin="5,0,0,0"
+                                                    VerticalAlignment="Center"
+                                                    Text="{Binding Path=DataContext.Category.Title, ElementName=exp}"
+                                                    TextWrapping="WrapWithOverflow" />
 
-                                        </Grid>
-                                    </DataTemplate>
-                                </Expander.HeaderTemplate>
+                                                <Button
+                                                    Grid.Column="2"
+                                                    hc:IconElement.Geometry="{StaticResource AddGeometry}"
+                                                    BorderBrush="DarkGray"
+                                                    BorderThickness="0"
+                                                    Command="{Binding Path=DataContext.SelectCategoryCommand, ElementName=Win}"
+                                                    CommandParameter="{Binding Path=DataContext, ElementName=exp}"
+                                                    Cursor="Hand"
+                                                    Style="{StaticResource ButtonIcon}"
+                                                    ToolTip="Выбрать" />
 
-                                <Expander.Content>
-                                    <TextBlock
-                                        Margin="2,4"
-                                        Text="{Binding Category.Description}"
-                                        TextWrapping="WrapWithOverflow" />
-                                </Expander.Content>
-                            </Expander>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </Expander.HeaderTemplate>
+
+                                    <Expander.Content>
+                                        <TextBlock
+                                            Margin="2,4"
+                                            Text="{Binding Category.Description}"
+                                            TextWrapping="WrapWithOverflow" />
+                                    </Expander.Content>
+                                </Expander>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
 
             </DockPanel>
         </Grid>
