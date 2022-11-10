@@ -48,7 +48,7 @@ public static class Configuration
         serviceCollection.AddSingleton(new ViewItem
         {
             Title = "Управление пользователями",
-            Description = "Бла бла бла",
+            Description = "Администрирование учётных записей",
             ViewType = typeof(AdministrationView),
             ImageName = "UsersImage",
             IsProtected = true

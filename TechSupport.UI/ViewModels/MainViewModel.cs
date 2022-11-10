@@ -7,6 +7,7 @@ using System;
 using System.Windows.Input;
 using TechSupport.UI.Models;
 using TechSupport.UI.ViewModels.Base;
+using TechSupport.UI.Views;
 
 namespace TechSupport.UI.ViewModels;
 
@@ -35,14 +36,10 @@ public class MainViewModel : BaseItemsViewModel<ViewItem>
         IsUploading = true;
 
         // Скрыть меню пользователя
-        App.Current.MainWindow.Visibility = System.Windows.Visibility.Hidden;
         var view = _serviceProvider.GetRequiredService(viewItem.ViewType) as Window;
         // Отобразить выбранный пункт меню
         view.ShowDialog();
 
         IsUploading = false;
-
-        // Отобразить ст
-        App.Current.MainWindow.Visibility = System.Windows.Visibility.Visible;
     }
 }
