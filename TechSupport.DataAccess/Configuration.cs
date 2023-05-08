@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using TechSupport.DataAccess.Context;
 
 namespace TechSupport.DataAccess;
@@ -12,7 +13,10 @@ public static class Configuration
         serviceCollection.AddTransient<TechSupportContext>(x =>
         {
             var factory = x.GetRequiredService<TechSupportContextFactory>();
-            return factory.CreateDbContext();
+            var context = factory.CreateDbContext();
+            context.Database.Migrate();
+
+            return context;
         });
     }
 }
